@@ -151,3 +151,37 @@ test("GitHub Pages routes survive reload and syncing has a clear setup state", a
   await page.getByRole("button", { name: "Sign in to sync devices", exact: true }).click();
   await expect(page.getByRole("dialog")).toContainText("Cloud sync setup is not finished yet");
 });
+
+test("legacy cloud midterm sections migrate and save once without changing ratings", async ({ page }) => {
+  await page.goto("/");
+  const result = await page.evaluate(async () => {
+    const { CloudSync } = await import("/src/lib/cloud-sync.js");
+    const { withMidtermSet } = await import("/src/lib/midterm.js");
+    let local = withMidtermSet({ sets: [], activeSetId: null });
+    const old = structuredClone(local);
+    delete old.sets[0].sections;
+    delete old.sets[0].sectionSchemaVersion;
+    old.sets[0].cards.forEach((card) => { delete card.sectionId; });
+    old.sets[0].progress[old.sets[0].cards[0].id] = "green";
+    // Deliberate user deletion must survive the upgrade.
+    old.sets[0].cards.splice(1, 1);
+    let row = { state: old, version: 8 }, writes = 0;
+    const client = {
+      from: () => ({ select: () => ({ eq: () => ({ maybeSingle: async () => ({ data: structuredClone(row) }) }) }) }),
+      rpc: async (_name, args) => {
+        writes++;
+        row = { state: args.next_state, version: row.version + 1 };
+        return { data: structuredClone(row) };
+      },
+    };
+    const sync = new CloudSync({ client, userId: "user", getState: () => local,
+      onState: (value) => { local = value; }, onStatus: () => {},
+      cache: { getItem: () => null, setItem: () => {} },
+    });
+    await sync.sync(); await sync.sync(); sync.stop();
+    const set = row.state.sets[0];
+    return { writes, sections: set.sections.length, assigned: set.cards.every((card) => card.sectionId),
+      cards: set.cards.length, color: set.progress[set.cards[0].id], version: set.sectionSchemaVersion };
+  });
+  expect(result).toEqual({ writes: 1, sections: 8, assigned: true, cards: 85, color: "green", version: 1 });
+});

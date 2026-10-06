@@ -1,5 +1,5 @@
 import { normalizeState } from "./model";
-import { withMidtermSet } from "./midterm";
+import { withMidtermSet, MIDTERM_SET_ID } from "./midterm";
 import { statePatch, applyPatch, hasPatch } from "./sync-merge";
 
 const freshState = () => withMidtermSet({ sets: [], activeSetId: null });
@@ -44,6 +44,8 @@ export class CloudSync {
       if (error) throw error;
       if (this.stopped) return;
       const remote = row ? normalizeState(row.state) : empty();
+      const needsSectionUpgrade = row?.state.sets?.some((set) =>
+        set.id === MIDTERM_SET_ID && !set.sectionSchemaVersion);
       if (!changes) {
         // First login carries meaningful guest changes, but never downgrades
         // cloud ratings just because this device has untouched red defaults.
@@ -51,7 +53,7 @@ export class CloudSync {
         changes = statePatch(before, local);
       }
       let merged = normalizeState(applyPatch(remote, changes));
-      if (!row || hasPatch(changes)) {
+      if (!row || hasPatch(changes) || needsSectionUpgrade) {
         const { data: saved, error: saveError } = await this.client.rpc("save_flashcard_state", {
           target_user_id: this.userId,
           expected_version: row?.version || 0,
