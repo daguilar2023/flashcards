@@ -2,6 +2,10 @@
 
 A local-first React app for creating flashcard sets, browsing questions and answers, and practicing at your own pace.
 
+**Live app:** https://daguilar2023.github.io/flashcards/
+
+GitHub Pages and the Supabase database are configured. Choose **Sync devices → Create an account**, confirm your email, and sign in with that same account on your phone and computer. The seeded Android midterm set is already included.
+
 ## Run locally
 
 Requires Node.js 20.19+ or 22.12+.
