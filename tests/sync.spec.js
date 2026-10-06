@@ -185,3 +185,53 @@ test("legacy cloud midterm sections migrate and save once without changing ratin
   });
   expect(result).toEqual({ writes: 1, sections: 8, assigned: true, cards: 85, color: "green", version: 1 });
 });
+
+test("content corrections reach an existing cloud set once and preserve personal edits and ratings", async ({ page }) => {
+  await page.goto("/");
+  const result = await page.evaluate(async () => {
+    const { CloudSync } = await import("/src/lib/cloud-sync.js");
+    const { withMidtermSet } = await import("/src/lib/midterm.js");
+    const { default: originals } = await import("/src/data/midterm-content-corrections.json");
+    let local = withMidtermSet({ sets: [], activeSetId: null });
+    const old = structuredClone(local);
+    delete old.sets[0].studyContentVersion;
+    for (const card of old.sets[0].cards) {
+      if (originals[card.id]) Object.assign(card, originals[card.id]);
+    }
+    const widgets = old.sets[0].cards.find((card) => card.id.endsWith("-036"));
+    const layouts = old.sets[0].cards.find((card) => card.id.endsWith("-055"));
+    layouts.backText = "My personal answer";
+    layouts.sectionId = "";
+    old.sets[0].progress[widgets.id] = "yellow";
+    old.sets[0].progress[layouts.id] = "green";
+    old.sets[0].cards = old.sets[0].cards.filter((card) => !card.id.endsWith("-077"));
+    let row = { state: old, version: 50 }, writes = 0;
+    const client = {
+      from: () => ({ select: () => ({ eq: () => ({ maybeSingle: async () => ({ data: structuredClone(row) }) }) }) }),
+      rpc: async (_name, args) => {
+        writes++;
+        row = { state: args.next_state, version: row.version + 1 };
+        return { data: structuredClone(row) };
+      },
+    };
+    const sync = new CloudSync({ client, userId: "user", getState: () => local,
+      onState: (value) => { local = value; }, onStatus: () => {},
+      cache: { getItem: () => null, setItem: () => {} },
+    });
+    await sync.sync(); await sync.sync(); sync.stop();
+    const set = row.state.sets[0];
+    return { writes, cards: set.cards.length, widgets: set.cards.find((card) => card.id === widgets.id),
+      layouts: set.cards.find((card) => card.id === layouts.id), progress: set.progress,
+      revision: set.studyContentVersion };
+  });
+  expect(result.writes).toBe(1);
+  expect(result.cards).toBe(85);
+  expect(result.widgets.frontText).toContain("ProgressBar");
+  expect(result.widgets.backText).toContain("Displays text");
+  expect(result.layouts.frontText).toContain("ConstraintLayout");
+  expect(result.layouts.backText).toBe("My personal answer");
+  expect(result.layouts.sectionId).toBe("");
+  expect(result.progress[result.widgets.id]).toBe("yellow");
+  expect(result.progress[result.layouts.id]).toBe("green");
+  expect(result.revision).toBe(1);
+});

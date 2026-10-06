@@ -114,3 +114,21 @@ test("deleting the bundled set does not reinstall it on refresh", async ({ page 
   await page.reload();
   await expect(page.locator(".deck-card")).toHaveCount(0);
 });
+
+test("overview questions name their subjects and answers stand alone", async ({ page }) => {
+  await open(page, "/browse");
+  await page.getByRole("button", { name: "All questions & answers", exact: true }).click();
+  await page.getByLabel("Search questions and answers").fill("Describe the purpose and basic characteristics of these Android widgets");
+  await expect(page.locator(".answer-sheet-card")).toHaveCount(1);
+  for (const name of ["TextView", "RadioGroup", "ProgressBar"]) {
+    await expect(page.locator(".answer-sheet-front")).toContainText(name);
+    await expect(page.locator(".answer-sheet-back")).toContainText(name);
+  }
+  await expect(page.locator(".answer-sheet-back")).toContainText("Displays text");
+  await expect(page.locator(".answer-sheet-back")).toContainText("Supplemental");
+  await page.getByLabel("Search questions and answers").fill("Describe the main principles governing placement");
+  await expect(page.locator(".answer-sheet-front")).toContainText("ConstraintLayout");
+  await page.getByLabel("Search questions and answers").fill("Describe these navigational patterns");
+  await expect(page.locator(".answer-sheet-back")).toContainText("Lateral moves between sibling destinations");
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});

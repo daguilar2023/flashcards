@@ -20,7 +20,7 @@ export function statePatch(before, after) {
         .filter((card) => !old || (set.progress?.[card.id] || "red") !== (old.progress?.[card.id] || "red"))
         .map((card) => [card.id, set.progress?.[card.id] || "red"])),
     };
-    for (const field of ["name", "color", "sectionSchemaVersion", "studyResetId"]) {
+    for (const field of ["name", "color", "sectionSchemaVersion", "studyContentVersion", "studyResetId"]) {
       if (!old || set[field] !== old[field]) patch.meta[field] = set[field];
     }
     const oldSections = new Map((old?.sections || []).map((section) => [section.id, section]));
