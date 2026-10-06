@@ -9,7 +9,8 @@
       "frontText": "<p><span class=\"topic-label\">1. The Android system</span></p><p>Carefully review chapters 1 and 2 (in your textbook) and lecture slides on eLC</p>",
       "backText": "<p>Study the Android introduction and development tools in <strong>Lecture 1: IntroToMobileDevelopment</strong> and <strong>Lecture 2: AndroidStudioSetup</strong>. For this deck, the lecture slides supply the material; no textbook content has been added.</p><ul><li>Versions: Lecture 1, pp. 25–27.</li><li>Licensing: Lecture 1, pp. 24 and 28.</li><li>Architecture: Lecture 1, pp. 34–41.</li><li>Google service APIs: Lecture 1, p. 42.</li><li>Android Studio, Gradle, emulator: Lecture 2, pp. 3, 18, 20–23.</li></ul><p><em>Slides: 1, pp. 24–42; 2, pp. 3, 18, 20–23. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-1"
     },
     {
       "id": "android-midterm-2026-002",
@@ -17,7 +18,8 @@
       "frontText": "<p><span class=\"topic-label\">1. The Android system</span></p><p>Be able to state a few of the most recent versions of the Android system</p>",
       "backText": "<p>The newest numbered versions listed in the professor’s version table are <strong>Android 15, Android 16, and Android 17</strong>. The table also lists Android 12, 13, and 14.</p><p>The informal dessert names shown for 15, 16, and 17 are <strong>Vanilla Ice Cream, Baklava, and CinnamonBun</strong>, respectively. These answers follow the lecture table rather than an independently updated release list.</p><p><em>Slides: 1, pp. 25–27. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-1"
     },
     {
       "id": "android-midterm-2026-003",
@@ -25,7 +27,8 @@
       "frontText": "<p><span class=\"topic-label\">1. The Android system</span></p><p>Be able to describe Android system licensing</p>",
       "backText": "<p>The slides describe Android as <strong>free and open source</strong>: developers and device manufacturers pay no royalties or license fees. Its licensing is split across components:</p><ul><li><strong>Linux/kernel side: GNU GPL version 2 (GPLv2)</strong>, described as strong copyleft.</li><li><strong>Android framework: Apache Software License / Apache 2</strong>. The slides say framework developers do not have to contribute their improvements back to the open-source community.</li></ul><p>Be able to associate <strong>GPLv2 → Linux</strong> and <strong>Apache 2 → framework</strong>; do not describe every Android component as having the same license.</p><p><em>Slides: 1, pp. 14, 24, 28. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-1"
     },
     {
       "id": "android-midterm-2026-004",
@@ -33,7 +36,8 @@
       "frontText": "<p><span class=\"topic-label\">1. The Android system</span></p><p>Understand the basic Android architecture</p>",
       "backText": "<p>Know the layers in the architecture diagram, from the user-facing top down:</p><ul><li><strong>System apps:</strong> applications using the platform services.</li><li><strong>Java API framework:</strong> reusable UI and system APIs, including Views, Activity Manager, resource management, notifications, and content providers.</li><li><strong>Native C/C++ libraries and Android Runtime (ART):</strong> libraries provide shared platform capabilities; ART executes application code.</li><li><strong>Hardware Abstraction Layer (HAL):</strong> interfaces for hardware such as audio, Bluetooth, camera, and sensors.</li><li><strong>Linux kernel:</strong> security and permissions, memory management, processes/threads, networking, and device drivers.</li></ul><p>The slides state that each app runs in its own VM in a separate process. Dalvik was used before Android 5.0; Android 5.0 replaced it with ART. The lecture describes ART’s ahead-of-time conversion of app bytecode to machine code at installation. Remember the separate app processes and sandboxing as part of isolation/security.</p><p><em>Slides: 1, pp. 34–37, 39–41. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-1"
     },
     {
       "id": "android-midterm-2026-005",
@@ -41,7 +45,8 @@
       "frontText": "<p><span class=\"topic-label\">1. The Android system</span></p><p>Be able to name 3 common Google APIs for Google services</p>",
       "backText": "<p>Three examples directly listed in the slides are <strong>Maps</strong>, <strong>Places</strong>, and <strong>Google Sign-In</strong>.</p><p>Other listed examples include Firebase, in-app billing/subscriptions, Google Cloud Messaging, mobile app analytics, Play Game Services, and AdMob. If asked to name three, Maps, Places, and Google Sign-In are sufficient.</p><p><em>Slides: 1, p. 42; 2, p. 19. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-1"
     },
     {
       "id": "android-midterm-2026-006",
@@ -49,7 +54,8 @@
       "frontText": "<p><span class=\"topic-label\">1. The Android system</span></p><p>Be able to describe (in general) Android Studio and its basic components (IDE, Java compiler, Gradle, the Emulator) and their purposes</p>",
       "backText": "<ul><li><strong>Android Studio / IDE:</strong> an integrated development environment based on IntelliJ IDEA. It brings together editing, project organization, layout tools, building, running, and debugging.</li><li><strong>Gradle:</strong> the build automation system. It coordinates the project build and its libraries/plugins; build configuration and synchronization are part of the Studio workflow.</li><li><strong>Emulator:</strong> runs a virtual Android device on the computer so you can run, test, and debug an app in different device configurations. The slides say it is not a substitute for testing on a real device.</li><li><strong>Java tooling:</strong> the setup slides identify the bundled JDK/JBR.</li></ul><p>Keep the roles distinct: the IDE is your workspace, the compiler translates source, Gradle coordinates the build, and the emulator runs the app for testing.</p><p><strong>Supplemental explanation:</strong> The slides name the Java tooling but do not explain the compiler’s role directly. A Java compiler translates .java source into .class bytecode; Android’s build tools then prepare that code for Android execution. The compiler is different from ART on the device.</p><p><em>Slides: 2, pp. 3, 6, 18, 20–23; 5, pp. 11–13, 43–55. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-1"
     },
     {
       "id": "android-midterm-2026-007",
@@ -57,7 +63,8 @@
       "frontText": "<p><span class=\"topic-label\">2. Event-driven systems</span></p><p>Carefully review lecture slides on eLC (Java GUI)</p>",
       "backText": "<p>Use <strong>Lecture 4: JavaGUI-EventDriven</strong>, especially pp. 2–13 for the core model and pp. 22–29 for handler implementations. Study the relationship <strong>event source → dispatcher → registered handler</strong>, and contrast that with procedure calls.</p><p><em>Slides: 4, pp. 2–13, 22–29. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-2"
     },
     {
       "id": "android-midterm-2026-008",
@@ -65,7 +72,8 @@
       "frontText": "<p><span class=\"topic-label\">2. Event-driven systems</span></p><p>Be able to describe a procedure-driven system</p>",
       "backText": "<p>A <strong>procedure-driven system</strong> follows a flow of procedure/method calls. The caller invokes a procedure, transfers control to it, and waits while it executes; control returns to the caller when the procedure finishes.</p><p>The program’s procedural flow determines what runs next. For example, a main method calls a calculation method and then continues with the next statement after that method returns.</p><p><em>Slides: 4, p. 4. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-2"
     },
     {
       "id": "android-midterm-2026-009",
@@ -73,7 +81,8 @@
       "frontText": "<p><span class=\"topic-label\">2. Event-driven systems</span></p><p>Be able to describe an event driven system</p>",
       "backText": "<p>An <strong>event-driven system</strong> responds to events as they occur. It registers handlers/listeners for events, and an event dispatcher/event loop invokes the appropriate handler when an event arrives.</p><p>For a GUI, the next action depends on the event received—such as a button click or key press. A handler can still call ordinary methods; the event determines when the handler begins.</p><p><em>Slides: 4, pp. 2–3, 5–6, 9–13. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-2"
     },
     {
       "id": "android-midterm-2026-010",
@@ -81,7 +90,8 @@
       "frontText": "<p><span class=\"topic-label\">2. Event-driven systems</span></p><p>Be able to describe events – give examples</p>",
       "backText": "<p>An <strong>event</strong> is an occurrence the system can detect and respond to. The slides give examples including <strong>keyboard input, mouse actions/button clicks, arrival of a message, and timer events</strong>.</p><p>A GUI control acts as an event source: clicking a button generates an event, which is delivered to its registered handler. Events therefore do not have to come from a user; a timer or arriving message can also trigger a response.</p><p><em>Slides: 4, pp. 2, 8–10. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-2"
     },
     {
       "id": "android-midterm-2026-011",
@@ -89,7 +99,8 @@
       "frontText": "<p><span class=\"topic-label\">2. Event-driven systems</span></p><p>Be able to describe event handlers (also referred to as callbacks or listeners)</p>",
       "backText": "<p>An <strong>event handler</strong> is code that responds to a particular event. The lecture also calls these callbacks or listeners. A handler must be registered with the event source; the system invokes it when the corresponding event occurs.</p><p>The JavaFX slides show a separate EventHandler class, a method reference, and a lambda. A compact JavaFX registration looks like:</p><pre><code class=\"language-java\">button.setOnAction(event -&gt; {\n    System.out.println(&quot;Button clicked&quot;);\n});</code></pre><p>An Android click-listener example, using the pattern in the Android slides:</p><pre><code class=\"language-java\">Button button = findViewById(R.id.pushButton);\nbutton.setOnClickListener(view -&gt; {\n    count++;\n    countText.setText(Integer.toString(count));\n});</code></pre><p>The registration runs while setting up the UI; the listener body runs later when the button is clicked.</p><p><em>Slides: 4, pp. 9–10, 22–29; 6, pp. 50–51. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-2"
     },
     {
       "id": "android-midterm-2026-012",
@@ -97,7 +108,8 @@
       "frontText": "<p><span class=\"topic-label\">2. Event-driven systems</span></p><p>Be able to describe an event dispatcher</p>",
       "backText": "<p>The <strong>event dispatcher</strong> runs the event-processing loop. It accepts events and routes each event to the registered handler/listener for that event source.</p><p>The slides distinguish system-provided dispatching from application-provided handlers. In the Android discussion, the <strong>Looper</strong> participates in this dispatching/event-loop mechanism. The application supplies the response code; it does not manually call every click handler whenever a user clicks.</p><p><em>Slides: 4, pp. 3, 5–6, 11–13. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-2"
     },
     {
       "id": "android-midterm-2026-013",
@@ -105,7 +117,8 @@
       "frontText": "<p><span class=\"topic-label\">3. Android application components</span></p><p>Carefully review chapter 4 and lecture slides on eLC</p>",
       "backText": "<p>Study <strong>Lecture 8: ApplicationComponents</strong> for lifecycle, saved state, and Intents; use <strong>Lecture 6: SecondApp-LayoutEditor</strong> for Activity examples and lifecycle sequences. Manifest examples appear in Lectures 5, 8, and 10. The textbook reading is represented here by the supplied lecture material.</p><p><em>Slides: 6, pp. 3–9, 65–72; 8, pp. 4–69; 10, pp. 41–42. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-3"
     },
     {
       "id": "android-midterm-2026-014",
@@ -113,7 +126,8 @@
       "frontText": "<p><span class=\"topic-label\">3. Android application components</span></p><p>Describe an activity and give some examples</p>",
       "backText": "<p>An <strong>Activity</strong> represents a screen/window through which the user interacts with an Android app. Its UI can contain multiple Views/widgets, and the Activity manages its lifecycle and interactions.</p><p>The game example in the slides uses separate Activities for a <strong>splash screen, main menu, game play, high scores, and help</strong>. An app may have several Activities; later fragment examples also show multiple UI pieces hosted inside one Activity.</p><p><em>Slides: 6, pp. 3–6; 12, pp. 3–10. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-3"
     },
     {
       "id": "android-midterm-2026-015",
@@ -121,7 +135,8 @@
       "frontText": "<p><span class=\"topic-label\">3. Android application components</span></p><p>Describe what is the activity stack (back stack)</p>",
       "backText": "<p>The <strong>activity stack / back stack</strong> records Activities in last-in, first-out order. The foreground Activity is at the top.</p><ul><li>Starting a new Activity places it above the previous Activity; the previous one becomes paused and may become stopped when covered.</li><li>When the top Activity finishes, it is removed from the stack and the previous Activity can resume.</li><li>This stack explains returning to an earlier Activity with Back.</li></ul><p>Example: Menu → Game → Help. With Help on top, finishing Help returns to Game; finishing Game returns to Menu.</p><p><em>Slides: 6, pp. 7, 64; 8, p. 4. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-3"
     },
     {
       "id": "android-midterm-2026-016",
@@ -129,7 +144,8 @@
       "frontText": "<p><span class=\"topic-label\">3. Android application components</span></p><p>Describe the activity life cycle – be familiar with all of the main lifecycle callbacks</p>",
       "backText": "<p>Know all seven main Activity callbacks:</p><ul><li><strong>onCreate(Bundle):</strong> initialize the Activity and create its UI; restore saved state when available.</li><li><strong>onStart():</strong> the Activity becomes visible.</li><li><strong>onResume():</strong> the Activity is in the foreground and ready for interaction; resume work/acquire needed resources.</li><li><strong>onPause():</strong> the Activity is losing foreground interaction, possibly while still visible; prepare to stop, pause animations/playback, and release resources as described in the lecture.</li><li><strong>onStop():</strong> the Activity is no longer visible.</li><li><strong>onRestart():</strong> called when returning from the stopped state, before onStart().</li><li><strong>onDestroy():</strong> final cleanup when the Activity is destroyed; the slides warn that a process killed for low resources may not get this callback.</li></ul><p><strong>Common sequences:</strong><br>Initial launch: onCreate → onStart → onResume.<br>Stopped and returning: onRestart → onStart → onResume.<br>Brief interruption: onPause → onResume.<br>Normally finishing: onPause → onStop → onDestroy.</p><pre><code class=\"language-java\">@Override\nprotected void onCreate(Bundle savedInstanceState) {\n    super.onCreate(savedInstanceState);\n    setContentView(R.layout.activity_main);\n}</code></pre><p><em>Slides: 8, pp. 5–29; 6, pp. 65–72. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-3"
     },
     {
       "id": "android-midterm-2026-017",
@@ -137,7 +153,8 @@
       "frontText": "<p><span class=\"topic-label\">3. Android application components</span></p><p>Describe why is saving application’s state necessary, considering device orientation changes or an application being killed due to low resources</p>",
       "backText": "<p>An orientation change can destroy and recreate the Activity. Android may also kill a background app’s process when resources are low. Values stored only in fields—such as a count or selected list index—can be lost when new instances are created.</p><p>Save the UI state in the Bundle passed to <strong>onSaveInstanceState</strong>, and restore it in onCreate (or onRestoreInstanceState). A Bundle holds key–value pairs. Do not rely on onDestroy to save important data; it may not run when the process is killed.</p><pre><code class=\"language-java\">private int selectedIndex = 0;\n\n@Override\nprotected void onCreate(Bundle savedInstanceState) {\n    super.onCreate(savedInstanceState);\n    setContentView(R.layout.activity_main);\n    if (savedInstanceState != null) {\n        selectedIndex = savedInstanceState.getInt(&quot;selectedIndex&quot;, 0);\n    }\n    // Use selectedIndex to restore the selected content.\n}\n\n@Override\nprotected void onSaveInstanceState(Bundle outState) {\n    super.onSaveInstanceState(outState);\n    outState.putInt(&quot;selectedIndex&quot;, selectedIndex);\n}</code></pre><p>The fragments slides’ AndroidVersionsFragments example uses a selected list index to show the appropriate details after rotation. The Activity slides also distinguish saved UI state from application data that needs persistent storage.</p><p><em>Slides: 8, pp. 27, 36–43; 12, pp. 65–69. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-3"
     },
     {
       "id": "android-midterm-2026-018",
@@ -145,7 +162,8 @@
       "frontText": "<p><span class=\"topic-label\">3. Android application components</span></p><p>Describe the purpose of an Intent and know how to start a new activity</p>",
       "backText": "<p>An <strong>Intent</strong> is an asynchronous message describing an action to perform. The slides show Intents used with Activities, services, and broadcast receivers. An explicit Intent identifies the target component; Intents can also carry extra key–value data.</p><p>Inside an Activity, start another Activity with an explicit Intent:</p><pre><code class=\"language-java\">Intent intent = new Intent(this, DetailsActivity.class);\nintent.putExtra(&quot;selectedIndex&quot;, selectedIndex);\nstartActivity(intent);</code></pre><p>The target Activity can read the extra:</p><pre><code class=\"language-java\">Bundle extras = getIntent().getExtras();\nif (extras != null) {\n    int selectedIndex = extras.getInt(&quot;selectedIndex&quot;);\n}</code></pre><p>The target Activity must be declared in the app’s manifest. The slides also show action/data Intents, such as viewing a URI.</p><p><em>Slides: 8, pp. 53–64. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-3"
     },
     {
       "id": "android-midterm-2026-019",
@@ -153,7 +171,8 @@
       "frontText": "<p><span class=\"topic-label\">3. Android application components</span></p><p>Describe the general purpose of the AndroidManifest.xml file</p>",
       "backText": "<p><strong>AndroidManifest.xml</strong> describes the app to Android. The examples declare the application and its Activities, identify the launcher Activity with an intent filter, request permissions, and specify parent Activity relationships for Up navigation.</p><pre><code class=\"language-xml\">&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;\n    &lt;uses-permission android:name=&quot;android.permission.INTERNET&quot; /&gt;\n    &lt;application android:label=&quot;@string/app_name&quot;&gt;\n        &lt;activity android:name=&quot;.DetailsActivity&quot;\n            android:parentActivityName=&quot;.MainActivity&quot; /&gt;\n        &lt;activity android:name=&quot;.MainActivity&quot; android:exported=&quot;true&quot;&gt;\n            &lt;intent-filter&gt;\n                &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;\n                &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;\n            &lt;/intent-filter&gt;\n        &lt;/activity&gt;\n    &lt;/application&gt;\n&lt;/manifest&gt;</code></pre><p>This example assumes the named Activities and string resource exist in the project.</p><p><em>Slides: 5, pp. 18, 21; 8, pp. 8, 55–69; 10, pp. 41–42; 7, pp. 106–111. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-3"
     },
     {
       "id": "android-midterm-2026-020",
@@ -161,7 +180,8 @@
       "frontText": "<p><span class=\"topic-label\">4. XML</span></p><p>Carefully review lecture slides on eLC (XML)</p>",
       "backText": "<p>Use <strong>Lecture 10: XML</strong>: data/markup pp. 2–12; elements/attributes pp. 15–20; namespaces pp. 25–27 and 43–45; schema pp. 28–30; Android uses pp. 41–48. Practice reading a layout and distinguishing tags, attributes, and namespace prefixes.</p><p><em>Slides: 10, pp. 2–48. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-4"
     },
     {
       "id": "android-midterm-2026-021",
@@ -169,7 +189,8 @@
       "frontText": "<p><span class=\"topic-label\">4. XML</span></p><p>Be able to the role of XML in computing (in general)</p>",
       "backText": "<p><strong>XML (Extensible Markup Language)</strong> is a text-based markup format for representing structured, often hierarchical data. Tags annotate the data so its structure and meaning can be understood and exchanged between systems.</p><p>The lecture presents XML as a data/document representation and interchange mechanism, rather than a programming language. The tag names describe the data; XML itself does not supply the behavior of an Android button or Activity.</p><p><em>Slides: 10, pp. 3–12. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-4"
     },
     {
       "id": "android-midterm-2026-022",
@@ -177,7 +198,8 @@
       "frontText": "<p><span class=\"topic-label\">4. XML</span></p><p>Understand XML tags and elements</p>",
       "backText": "<p>A <strong>tag</strong> marks an element’s beginning or end; an <strong>element</strong> is the complete unit, including its tags and content. Elements can contain text, child elements, or both. An empty element can use a self-closing tag.</p><pre><code class=\"language-xml\">&lt;student&gt;\n    &lt;name&gt;Daniel&lt;/name&gt;\n    &lt;course code=&quot;Mobile&quot; /&gt;\n&lt;/student&gt;</code></pre><ul><li><code>&lt;name&gt;</code> is a start tag; <code>&lt;/name&gt;</code> is its end tag.</li><li><code>&lt;name&gt;Daniel&lt;/name&gt;</code> is the whole name element.</li><li><code>&lt;course code=\"Mobile\" /&gt;</code> is an empty element with an attribute.</li><li>Child elements are nested within their parent; closing tags must match the nesting.</li></ul><p><em>Slides: 10, pp. 9–16. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-4"
     },
     {
       "id": "android-midterm-2026-023",
@@ -185,7 +207,8 @@
       "frontText": "<p><span class=\"topic-label\">4. XML</span></p><p>Describe the purpose of XML attributes</p>",
       "backText": "<p><strong>XML attributes</strong> supply additional information about an element. They appear as name–value pairs in the element’s start tag (or empty-element tag), with the value quoted.</p><pre><code class=\"language-xml\">&lt;Button\n    android:layout_width=&quot;wrap_content&quot;\n    android:layout_height=&quot;wrap_content&quot;\n    android:text=&quot;Submit&quot; /&gt;</code></pre><p>Here <code>android:text=\"Submit\"</code> sets the Button’s label, and the width/height attributes set its sizing. The Button is the element; text, layout_width, and layout_height are attributes. Attributes configure the element without becoming separate child elements.</p><p><em>Slides: 10, pp. 17–20, 47–48. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-4"
     },
     {
       "id": "android-midterm-2026-024",
@@ -193,7 +216,8 @@
       "frontText": "<p><span class=\"topic-label\">4. XML</span></p><p>Understand the purpose of XML schema</p>",
       "backText": "<p>An <strong>XML schema</strong> defines the structure and rules allowed in an XML document, so the document can be checked for validity.</p><ul><li>Which elements and attributes are allowed.</li><li>How elements relate, including their order and number of occurrences.</li><li>Data types and restrictions on values.</li><li>Default values when specified.</li></ul><p>The slides introduce DTDs and then <strong>XML Schema / XSD</strong>. An XML document can have correctly nested tags but still violate its schema—for example, by containing a disallowed child element or an invalid value type.</p><p><em>Slides: 10, pp. 21–24, 28–30, 34–35. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-4"
     },
     {
       "id": "android-midterm-2026-025",
@@ -201,7 +225,8 @@
       "frontText": "<p><span class=\"topic-label\">4. XML</span></p><p>Understand the need for XML namespaces and convenience of namespace prefixes</p>",
       "backText": "<p><strong>Namespaces</strong> prevent naming conflicts when a document uses names from different vocabularies. A namespace URI identifies the vocabulary; a prefix is a short local name bound to that URI.</p><pre><code class=\"language-xml\">&lt;LinearLayout\n    xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;\n    android:layout_width=&quot;match_parent&quot;\n    android:layout_height=&quot;match_parent&quot;\n    android:orientation=&quot;vertical&quot; /&gt;</code></pre><p>The declaration binds <code>android</code> to the namespace URI. The prefix lets you write <code>android:orientation</code> instead of repeatedly writing a long namespace identifier. A prefix is an alias; the associated URI determines the namespace. The lecture’s other examples use separate prefixes to distinguish identically named elements.</p><p><em>Slides: 10, pp. 25–27, 43–45. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-4"
     },
     {
       "id": "android-midterm-2026-026",
@@ -209,7 +234,8 @@
       "frontText": "<p><span class=\"topic-label\">4. XML</span></p><p>Be able to name one of the commonly used Android XML namespace prefixes</p>",
       "backText": "<p>A commonly used Android XML namespace prefix is <strong>android</strong>:</p><pre><code class=\"language-xml\">xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</code></pre><p>Examples are <code>android:id</code> and <code>android:text</code>. The slides also show <strong>app</strong> for application/support-library attributes (such as ConstraintLayout constraints) and <strong>tools</strong> for development-tool attributes.</p><p><em>Slides: 10, pp. 43–45. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-4"
     },
     {
       "id": "android-midterm-2026-027",
@@ -217,7 +243,8 @@
       "frontText": "<p><span class=\"topic-label\">4. XML</span></p><p>Name 2 ways in which XML is used in Android app development</p>",
       "backText": "<ul><li><strong>App manifest:</strong> AndroidManifest.xml describes the app, its components, permissions, and related configuration.</li><li><strong>UI layouts:</strong> XML layout resources describe Views/widgets, their properties, and their arrangement. An Activity loads a layout with setContentView(R.layout.layout_name).</li></ul><p>These are the two uses explicitly identified by the XML lecture.</p><p><em>Slides: 10, pp. 41–42; 6, pp. 16–18. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-4"
     },
     {
       "id": "android-midterm-2026-028",
@@ -225,7 +252,8 @@
       "frontText": "<p><span class=\"topic-label\">5. Views and Widgets</span></p><p>Carefully review chapter 7 and lecture slides on eLC</p>",
       "backText": "<p>Study <strong>Lecture 6: SecondApp-LayoutEditor</strong> for Views, IDs, setters, and units; <strong>Lecture 7: ExploringBuildingBlocks</strong> for individual widgets; and <strong>Lecture 11: IntroductionToLayouts</strong> for padding and adapter examples.</p><p>ViewPager is only mentioned and R.java is used without a direct explanation. Their cards explicitly identify the supplemental explanation. “EditView” in the attributes bullet is treated as <strong>EditText</strong>, the widget named elsewhere in the review and slides.</p><p><em>Slides: 6, pp. 11–18, 46–61; 7, pp. 6–111; 11, pp. 19–21, 70–87. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-5"
     },
     {
       "id": "android-midterm-2026-029",
@@ -233,7 +261,8 @@
       "frontText": "<p><span class=\"topic-label\">5. Views and Widgets</span></p><p>Describe a View in Android (in general)</p>",
       "backText": "<p>An Android <strong>View</strong> is a rectangular building block of the UI. It occupies an area of the screen and provides display and/or interaction behavior.</p><p>The <code>android.view.View</code> class is the base class for UI widgets. Examples include TextView, EditText, Button, and ImageView. ViewGroup is a special View that contains other Views, and layout classes generally extend ViewGroup.</p><p><em>Slides: 6, pp. 11–14, 19; 11, pp. 9, 15. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-5"
     },
     {
       "id": "android-midterm-2026-030",
@@ -241,7 +270,8 @@
       "frontText": "<p><span class=\"topic-label\">5. Views and Widgets</span></p><p>Understand the need for a View’s identifier in XML</p>",
       "backText": "<p>A View’s <strong>identifier</strong> lets application code retrieve that View and lets other Views refer to it in a layout—for example, when defining constraints.</p><pre><code class=\"language-xml\">&lt;TextView\n    android:id=&quot;@+id/countText&quot;\n    android:layout_width=&quot;wrap_content&quot;\n    android:layout_height=&quot;wrap_content&quot;\n    android:text=&quot;0&quot; /&gt;</code></pre><pre><code class=\"language-java\">TextView countText = findViewById(R.id.countText);\ncountText.setText(&quot;1&quot;);</code></pre><p><code>@+id/countText</code> declares the ID; <code>R.id.countText</code> refers to it from Java. Call findViewById after loading the layout containing the View. A View you need to manipulate should have an ID; IDs also distinguish Views in saved UI state and layout references shown in the slides.</p><p><em>Slides: 6, pp. 16–18, 46–48; 7, p. 6; 11, pp. 93–107. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-5"
     },
     {
       "id": "android-midterm-2026-031",
@@ -249,7 +279,8 @@
       "frontText": "<p><span class=\"topic-label\">5. Views and Widgets</span></p><p>Describe the purpose of View padding</p>",
       "backText": "<p><strong>Padding</strong> is space <strong>inside</strong> a View’s bounds, between its content and its edges. It gives text/images breathing room within that View.</p><pre><code class=\"language-xml\">android:padding=&quot;16dp&quot;\nandroid:paddingStart=&quot;8dp&quot;\nandroid:paddingTop=&quot;12dp&quot;</code></pre><p>Use the all-sides padding attribute or side-specific padding attributes. The lecture’s box diagram distinguishes content, padding around the content, and margin outside the View. Increasing padding can affect the size needed for a wrap_content View.</p><p><em>Slides: 11, pp. 19–21; 7, p. 68. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-5"
     },
     {
       "id": "android-midterm-2026-032",
@@ -257,7 +288,8 @@
       "frontText": "<p><span class=\"topic-label\">5. Views and Widgets</span></p><p>Describe why we use device independent pixels</p>",
       "backText": "<p>Android devices have different pixel densities. The same number of physical pixels can occupy different physical sizes on different screens.</p><p><strong>Density-independent pixels (dp)</strong> make UI sizing scale with density, so a View maintains approximately the same physical size across devices. The slide example shows <strong>32dp = 32px at 160dpi</strong> and <strong>32dp = 64px at 320dpi</strong>.</p><p><em>Slides: 6, pp. 53–59. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-5"
     },
     {
       "id": "android-midterm-2026-033",
@@ -265,7 +297,8 @@
       "frontText": "<p><span class=\"topic-label\">5. Views and Widgets</span></p><p>Be able to define a Density-independent Pixel (DP)</p>",
       "backText": "<p>A <strong>density-independent pixel (dp / DP)</strong> is a virtual sizing unit based on a <strong>160dpi</strong> reference screen. At 160dpi, <strong>1dp corresponds to 1 physical pixel</strong>.</p><p>At higher densities, a dp uses more physical pixels; at lower densities, fewer. It is therefore different from a fixed physical pixel count. Use dp for dimensions such as spacing and View sizes.</p><p><em>Slides: 6, pp. 53–59. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-5"
     },
     {
       "id": "android-midterm-2026-034",
@@ -273,7 +306,8 @@
       "frontText": "<p><span class=\"topic-label\">5. Views and Widgets</span></p><p>Be able to convert sizes in DPs to actual screen dpi and vice versa</p>",
       "backText": "<p>The review wording says “screen dpi”; a size is converted between <strong>dp and pixels (px)</strong> using the screen’s density in <strong>dots per inch (dpi)</strong>. A size alone cannot be converted to a density.</p><p>From the lecture’s 160dpi reference and 320dpi example:</p><pre><code class=\"language-text\">px = dp × (dpi / 160)\ndp = px × (160 / dpi)</code></pre><ul><li><strong>32dp at 320dpi:</strong> 32 × 320/160 = 64px.</li><li><strong>24dp at 240dpi:</strong> 24 × 240/160 = 36px.</li><li><strong>90px at 240dpi:</strong> 90 × 160/240 = 60dp.</li></ul><p>The formulas generalize the relationship illustrated in the slides; the lecture diagram does not print these formulas explicitly.</p><p><em>Slides: 6, pp. 58–59. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-5"
     },
     {
       "id": "android-midterm-2026-035",
@@ -281,7 +315,8 @@
       "frontText": "<p><span class=\"topic-label\">5. Views and Widgets</span></p><p>Define a Scale-independent Pixel (SP)</p>",
       "backText": "<p>A <strong>scale-independent pixel (sp / SP)</strong> scales like dp and additionally respects the user’s font-size preference. The slides recommend it for text sizing.</p><pre><code class=\"language-xml\">android:textSize=&quot;18sp&quot;</code></pre><p>Remember: <strong>dp</strong> for general dimensions and spacing; <strong>sp</strong> for text size so the text follows the user’s font scaling.</p><p><em>Slides: 6, p. 61. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-5"
     },
     {
       "id": "android-midterm-2026-036",
@@ -289,7 +324,8 @@
       "frontText": "<p><span class=\"topic-label\">5. Views and Widgets</span></p><p>Describe in general the purpose and basic characteristics of:</p>",
       "backText": "<p>The following twelve cards cover the widgets in this bullet’s list: TextView, EditText, Button, ImageView, Spinner, CheckBox, RadioButton/RadioGroup, DatePicker, AnalogClock/TextClock, VideoView, ViewPager, and ProgressBar.</p><p>For each, be able to say what it displays or accepts, how the user interacts with it, and the important property or method illustrated by the lecture. The individual cards include relevant examples.</p><p><em>Slides: 7, pp. 7–111; 11, p. 87; 12, p. 75. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-5"
     },
     {
       "id": "android-midterm-2026-037",
@@ -297,7 +333,8 @@
       "frontText": "<p><span class=\"topic-label\">5. Views and Widgets</span></p><p><em>Purpose and basic characteristics</em></p><p>TextView</p>",
       "backText": "<p><strong>TextView</strong> displays text, such as a label or result. Its text can be specified in XML or changed from Java.</p><pre><code class=\"language-xml\">&lt;TextView\n    android:id=&quot;@+id/resultText&quot;\n    android:layout_width=&quot;wrap_content&quot;\n    android:layout_height=&quot;wrap_content&quot;\n    android:text=&quot;@string/app_name&quot;\n    android:textSize=&quot;20sp&quot; /&gt;</code></pre><pre><code class=\"language-java\">TextView result = findViewById(R.id.resultText);\nresult.setText(&quot;Result: 5&quot;);\nCharSequence displayed = result.getText();</code></pre><p>The slides also demonstrate line counts, em-based width, and automatic links. TextView is for displaying text; EditText adds user editing.</p><p><em>Slides: 7, pp. 28–40. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-5"
     },
     {
       "id": "android-midterm-2026-038",
@@ -305,7 +342,8 @@
       "frontText": "<p><span class=\"topic-label\">5. Views and Widgets</span></p><p><em>Purpose and basic characteristics</em></p><p>EditText</p>",
       "backText": "<p><strong>EditText</strong> extends TextView to accept and edit user input. It can provide a hint and restrict or configure input through inputType—for example, a number, phone number, email address, or password.</p><pre><code class=\"language-xml\">&lt;EditText\n    android:id=&quot;@+id/nameInput&quot;\n    android:layout_width=&quot;match_parent&quot;\n    android:layout_height=&quot;wrap_content&quot;\n    android:hint=&quot;Enter your name&quot;\n    android:inputType=&quot;textPersonName&quot; /&gt;</code></pre><pre><code class=\"language-java\">EditText nameInput = findViewById(R.id.nameInput);\nString name = nameInput.getText().toString();</code></pre><p>A hint is a prompt shown for empty input; it is different from actual entered text. The inputType examples in the slides configure the kind of input expected.</p><p><em>Slides: 7, pp. 7–18. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-5"
     },
     {
       "id": "android-midterm-2026-039",
@@ -313,7 +351,8 @@
       "frontText": "<p><span class=\"topic-label\">5. Views and Widgets</span></p><p><em>Purpose and basic characteristics</em></p><p>Button</p>",
       "backText": "<p>A <strong>Button</strong> is a clickable UI control used to trigger an action. It commonly displays a text label and responds through an OnClickListener.</p><pre><code class=\"language-java\">Button submit = findViewById(R.id.submitButton);\nsubmit.setOnClickListener(view -&gt; {\n    Toast.makeText(this, &quot;Submitted&quot;, Toast.LENGTH_SHORT).show();\n});</code></pre><p>The listener is registered during UI setup and executes on a later click. Principal text-related attributes include text, textSize, and textAllCaps.</p><p><em>Slides: 7, pp. 47–52; 6, pp. 41–51. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-5"
     },
     {
       "id": "android-midterm-2026-040",
@@ -321,7 +360,8 @@
       "frontText": "<p><span class=\"topic-label\">5. Views and Widgets</span></p><p><em>Purpose and basic characteristics</em></p><p>ImageView</p>",
       "backText": "<p><strong>ImageView</strong> displays an image, usually a drawable resource. Its scaling determines how the image fits inside the View.</p><pre><code class=\"language-xml\">&lt;ImageView\n    android:layout_width=&quot;120dp&quot;\n    android:layout_height=&quot;120dp&quot;\n    android:src=&quot;@drawable/logo&quot;\n    android:scaleType=&quot;fitCenter&quot;\n    android:contentDescription=&quot;App logo&quot; /&gt;</code></pre><p><code>src</code> chooses the image. <code>fitCenter</code> fits it within the available area and centers it while preserving its proportions. The lecture also shows <code>app:srcCompat</code>, padding, contentDescription, and rotation in image examples. This XML assumes a logo drawable exists.</p><p><em>Slides: 7, pp. 68–69; 11, pp. 44, 47–50, 67. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-5"
     },
     {
       "id": "android-midterm-2026-041",
@@ -329,7 +369,8 @@
       "frontText": "<p><span class=\"topic-label\">5. Views and Widgets</span></p><p><em>Purpose and basic characteristics</em></p><p>Spinner</p>",
       "backText": "<p>A <strong>Spinner</strong> offers a compact selection control: it shows the selected item and lets the user choose from a list of alternatives. The slides demonstrate supplying choices through XML entries and through an adapter.</p><pre><code class=\"language-java\">Spinner choices = findViewById(R.id.versionSpinner);\nString selected = choices.getSelectedItem().toString();</code></pre><p><code>android:entries</code> can refer to a string-array resource; <code>android:prompt</code> supplies prompt text. An ArrayAdapter connects a Java array/list of choices to the Spinner’s item Views.</p><p><em>Slides: 7, pp. 41–46; 11, pp. 70–75. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-5"
     },
     {
       "id": "android-midterm-2026-042",
@@ -337,7 +378,8 @@
       "frontText": "<p><span class=\"topic-label\">5. Views and Widgets</span></p><p><em>Purpose and basic characteristics</em></p><p>CheckBox</p>",
       "backText": "<p>A <strong>CheckBox</strong> represents an independent checked/unchecked choice. Several CheckBoxes can be selected at the same time, so they are useful for options that are not mutually exclusive.</p><pre><code class=\"language-java\">CheckBox option = findViewById(R.id.notificationsCheck);\nboolean enabled = option.isChecked();\noption.setChecked(true);</code></pre><p>Its label comes from text. <code>isChecked()</code> reads its boolean state. Contrast this with RadioButtons in a RadioGroup, where one option is selected.</p><p><em>Slides: 7, pp. 55–57. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-5"
     },
     {
       "id": "android-midterm-2026-043",
@@ -345,7 +387,8 @@
       "frontText": "<p><span class=\"topic-label\">5. Views and Widgets</span></p><p><em>Purpose and basic characteristics</em></p><p>RadioButton and RadioGroup</p>",
       "backText": "<p>A <strong>RadioButton</strong> represents one choice. A <strong>RadioGroup</strong> groups RadioButtons so that selecting one clears the previously selected option: the choices are mutually exclusive.</p><p>Clicking an already selected RadioButton leaves it checked. The slides show a RadioGroup listener reporting the checked ID and <code>clearCheck()</code> clearing the selection.</p><pre><code class=\"language-java\">RadioGroup group = findViewById(R.id.answerGroup);\ngroup.setOnCheckedChangeListener((radioGroup, checkedId) -&gt; {\n    if (checkedId == R.id.optionA) {\n        resultText.setText(&quot;A selected&quot;);\n    }\n});\n// Clear all RadioButton selections in the group:\ngroup.clearCheck();</code></pre><p><em>Slides: 7, pp. 63–67. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-5"
     },
     {
       "id": "android-midterm-2026-044",
@@ -353,7 +396,8 @@
       "frontText": "<p><span class=\"topic-label\">5. Views and Widgets</span></p><p><em>Purpose and basic characteristics</em></p><p>DatePicker</p>",
       "backText": "<p>A <strong>DatePicker</strong> lets the user select a date—year, month, and day. The slides show calendar and spinner presentations, configured through datePickerMode.</p><pre><code class=\"language-java\">DatePicker picker = findViewById(R.id.datePicker);\npicker.init(2026, 9, 8, (view, year, month, day) -&gt; {\n    // Android month values are zero-based; 9 means October.\n    dateText.setText(day + &quot;/&quot; + (month + 1) + &quot;/&quot; + year);\n});</code></pre><p><code>init</code> supplies the starting date and an OnDateChangedListener. The callback receives the newly selected values. This is an adaptation of the lecture’s init/listener example.</p><p><em>Slides: 7, pp. 70–73. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-5"
     },
     {
       "id": "android-midterm-2026-045",
@@ -361,7 +405,8 @@
       "frontText": "<p><span class=\"topic-label\">5. Views and Widgets</span></p><p><em>Purpose and basic characteristics</em></p><p>AnalogClock and TextClock</p>",
       "backText": "<ul><li><strong>AnalogClock:</strong> the lecture’s clock widget displays the current time with hour and minute hands. The slides describe minute updates and no second hand.</li><li><strong>TextClock:</strong> displays the current time as formatted text. It supports format12Hour, format24Hour, and timeZone attributes.</li></ul><pre><code class=\"language-xml\">&lt;TextClock\n    android:layout_width=&quot;wrap_content&quot;\n    android:layout_height=&quot;wrap_content&quot;\n    android:format12Hour=&quot;h:mm a&quot;\n    android:format24Hour=&quot;HH:mm&quot; /&gt;</code></pre><p>These descriptions follow the professor’s widget material. They display time, unlike DatePicker, which lets the user select a date.</p><p><em>Slides: 7, pp. 101–105. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-5"
     },
     {
       "id": "android-midterm-2026-046",
@@ -369,7 +414,8 @@
       "frontText": "<p><span class=\"topic-label\">5. Views and Widgets</span></p><p><em>Purpose and basic characteristics</em></p><p>VideoView</p>",
       "backText": "<p><strong>VideoView</strong> displays and plays video. The slides attach a MediaController so users can control playback and set a video URI before starting.</p><pre><code class=\"language-java\">VideoView video = findViewById(R.id.videoView);\nMediaController controls = new MediaController(this);\ncontrols.setAnchorView(video);\nvideo.setMediaController(controls);\nvideo.setVideoURI(Uri.parse(&quot;https://example.com/video.mp4&quot;));\nvideo.start();</code></pre><p>The URI here is a placeholder: use a real video source. The lecture’s network-video example also requires <code>&lt;uses-permission android:name=\"android.permission.INTERNET\" /&gt;</code> in the manifest.</p><p><em>Slides: 7, pp. 106–111. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-5"
     },
     {
       "id": "android-midterm-2026-047",
@@ -377,7 +423,8 @@
       "frontText": "<p><span class=\"topic-label\">5. Views and Widgets</span></p><p><em>Purpose and basic characteristics</em></p><p>ViewPager</p>",
       "backText": "<p>The slides list <strong>ViewPager / ViewPager2</strong> among UI tools and mention paging fragments, but do not explain it in detail.</p><p><strong>Supplemental explanation:</strong> A ViewPager presents a sequence of pages that the user moves between by swiping. Pages can be Views or fragment-based screens supplied through an adapter. It is useful for sibling pages, and it can be paired with tabs to indicate or select the current page. Focus on its paging/swiping role; no detailed implementation is supplied in the lectures.</p><p><em>Slides: 11, p. 87; 12, p. 75. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-5"
     },
     {
       "id": "android-midterm-2026-048",
@@ -385,7 +432,8 @@
       "frontText": "<p><span class=\"topic-label\">5. Views and Widgets</span></p><p><em>Purpose and basic characteristics</em></p><p>ProgressBar</p>",
       "backText": "<p>A <strong>ProgressBar</strong> communicates that work is happening or how much has completed.</p><ul><li><strong>Indeterminate:</strong> indicates ongoing work when the completion amount is unknown; the slides show circular indicators in several sizes.</li><li><strong>Determinate:</strong> shows a known completion amount, typically using a horizontal bar. max sets the range, progress sets the completed amount, and secondaryProgress can show a second amount.</li></ul><pre><code class=\"language-java\">ProgressBar bar = findViewById(R.id.progressBar);\nbar.setMax(100);\nbar.setProgress(75);</code></pre><p>With max=100 and progress=75, the bar represents 75% completion. The horizontal style shown in XML is <code>style=\"?android:attr/progressBarStyleHorizontal\"</code>.</p><p><em>Slides: 7, pp. 76–89. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-5"
     },
     {
       "id": "android-midterm-2026-049",
@@ -393,7 +441,8 @@
       "frontText": "<p><span class=\"topic-label\">5. Views and Widgets</span></p><p>For TextView, EditView, Button, and ImageView be able to name a few principal XML attributes and provide their meaning (i.e., attributes other than common ones, such as layout_width)</p>",
       "backText": "<p>“EditView” is interpreted as <strong>EditText</strong>, matching the review’s widget list. Know attributes beyond the common width/height properties:</p><ul><li><strong>TextView:</strong> text = displayed text or @string resource; textSize = text size (sp); lines/minLines/maxLines = line count constraints; ems/minEms/maxEms = width in text-based em units; autoLink = automatic link handling for matching text.</li><li><strong>EditText:</strong> hint = empty-field prompt; inputType = expected input/keyboard type (for example number or textEmailAddress); lines = number of displayed lines; it also inherits TextView properties.</li><li><strong>Button:</strong> text = label; textAllCaps = whether the label is shown in uppercase; textSize = label size.</li><li><strong>ImageView:</strong> src or app:srcCompat = drawable image; scaleType = image scaling/alignment; contentDescription = descriptive text for the image; rotation = angle of rotation.</li></ul><pre><code class=\"language-xml\">&lt;EditText\n    android:layout_width=&quot;match_parent&quot;\n    android:layout_height=&quot;wrap_content&quot;\n    android:hint=&quot;Email address&quot;\n    android:inputType=&quot;textEmailAddress&quot; /&gt;</code></pre><p><em>Slides: 7, pp. 9–14, 29–39, 50–51, 68–69; 6, pp. 41–44; 11, pp. 47–50. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-5"
     },
     {
       "id": "android-midterm-2026-050",
@@ -401,7 +450,8 @@
       "frontText": "<p><span class=\"topic-label\">5. Views and Widgets</span></p><p>Describe the purpose of the R.java class and the findViewById method</p>",
       "backText": "<p><strong>findViewById</strong> retrieves a View with a specified resource ID from the loaded View hierarchy. It gives Java code access to the object so you can read/change properties and register listeners.</p><pre><code class=\"language-java\">setContentView(R.layout.activity_main);\nTextView label = findViewById(R.id.messageText);\nlabel.setText(&quot;Hello&quot;);</code></pre><p>The slides repeatedly use <code>R.layout</code> for layouts and <code>R.id</code> for View identifiers.</p><p><strong>Supplemental explanation:</strong> <strong>R / R.java</strong> is the build-generated resource class. Its nested groups identify resources such as R.layout.activity_main, R.id.messageText, and R.string.app_name. Use these identifiers to refer to resources from Java; do not manually edit the generated class. This role is not directly explained in the supplied slides.</p><p><em>Slides: 6, pp. 17–18, 46–51; 7, p. 6; 11, pp. 6, 74. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-5"
     },
     {
       "id": "android-midterm-2026-051",
@@ -409,7 +459,8 @@
       "frontText": "<p><span class=\"topic-label\">5. Views and Widgets</span></p><p>Describe how a View’s properties can be accessed and modified programmatically</p>",
       "backText": "<p>After inflating/loading the layout, retrieve a View by its ID, then use its <strong>getters</strong>, <strong>setters</strong>, and listener-registration methods. XML gives initial properties; Java can access or modify them while the app runs.</p><pre><code class=\"language-java\">setContentView(R.layout.activity_main);\nEditText name = findViewById(R.id.nameInput);\nTextView greeting = findViewById(R.id.greetingText);\nButton button = findViewById(R.id.greetButton);\n\nbutton.setOnClickListener(view -&gt; {\n    String entered = name.getText().toString();\n    greeting.setText(&quot;Hello, &quot; + entered);\n});</code></pre><p>Other slide examples include CheckBox.isChecked(), ProgressBar.setProgress(), Spinner.getSelectedItem(), and RadioGroup.clearCheck(). The referenced View IDs must exist in the loaded layout.</p><p><em>Slides: 6, pp. 46–51; 7, pp. 11, 31, 46, 57, 66–67, 83. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-5"
     },
     {
       "id": "android-midterm-2026-052",
@@ -417,7 +468,8 @@
       "frontText": "<p><span class=\"topic-label\">6. Layouts and View positioning</span></p><p>Carefully review chapter 8 and lecture slides on eLC</p>",
       "backText": "<p>Use <strong>Lecture 11: IntroductionToLayouts</strong> for this section. Focus on LinearLayout pp. 24–38 and ConstraintLayout pp. 88–119; also review FrameLayout pp. 45–51, TableLayout pp. 52–56, sizes/margins/padding pp. 16–21, and adapters pp. 70–75.</p><p>Lecture 6, pp. 33–44, gives a nested LinearLayout example. Practice translating arrangements into XML rather than only recognizing names.</p><p><em>Slides: 11, pp. 3–119; 6, pp. 33–44. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-6"
     },
     {
       "id": "android-midterm-2026-053",
@@ -425,7 +477,8 @@
       "frontText": "<p><span class=\"topic-label\">6. Layouts and View positioning</span></p><p>Describe what is a layout in Android</p>",
       "backText": "<p>A <strong>layout</strong> is a container that determines how its child Views are arranged and sized. Different layout classes apply different placement rules—for example, a row/column, stacked Views, table cells, or constraints.</p><p>The layout itself is a View, typically a <strong>ViewGroup</strong>. It can contain widgets and other layouts. The UI hierarchy can be declared in XML or created in Java.</p><p><em>Slides: 6, pp. 19–22; 11, pp. 3–4, 9–15. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-6"
     },
     {
       "id": "android-midterm-2026-054",
@@ -433,7 +486,8 @@
       "frontText": "<p><span class=\"topic-label\">6. Layouts and View positioning</span></p><p>Explain the difference between layouts specified in XML and programmatically</p>",
       "backText": "<p><strong>XML layout:</strong> declare the View hierarchy and initial properties in a resource file. Android inflates it into View objects, for example through setContentView(R.layout.activity_main).</p><p><strong>Programmatic layout:</strong> construct View objects in Java, set their properties, add them to a ViewGroup, and use the result as the Activity’s content. Both approaches produce a View hierarchy.</p><pre><code class=\"language-java\">LinearLayout layout = new LinearLayout(this);\nlayout.setOrientation(LinearLayout.VERTICAL);\nTextView label = new TextView(this);\nlabel.setText(&quot;Hello&quot;);\nlayout.addView(label, new LinearLayout.LayoutParams(\n    LinearLayout.LayoutParams.WRAP_CONTENT,\n    LinearLayout.LayoutParams.WRAP_CONTENT));\nsetContentView(layout);</code></pre><p>This fragment goes inside an Activity. XML keeps a static arrangement in resources; Java explicitly constructs and can change the hierarchy while running.</p><p><em>Slides: 11, pp. 5–8. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-6"
     },
     {
       "id": "android-midterm-2026-055",
@@ -441,7 +495,8 @@
       "frontText": "<p><span class=\"topic-label\">6. Layouts and View positioning</span></p><p>Be able to describe the main principles governing placement of Views in:</p>",
       "backText": "<ul><li><strong>LinearLayout:</strong> places children sequentially in one horizontal row or vertical column.</li><li><strong>FrameLayout:</strong> places children in a shared area, potentially overlapping/stacked.</li><li><strong>TableLayout:</strong> organizes children into rows and columns using TableRows.</li><li><strong>ConstraintLayout:</strong> positions/sizes children using relationships to the parent and other Views.</li></ul><p>The next four cards cover the rules and key attributes for each layout.</p><p><em>Slides: 11, pp. 24–56, 88–119. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-6"
     },
     {
       "id": "android-midterm-2026-056",
@@ -449,7 +504,8 @@
       "frontText": "<p><span class=\"topic-label\">6. Layouts and View positioning</span></p><p><em>View placement principles</em></p><p>LinearLayout (you should know it well)</p>",
       "backText": "<p><strong>LinearLayout</strong> arranges children in XML order along one axis: <code>orientation=\"horizontal\"</code> gives a row; <code>orientation=\"vertical\"</code> gives a column.</p><ul><li><strong>gravity:</strong> positions the contents/children within the layout’s available space.</li><li><strong>layout_gravity:</strong> a child’s requested alignment within its parent, where applicable.</li><li><strong>layout_weight:</strong> distributes remaining space among children in proportion to their weights. For equal widths in a row, use width=0dp and equal weights; for a column, use height=0dp along the weighted axis.</li></ul><pre><code class=\"language-xml\">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;\n    android:layout_width=&quot;match_parent&quot;\n    android:layout_height=&quot;wrap_content&quot;\n    android:orientation=&quot;horizontal&quot;\n    android:padding=&quot;16dp&quot;&gt;\n    &lt;Button android:id=&quot;@+id/leftButton&quot;\n        android:layout_width=&quot;0dp&quot; android:layout_height=&quot;wrap_content&quot;\n        android:layout_weight=&quot;1&quot; android:text=&quot;Left&quot; /&gt;\n    &lt;Button android:id=&quot;@+id/rightButton&quot;\n        android:layout_width=&quot;0dp&quot; android:layout_height=&quot;wrap_content&quot;\n        android:layout_weight=&quot;1&quot; android:text=&quot;Right&quot; /&gt;\n&lt;/LinearLayout&gt;</code></pre><p>The two buttons share the row’s available width equally. Here 0dp works with LinearLayout weight; it is not ConstraintLayout match-constraint sizing.</p><p><em>Slides: 11, pp. 24–38. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-6"
     },
     {
       "id": "android-midterm-2026-057",
@@ -457,7 +513,8 @@
       "frontText": "<p><span class=\"topic-label\">6. Layouts and View positioning</span></p><p><em>View placement principles</em></p><p>FrameLayout</p>",
       "backText": "<p><strong>FrameLayout</strong> places children within the same rectangular area. They can overlap; later children are drawn on top of earlier children. The default placement is at the top-left, and layout_gravity can position a child elsewhere.</p><pre><code class=\"language-xml\">&lt;FrameLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;\n    android:layout_width=&quot;match_parent&quot; android:layout_height=&quot;200dp&quot;&gt;\n    &lt;ImageView android:layout_width=&quot;match_parent&quot;\n        android:layout_height=&quot;match_parent&quot; android:src=&quot;@drawable/photo&quot;\n        android:contentDescription=&quot;Photo&quot; /&gt;\n    &lt;TextView android:layout_width=&quot;wrap_content&quot;\n        android:layout_height=&quot;wrap_content&quot; android:text=&quot;Caption&quot;\n        android:layout_gravity=&quot;bottom|center_horizontal&quot; /&gt;\n&lt;/FrameLayout&gt;</code></pre><p>The caption overlays the photo. The slide attribute table also lists foreground, foregroundGravity, and measureAllChildren. The sample assumes the photo drawable exists.</p><p><em>Slides: 11, pp. 45–51. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-6"
     },
     {
       "id": "android-midterm-2026-058",
@@ -465,7 +522,8 @@
       "frontText": "<p><span class=\"topic-label\">6. Layouts and View positioning</span></p><p><em>View placement principles</em></p><p>TableLayout</p>",
       "backText": "<p><strong>TableLayout</strong> organizes content into rows and columns. A TableRow contains the Views for one row. A column’s width is determined by its widest cell, and the number of columns depends on the row with the most columns.</p><ul><li><strong>layout_column:</strong> places a child in a specified zero-based column, allowing gaps.</li><li><strong>layout_span:</strong> makes a child occupy multiple columns.</li><li><strong>stretchColumns:</strong> lets chosen columns take extra space; * chooses all columns.</li><li><strong>shrinkColumns:</strong> lets chosen columns shrink.</li><li><strong>collapseColumns:</strong> hides chosen columns.</li></ul><pre><code class=\"language-xml\">&lt;TableLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;\n    android:layout_width=&quot;match_parent&quot; android:layout_height=&quot;wrap_content&quot;\n    android:stretchColumns=&quot;*&quot;&gt;\n    &lt;TableRow android:layout_width=&quot;match_parent&quot;\n        android:layout_height=&quot;wrap_content&quot;&gt;\n        &lt;Button android:layout_width=&quot;wrap_content&quot;\n            android:layout_height=&quot;wrap_content&quot; android:text=&quot;Left&quot; /&gt;\n        &lt;Button android:layout_width=&quot;wrap_content&quot;\n            android:layout_height=&quot;wrap_content&quot; android:text=&quot;Right&quot; /&gt;\n    &lt;/TableRow&gt;\n    &lt;TableRow android:layout_width=&quot;match_parent&quot;\n        android:layout_height=&quot;wrap_content&quot;&gt;\n        &lt;Button android:layout_width=&quot;wrap_content&quot;\n            android:layout_height=&quot;wrap_content&quot; android:layout_column=&quot;1&quot;\n            android:text=&quot;Below right&quot; /&gt;\n    &lt;/TableRow&gt;\n&lt;/TableLayout&gt;</code></pre><p>The second row’s button is in column 1, below the right-hand button in row 1.</p><p><em>Slides: 11, pp. 52–56. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-6"
     },
     {
       "id": "android-midterm-2026-059",
@@ -473,7 +531,8 @@
       "frontText": "<p><span class=\"topic-label\">6. Layouts and View positioning</span></p><p><em>View placement principles</em></p><p>ConstraintLayout (you should know it well)</p>",
       "backText": "<p><strong>ConstraintLayout</strong> places Views by relationships to the parent or other Views. Each child needs enough constraints to determine its horizontal and vertical position. Sizing can be fixed, wrap_content, or match constraints (0dp).</p><ul><li><strong>Edges:</strong> start/end/top/bottom constraints align to the corresponding edge of another View or parent; a top-to-bottom relation places one View below another.</li><li><strong>Bias:</strong> controls placement between opposing constraints when the View has remaining space; 0.5 is centered.</li><li><strong>Margins:</strong> add space at constrained edges.</li><li><strong>Chains:</strong> link Views across an axis; slide examples include spread, spread_inside, packed, and weighted chains.</li></ul><pre><code class=\"language-xml\">&lt;androidx.constraintlayout.widget.ConstraintLayout\n    xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;\n    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;\n    android:layout_width=&quot;match_parent&quot;\n    android:layout_height=&quot;match_parent&quot;&gt;\n    &lt;TextView android:id=&quot;@+id/titleText&quot;\n        android:layout_width=&quot;wrap_content&quot; android:layout_height=&quot;wrap_content&quot;\n        android:text=&quot;Title&quot; android:layout_marginTop=&quot;16dp&quot;\n        app:layout_constraintTop_toTopOf=&quot;parent&quot;\n        app:layout_constraintStart_toStartOf=&quot;parent&quot;\n        app:layout_constraintEnd_toEndOf=&quot;parent&quot; /&gt;\n    &lt;Button android:id=&quot;@+id/continueButton&quot;\n        android:layout_width=&quot;0dp&quot; android:layout_height=&quot;wrap_content&quot;\n        android:text=&quot;Continue&quot; android:layout_margin=&quot;16dp&quot;\n        app:layout_constraintTop_toBottomOf=&quot;@id/titleText&quot;\n        app:layout_constraintStart_toStartOf=&quot;parent&quot;\n        app:layout_constraintEnd_toEndOf=&quot;parent&quot; /&gt;\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><p>The title is horizontally centered at the top. The button sits below it and fills the width between its start/end constraints, with 16dp margins. Unlike the title’s wrap_content width, the button’s 0dp width expands to satisfy its opposing constraints.</p><p><em>Slides: 11, pp. 88–119; 10, pp. 47–48. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-6"
     },
     {
       "id": "android-midterm-2026-060",
@@ -481,7 +540,8 @@
       "frontText": "<p><span class=\"topic-label\">6. Layouts and View positioning</span></p><p>For Linear and Constraint layouts, be able to create an actual XML layout, given a picture of a desired arrangement and sizing of views</p>",
       "backText": "<p>Translate the desired arrangement into <strong>parent type, ordering/relationships, sizes, and spacing</strong>. Include namespace declarations and the width/height of each View.</p><p><strong>Example target A:</strong> two equal-width buttons in one row, with 16dp padding. Use a horizontal LinearLayout and give each button width=0dp, weight=1:</p><pre><code class=\"language-xml\">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;\n    android:layout_width=&quot;match_parent&quot;\n    android:layout_height=&quot;wrap_content&quot;\n    android:orientation=&quot;horizontal&quot;\n    android:padding=&quot;16dp&quot;&gt;\n    &lt;Button android:id=&quot;@+id/leftButton&quot;\n        android:layout_width=&quot;0dp&quot; android:layout_height=&quot;wrap_content&quot;\n        android:layout_weight=&quot;1&quot; android:text=&quot;Left&quot; /&gt;\n    &lt;Button android:id=&quot;@+id/rightButton&quot;\n        android:layout_width=&quot;0dp&quot; android:layout_height=&quot;wrap_content&quot;\n        android:layout_weight=&quot;1&quot; android:text=&quot;Right&quot; /&gt;\n&lt;/LinearLayout&gt;</code></pre><p><strong>Example target B:</strong> a title centered near the top, with a full-width button below it and 16dp margins. Use top/start/end constraints; the button’s width=0dp matches its start/end constraints:</p><pre><code class=\"language-xml\">&lt;androidx.constraintlayout.widget.ConstraintLayout\n    xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;\n    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;\n    android:layout_width=&quot;match_parent&quot;\n    android:layout_height=&quot;match_parent&quot;&gt;\n    &lt;TextView android:id=&quot;@+id/titleText&quot;\n        android:layout_width=&quot;wrap_content&quot; android:layout_height=&quot;wrap_content&quot;\n        android:text=&quot;Title&quot; android:layout_marginTop=&quot;16dp&quot;\n        app:layout_constraintTop_toTopOf=&quot;parent&quot;\n        app:layout_constraintStart_toStartOf=&quot;parent&quot;\n        app:layout_constraintEnd_toEndOf=&quot;parent&quot; /&gt;\n    &lt;Button android:id=&quot;@+id/continueButton&quot;\n        android:layout_width=&quot;0dp&quot; android:layout_height=&quot;wrap_content&quot;\n        android:text=&quot;Continue&quot; android:layout_margin=&quot;16dp&quot;\n        app:layout_constraintTop_toBottomOf=&quot;@id/titleText&quot;\n        app:layout_constraintStart_toStartOf=&quot;parent&quot;\n        app:layout_constraintEnd_toEndOf=&quot;parent&quot; /&gt;\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><p>These are practice arrangements built from the rules in the slide examples. Be able to explain why each orientation, weight, constraint, and size value produces the arrangement.</p><p><em>Slides: 6, pp. 33–44; 11, pp. 27–38, 93–107, 114–119. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-6"
     },
     {
       "id": "android-midterm-2026-061",
@@ -489,7 +549,8 @@
       "frontText": "<p><span class=\"topic-label\">6. Layouts and View positioning</span></p><p>For each of the above layouts, be able to name principal XML attributes and provide their meaning.</p>",
       "backText": "<ul><li><strong>LinearLayout:</strong> orientation (row/column), gravity (alignment of contents), child layout_gravity (child alignment), layout_weight (share of remaining space), weightSum (specified total weight).</li><li><strong>FrameLayout:</strong> child layout_gravity (placement), foreground (drawable overlay), foregroundGravity (foreground alignment), measureAllChildren (whether all children are measured, including gone children).</li><li><strong>TableLayout:</strong> stretchColumns, shrinkColumns, collapseColumns (column behavior); child layout_column (zero-based column) and layout_span (number of columns).</li><li><strong>ConstraintLayout:</strong> layout_constraintStart_toStartOf / End_toEndOf / Top_toTopOf / Top_toBottomOf (edge relationships), layout_constraintHorizontal_bias / Vertical_bias (placement between opposing constraints), layout_constraintHorizontal_chainStyle (chain distribution). Constraint attributes use the app prefix.</li></ul><p>Dimensions and margins are child layout parameters as well. Match the attribute to the layout class: layout_weight belongs to LinearLayout; constraint relationships belong to ConstraintLayout.</p><p><em>Slides: 11, pp. 25–38, 46–55, 93–119. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-6"
     },
     {
       "id": "android-midterm-2026-062",
@@ -497,7 +558,8 @@
       "frontText": "<p><span class=\"topic-label\">6. Layouts and View positioning</span></p><p>Describe the basic difference between match_parent, wrap_content, and match_constraint (0dp) when specifying View’s width and height.</p>",
       "backText": "<ul><li><strong>match_parent:</strong> occupy the parent’s available size along that dimension, accounting for the parent’s padding and layout spacing.</li><li><strong>wrap_content:</strong> use the size needed for the View’s content and its padding.</li><li><strong>match_constraint (0dp in ConstraintLayout):</strong> let constraints determine the size. With opposing start/end constraints and width=0dp, the View fills the space between those constraints, accounting for margins.</li></ul><p>Context matters: <strong>0dp in a weighted LinearLayout</strong> means the base size is zero and weight supplies its allocated space. It is not automatically match_constraint in every layout.</p><pre><code class=\"language-xml\">android:layout_width=&quot;0dp&quot;\napp:layout_constraintStart_toStartOf=&quot;parent&quot;\napp:layout_constraintEnd_toEndOf=&quot;parent&quot;</code></pre><p><em>Slides: 11, pp. 17–19, 27–38, 104–107. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-6"
     },
     {
       "id": "android-midterm-2026-063",
@@ -505,7 +567,8 @@
       "frontText": "<p><span class=\"topic-label\">6. Layouts and View positioning</span></p><p>Describe the purpose of View margins when defining a layout.</p>",
       "backText": "<p><strong>Margins</strong> provide space <strong>outside</strong> a View’s bounds, separating it from neighboring Views or the parent’s boundaries. <strong>Padding</strong> provides space inside the View, around its content.</p><pre><code class=\"language-xml\">android:layout_margin=&quot;16dp&quot;\nandroid:layout_marginStart=&quot;8dp&quot;\nandroid:layout_marginTop=&quot;12dp&quot;</code></pre><p>You can specify all sides or individual sides. In ConstraintLayout, a margin at a constrained edge sets spacing between that edge and the edge it is constrained to.</p><p><em>Slides: 11, pp. 16–21, 93–107. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-6"
     },
     {
       "id": "android-midterm-2026-064",
@@ -513,7 +576,8 @@
       "frontText": "<p><span class=\"topic-label\">6. Layouts and View positioning</span></p><p>Explain what is an ArrayAdapter and why is it needed</p>",
       "backText": "<p>An <strong>ArrayAdapter</strong> connects an array/list of data items to the item Views displayed by a list-style widget, such as a Spinner or ListView. It uses an item layout to render each data item.</p><pre><code class=\"language-java\">String[] versions = { &quot;Android 15&quot;, &quot;Android 16&quot;, &quot;Android 17&quot; };\nArrayAdapter&lt;String&gt; adapter = new ArrayAdapter&lt;&gt;(\n    this, android.R.layout.simple_spinner_item, versions);\nadapter.setDropDownViewResource(\n    android.R.layout.simple_spinner_dropdown_item);\nSpinner spinner = findViewById(R.id.versionSpinner);\nspinner.setAdapter(adapter);</code></pre><p>The data array supplies the items; the layout resource supplies their appearance; setAdapter attaches the bridge to the widget. Inside a Fragment, use the appropriate host context, as in the fragment examples.</p><p><em>Slides: 11, pp. 70–75, 78–79; 7, pp. 23–27, 41–46. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-6"
     },
     {
       "id": "android-midterm-2026-065",
@@ -521,7 +585,8 @@
       "frontText": "<p><span class=\"topic-label\">6. Layouts and View positioning</span></p><p>Explain when nesting of layouts is useful/necessary</p>",
       "backText": "<p><strong>Nesting layouts</strong> is useful when different parts of a screen need different placement rules. For example, a vertical LinearLayout can hold a heading, then a horizontal LinearLayout containing two buttons, then another result View.</p><p>The slides’ counter app uses this kind of nesting, and later examples combine other layouts. A nested layout is itself a child ViewGroup. The lecture also warns that excessive nesting can be suboptimal, so use it where the arrangement benefits from separate containers.</p><p><em>Slides: 6, pp. 33–44; 11, pp. 22–23, 38, 63–64. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-6"
     },
     {
       "id": "android-midterm-2026-066",
@@ -529,7 +594,8 @@
       "frontText": "<p><span class=\"topic-label\">6. Layouts and View positioning</span></p><p>Is layout itself a View?  What is the basic superclass of most of the layout classes?</p>",
       "backText": "<p><strong>Yes.</strong> A layout is a View. Most layout classes have <strong>ViewGroup</strong> as their base superclass, and ViewGroup extends <strong>View</strong>.</p><p>ViewGroup is a special View that contains and manages child Views. Consequently, a layout can itself be a child of another layout, producing a hierarchy.</p><p><em>Slides: 6, p. 19; 11, pp. 9, 15, 63. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-6"
     },
     {
       "id": "android-midterm-2026-067",
@@ -537,7 +603,8 @@
       "frontText": "<p><span class=\"topic-label\">6. Layouts and View positioning</span></p><p>Be able to provide a (small) set of attributes and their values to achieve a given layout of Views when using Linear, Table, and Constraint layout</p>",
       "backText": "<p><strong>Linear target:</strong> two equal-width buttons in a horizontal row. Set parent orientation=\"horizontal\"; set each child layout_width=\"0dp\" and layout_weight=\"1\"; use wrap_content heights.</p><p><strong>Table target:</strong> put a button in the second column of a row. Place it inside a TableRow and set layout_column=\"1\". To span two columns, set layout_span=\"2\". Parent stretchColumns=\"*\" allows all columns to stretch.</p><p><strong>Constraint target:</strong> put B below A, aligned to the parent’s start, with a 16dp vertical gap:</p><pre><code class=\"language-xml\">android:layout_width=&quot;wrap_content&quot;\nandroid:layout_height=&quot;wrap_content&quot;\nandroid:layout_marginTop=&quot;16dp&quot;\napp:layout_constraintTop_toBottomOf=&quot;@id/viewA&quot;\napp:layout_constraintStart_toStartOf=&quot;parent&quot;</code></pre><p>For B to fill the width, switch width to 0dp and add End_toEndOf=\"parent\". These attributes belong on B; viewA must have the referenced ID and its own constraints.</p><p><em>Slides: 11, pp. 25–38, 54–55, 93–119. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-6"
     },
     {
       "id": "android-midterm-2026-068",
@@ -545,7 +612,8 @@
       "frontText": "<p><span class=\"topic-label\">7. Fragments</span></p><p>Carefully review chapter 9 and lecture slides on eLC</p>",
       "backText": "<p>Use <strong>Lecture 12: Android Fragments</strong> for modular UI, lifecycle, transactions, and portrait/landscape examples. The <strong>AndroidVersionsFragments</strong> example is in pp. 65–69. Lecture 11, pp. 82–86, compares ListView and ListFragment.</p><p>Focus on how a selected list index is saved/restored and how the same details fragment can be used in different Activity arrangements.</p><p><em>Slides: 12, pp. 3–69; 11, pp. 82–86. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-7"
     },
     {
       "id": "android-midterm-2026-069",
@@ -553,7 +621,8 @@
       "frontText": "<p><span class=\"topic-label\">7. Fragments</span></p><p>Describe why fragments are useful</p>",
       "backText": "<p><strong>Fragments</strong> divide an Activity’s UI and behavior into modular pieces. Each can have its own layout and lifecycle, while being hosted by an Activity.</p><p>They are useful for adapting to different screen sizes/orientations. In a narrow/portrait arrangement, a list and details can appear separately; in a wide/landscape arrangement, the same pieces can appear side by side in one Activity. The lecture examples show this reuse without duplicating the list/details implementation.</p><p><em>Slides: 12, pp. 3–10, 24–39, 65–69. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-7"
     },
     {
       "id": "android-midterm-2026-070",
@@ -561,7 +630,8 @@
       "frontText": "<p><span class=\"topic-label\">7. Fragments</span></p><p>Explain how fragments promote code reuse</p>",
       "backText": "<p>Put the layout and behavior for one UI feature into a <strong>Fragment class</strong>, then host that class wherever it is needed. Different Activities or layouts can reuse the same fragment instead of copying its UI and logic.</p><p>The lecture’s master/detail examples reuse list and details fragments: the portrait arrangement uses separate screens, while the landscape arrangement places both pieces together. The reusable unit is the fragment’s implementation; the host controls how it is presented.</p><p><em>Slides: 12, pp. 3–10, 24–39, 65–69. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-7"
     },
     {
       "id": "android-midterm-2026-071",
@@ -569,7 +639,8 @@
       "frontText": "<p><span class=\"topic-label\">7. Fragments</span></p><p>Describe the relationship between Activities and Fragments</p>",
       "backText": "<p>An <strong>Activity hosts Fragments</strong>. The Activity provides the screen/window and manages its fragments through a FragmentManager. A Fragment provides a portion of the UI/behavior and has its own lifecycle coordinated with its host.</p><ul><li>One Activity can host several Fragments.</li><li>A Fragment can be reused in different Activity/layout arrangements.</li><li>The Fragment creates its own View hierarchy in onCreateView; that View hierarchy has a lifetime distinct from the Fragment object.</li><li>FragmentTransactions add, remove, or replace fragments in the host’s containers.</li></ul><pre><code class=\"language-java\">FragmentManager manager = getSupportFragmentManager();</code></pre><p><em>Slides: 12, pp. 3–23. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-7"
     },
     {
       "id": "android-midterm-2026-072",
@@ -577,7 +648,8 @@
       "frontText": "<p><span class=\"topic-label\">7. Fragments</span></p><p>Describe the fragment life cycle – name and describe the main fragment callbacks</p>",
       "backText": "<p>Know the lifecycle callbacks named by the androidx fragment lecture:</p><ul><li><strong>onAttach:</strong> attached to the host/context.</li><li><strong>onCreate:</strong> initialize the Fragment itself.</li><li><strong>onCreateView:</strong> create/inflate and return the Fragment’s View hierarchy.</li><li><strong>onViewCreated:</strong> set up the created Views and their listeners; the lecture points to this instead of the deprecated onActivityCreated.</li><li><strong>onStart:</strong> Fragment becomes visible.</li><li><strong>onResume:</strong> active/resumed for interaction.</li><li><strong>onPause:</strong> leaving the resumed state.</li><li><strong>onStop:</strong> no longer started/visible.</li><li><strong>onDestroyView:</strong> the Fragment’s View hierarchy is destroyed.</li><li><strong>onDestroy:</strong> Fragment instance is being destroyed.</li><li><strong>onDetach:</strong> detached from the host.</li></ul><p>Creation order: attach → create → createView → viewCreated → start → resume. Normal teardown passes through pause → stop → destroyView → destroy → detach. The View hierarchy can be destroyed while the Fragment instance is retained on the fragment back stack, so distinguish onDestroyView from onDestroy.</p><pre><code class=\"language-java\">@Override\npublic View onCreateView(LayoutInflater inflater,\n                         ViewGroup container, Bundle savedInstanceState) {\n    return inflater.inflate(R.layout.fragment_details, container, false);\n}</code></pre><p><em>Slides: 12, pp. 11–12, 22–23, 46–64. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-7"
     },
     {
       "id": "android-midterm-2026-073",
@@ -585,7 +657,8 @@
       "frontText": "<p><span class=\"topic-label\">7. Fragments</span></p><p>Explain the need for FragmentTransactions</p>",
       "backText": "<p>A <strong>FragmentTransaction</strong> groups changes to fragments managed by a FragmentManager. Use it to add, replace, remove, show, or hide fragments, then commit the changes.</p><pre><code class=\"language-java\">FragmentManager manager = getSupportFragmentManager();\nFragmentTransaction transaction = manager.beginTransaction();\ntransaction.replace(R.id.detailsContainer, new DetailsFragment());\ntransaction.addToBackStack(null);\ntransaction.commit();</code></pre><p>The container must exist in the Activity’s layout. <code>addToBackStack</code> makes this change reversible through the fragment back stack; it is optional when that navigation behavior is not wanted. <code>commit()</code> submits the changes; creating a transaction alone does not display the replacement.</p><p><em>Slides: 12, pp. 13–20, 54, 68. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-7"
     },
     {
       "id": "android-midterm-2026-074",
@@ -593,7 +666,8 @@
       "frontText": "<p><span class=\"topic-label\">7. Fragments</span></p><p>Describe the difference between ListView and ListFragment</p>",
       "backText": "<p><strong>ListView</strong> is a View/widget that displays a scrolling list. It needs an adapter to supply its rows.</p><p><strong>ListFragment</strong> is a specialized Fragment that provides a list-based UI around a ListView. It has a Fragment lifecycle and offers convenience methods such as setListAdapter and getListView, plus the onListItemClick callback.</p><pre><code class=\"language-java\">@Override\npublic void onListItemClick(ListView list, View view,\n                            int position, long id) {\n    showDetails(position);\n}</code></pre><p>This method goes in a ListFragment subclass; showDetails is an application-defined helper. A custom ListFragment layout uses the expected <code>@android:id/list</code> identifier for its ListView. The widget and the Fragment hosting it are different types of objects.</p><p><em>Slides: 11, pp. 82–86; 12, pp. 40, 52–56. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-7"
     },
     {
       "id": "android-midterm-2026-075",
@@ -601,7 +675,8 @@
       "frontText": "<p><span class=\"topic-label\">8. Navigational patterns</span></p><p>Carefully review chapter 10 and lecture slides on eLC</p>",
       "backText": "<p>The supplied slides cover Up/parent Activity declarations in <strong>Lecture 8, pp. 65–69</strong> and master/detail fragment arrangements in <strong>Lecture 12, pp. 24–39 and 65–69</strong>. No dedicated navigation lecture is present in the supplied folder.</p><p>The cards for the remaining navigation patterns explicitly label explanations added to fill those gaps. They cover only the navigation bullets requested in the review; no textbook material has been added.</p><p><em>Slides: 8, pp. 65–69; 12, pp. 24–39, 65–69. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-8"
     },
     {
       "id": "android-midterm-2026-076",
@@ -609,7 +684,8 @@
       "frontText": "<p><span class=\"topic-label\">8. Navigational patterns</span></p><p>Distinguish between back and up navigation</p>",
       "backText": "<p>The slides introduce navigation and show a <strong>parent Activity</strong> relationship for Up navigation through <code>android:parentActivityName</code>. The earlier back-stack slides show returning to a previous Activity.</p><p><strong>Supplemental explanation:</strong> <strong>Back</strong> follows the user’s navigation history, usually returning to the previous destination and potentially leaving the app. <strong>Up</strong> follows the app’s hierarchy to the logical parent destination. Example: if a details page is opened from outside the app, Back can return to that outside app, while Up leads to the details page’s parent inside this app. Within ordinary hierarchical navigation, the two may lead to the same place.</p><p><em>Slides: 8, pp. 4, 65–69. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-8"
     },
     {
       "id": "android-midterm-2026-077",
@@ -617,7 +693,8 @@
       "frontText": "<p><span class=\"topic-label\">8. Navigational patterns</span></p><p>Be able to understand and describe basic navigational patterns</p>",
       "backText": "<p>The review lists target navigation, swipe views, tabs, navigation drawer, master/detail flow, action bar/menus/action buttons, Floating Action Button, and dialogs. The following eight cards define each of those patterns.</p><p>The supplied fragment examples substantively demonstrate master/detail flow. Most other patterns are absent or only mentioned, so their individual cards mark supplemental material.</p><p><em>Slides: 8, pp. 65–69; 12, pp. 24–39, 65–69. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-8"
     },
     {
       "id": "android-midterm-2026-078",
@@ -625,7 +702,8 @@
       "frontText": "<p><span class=\"topic-label\">8. Navigational patterns</span></p><p><em>Navigational pattern</em></p><p>Target navigation (lateral, descendant, ancestral)</p>",
       "backText": "<p>The review explicitly asks for lateral, descendant, and ancestral target navigation. A detailed definition of these three terms was not found in the supplied slides.</p><p><strong>Supplemental explanation:</strong> <strong>Lateral:</strong> move between destinations at the same level, such as sibling sections selected by tabs. <strong>Descendant:</strong> move deeper into the hierarchy, such as a list → an item’s details. <strong>Ancestral:</strong> move toward a parent/ancestor, such as details → its containing list. Classify the relationship between the source and destination, rather than the visual direction of an animation.</p><p><em>Slides: 8, pp. 65–69 (general navigation introduction). PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-8"
     },
     {
       "id": "android-midterm-2026-079",
@@ -633,7 +711,8 @@
       "frontText": "<p><span class=\"topic-label\">8. Navigational patterns</span></p><p><em>Navigational pattern</em></p><p>Swipe views</p>",
       "backText": "<p>Paging fragments is mentioned in the slides, but swipe-view navigation is not developed into a full example.</p><p><strong>Supplemental explanation:</strong> <strong>Swipe views</strong> let the user move between adjacent pages with a swipe gesture, commonly through a ViewPager. They fit sibling content at the same level. Provide an indication of the current page, such as tabs or a page indicator; a swipe changes pages rather than scrolling the content vertically.</p><p><em>Slides: 12, p. 75; 11, p. 87. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-8"
     },
     {
       "id": "android-midterm-2026-080",
@@ -641,7 +720,8 @@
       "frontText": "<p><span class=\"topic-label\">8. Navigational patterns</span></p><p><em>Navigational pattern</em></p><p>Tabs</p>",
       "backText": "<p>A substantive tabs explanation was not found in the supplied slides.</p><p><strong>Supplemental explanation:</strong> <strong>Tabs</strong> expose a small group of sibling sections/pages with visible labels. Selecting a tab switches to that section; the selected tab indicates the current one. Tabs can be paired with swipe views, so tapping a tab or swiping changes the same current page. Moving between these sibling pages is lateral navigation.</p><p><em>Slides: 8, pp. 65–69 (general navigation introduction). PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-8"
     },
     {
       "id": "android-midterm-2026-081",
@@ -649,7 +729,8 @@
       "frontText": "<p><span class=\"topic-label\">8. Navigational patterns</span></p><p><em>Navigational pattern</em></p><p>Navigation drawer</p>",
       "backText": "<p>A substantive navigation-drawer explanation was not found in the supplied slides.</p><p><strong>Supplemental explanation:</strong> A <strong>navigation drawer</strong> is a panel, commonly opened from a menu icon or edge gesture, that lists major app destinations. Selecting an item navigates to that section. It is useful when several main destinations should be reachable from a shared navigation menu, while the panel can stay closed during content viewing.</p><p><em>Slides: 8, pp. 65–69 (general navigation introduction). PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-8"
     },
     {
       "id": "android-midterm-2026-082",
@@ -657,7 +738,8 @@
       "frontText": "<p><span class=\"topic-label\">8. Navigational patterns</span></p><p><em>Navigational pattern</em></p><p>Master detail flow</p>",
       "backText": "<p><strong>Master/detail flow</strong> starts with a list of items (master) and shows information about the selected item (detail). The fragment slides directly demonstrate this pattern.</p><ul><li><strong>Portrait/narrow:</strong> the list and details appear on separate screens/Activities.</li><li><strong>Landscape/wide:</strong> the list and detail fragments can appear side by side inside one Activity.</li><li><strong>State:</strong> retain the selected item’s list index and use it to restore the matching details when orientation changes.</li></ul><p>The UGA information example and AndroidVersionsFragments reuse the same list/details logic across the two arrangements. The list-index selection is the connection between the master selection and the displayed detail.</p><p><em>Slides: 12, pp. 24–39, 46–69. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-8"
     },
     {
       "id": "android-midterm-2026-083",
@@ -665,7 +747,8 @@
       "frontText": "<p><span class=\"topic-label\">8. Navigational patterns</span></p><p><em>Navigational pattern</em></p><p>Action bar, Menus, and Action Buttons</p>",
       "backText": "<p>The slides contain limited ActionBar context, but do not fully explain the action bar/menu/action-button pattern.</p><p><strong>Supplemental explanation:</strong> The <strong>action bar / app bar</strong> is the top area that can show the screen title, navigation affordances, and actions. A <strong>menu</strong> defines the available commands; common commands can appear as visible <strong>action buttons</strong>, while other commands appear in an overflow menu. An action button performs a command, such as search or save; an Up button in the bar navigates to the logical parent.</p><p><em>Slides: 7 (limited ActionBar examples); 8, pp. 65–69 (navigation context). PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-8"
     },
     {
       "id": "android-midterm-2026-084",
@@ -673,7 +756,8 @@
       "frontText": "<p><span class=\"topic-label\">8. Navigational patterns</span></p><p><em>Navigational pattern</em></p><p>Floating Action Button</p>",
       "backText": "<p>A substantive Floating Action Button explanation was not found in the supplied slides.</p><p><strong>Supplemental explanation:</strong> A <strong>Floating Action Button (FAB)</strong> is a prominent floating button used for a primary action on the current screen, such as adding an item or composing a message. Its emphasis makes the main action easy to find. It triggers an action; it is not a menu containing all of the app’s destinations.</p><p><em>Slides: No substantive coverage in the supplied ten decks. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-8"
     },
     {
       "id": "android-midterm-2026-085",
@@ -681,7 +765,8 @@
       "frontText": "<p><span class=\"topic-label\">8. Navigational patterns</span></p><p><em>Navigational pattern</em></p><p>Dialogs</p>",
       "backText": "<p>DialogFragment is named among fragment types, and an Activity lifecycle example shows a dialog briefly interrupting interaction. A full navigation-pattern explanation of dialogs is not provided.</p><p><strong>Supplemental explanation:</strong> A <strong>dialog</strong> is a focused overlay for a short decision, alert, or input task, such as confirming deletion. It temporarily interrupts interaction with the underlying screen and then dismisses back to that context. DialogFragment hosts a dialog using fragment lifecycle management. A dialog is useful for a small focused task rather than a whole major app section.</p><p><em>Slides: 12, p. 40; 6, pp. 65–72. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-8"
     },
     {
       "id": "android-midterm-2026-086",
@@ -689,7 +774,8 @@
       "frontText": "<p><span class=\"topic-label\">8. Navigational patterns</span></p><p>Explain how a single activity application works</p>",
       "backText": "<p>The slides show Activities hosting and replacing Fragments through FragmentManager/FragmentTransactions, including a landscape Activity with both list and detail fragments.</p><p><strong>Supplemental explanation:</strong> A <strong>single-Activity application</strong> uses one Activity as the host for multiple destinations, commonly represented by Fragments. Navigation changes the fragment(s) displayed in a container rather than starting a new Activity for every screen. The host and fragment manager coordinate transitions; reversible fragment transactions can be added to a back stack so Back returns to the previous fragment destination. This is a general explanation built from the hosting/transaction concepts; the supplied slides do not provide a dedicated single-Activity navigation architecture lesson.</p><p><em>Slides: 12, pp. 3–20, 24–39, 65–69. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
-      "backImage": ""
+      "backImage": "",
+      "sectionId": "midterm-section-8"
     }
   ],
   "progress": {
@@ -779,5 +865,40 @@
     "android-midterm-2026-084": "red",
     "android-midterm-2026-085": "red",
     "android-midterm-2026-086": "red"
-  }
+  },
+  "sections": [
+    {
+      "id": "midterm-section-1",
+      "name": "1. The Android system"
+    },
+    {
+      "id": "midterm-section-2",
+      "name": "2. Event-driven systems"
+    },
+    {
+      "id": "midterm-section-3",
+      "name": "3. Android application components"
+    },
+    {
+      "id": "midterm-section-4",
+      "name": "4. XML"
+    },
+    {
+      "id": "midterm-section-5",
+      "name": "5. Views and Widgets"
+    },
+    {
+      "id": "midterm-section-6",
+      "name": "6. Layouts and View positioning"
+    },
+    {
+      "id": "midterm-section-7",
+      "name": "7. Fragments"
+    },
+    {
+      "id": "midterm-section-8",
+      "name": "8. Navigational patterns"
+    }
+  ],
+  "sectionSchemaVersion": 1
 }

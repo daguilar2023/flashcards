@@ -8,7 +8,43 @@ export const emptyCard = () => ({
   backText: "",
   frontImage: "",
   backImage: "",
+  sectionId: "",
 });
+export const MIDTERM_SECTIONS = [
+  "1. The Android system", "2. Event-driven systems",
+  "3. Android application components", "4. XML", "5. Views and Widgets",
+  "6. Layouts and View positioning", "7. Fragments", "8. Navigational patterns",
+].map((name, index) => ({ id: `midterm-section-${index + 1}`, name }));
+
+export function sectionGroups(set) {
+  const groups = (set?.sections || []).map((section) => ({
+    ...section, cards: set.cards.filter((card) => card.sectionId === section.id),
+  }));
+  const unsectioned = (set?.cards || []).filter((card) =>
+    !groups.some((group) => group.id === card.sectionId));
+  if (unsectioned.length) groups.push({ id: "", name: "Unsectioned cards", cards: unsectioned });
+  return groups.filter((group) => group.cards.length);
+}
+
+// Learning always finishes the earliest unfinished section before moving on.
+// Random learning samples all unfinished cards, across sections and colors.
+export function nextStudyCard(set, progress, currentId, order = "ordered", pile = "red", random = Math.random) {
+  const groups = sectionGroups(set);
+  if (pile === "green") {
+    const cards = groups.flatMap((group) => group.cards);
+    return { currentId: nextCard(cards, progress, currentId, order, "green", random), pile: "green" };
+  }
+  if (order === "random") {
+    const id = nextCard(set.cards, progress, currentId, order, "all", random);
+    return { currentId: id, pile: id ? (progress[id] || "red") : "green" };
+  }
+  const group = groups.find((group) => group.cards.some((card) => progress[card.id] !== "green"));
+  if (!group) return { currentId: null, pile: "green" };
+  const requested = currentId && !group.cards.some((card) => card.id === currentId) ? "red" : pile;
+  const selected = group.cards.some((card) => (progress[card.id] || "red") === requested)
+    ? requested : group.cards.some((card) => (progress[card.id] || "red") === "red") ? "red" : "yellow";
+  return { currentId: nextCard(group.cards, progress, currentId, order, selected, random), pile: selected };
+}
 export const sanitize = (html = "") =>
   DOMPurify.sanitize(html, {
     ALLOWED_TAGS: [
@@ -69,6 +105,23 @@ export function normalizeState(value) {
     )
       throw new Error("The backup contains an invalid or duplicate set.");
     setIds.add(set.id);
+    // Upgrade the already-installed midterm once, preserving answers and ratings.
+    if (set.id === "android-midterm-fall-2026" && !set.sectionSchemaVersion) {
+      set = { ...set, sections: set.sections || MIDTERM_SECTIONS, sectionSchemaVersion: 1,
+        cards: set.cards.map((card) => ({ ...card, sectionId: card.sectionId ??
+          (/^android-midterm-2026-\d+$/.test(card.id)
+            ? MIDTERM_SECTIONS.find((section) => section.name === card.topic)?.id || "" : ""),
+        })),
+      };
+    }
+    const sectionIds = new Set();
+    const sections = (Array.isArray(set.sections) ? set.sections : []).map((section) => {
+      if (!section || typeof section.id !== "string" || !section.id ||
+          typeof section.name !== "string" || !section.name.trim() || sectionIds.has(section.id))
+        throw new Error("The backup contains an invalid or duplicate section.");
+      sectionIds.add(section.id);
+      return { id: section.id, name: section.name.trim().slice(0, 100) };
+    });
     const cards = set.cards.map((card) => {
       if (
         !card ||
@@ -89,6 +142,7 @@ export function normalizeState(value) {
         backText: sanitize(card.backText),
         frontImage: safeImage(card.frontImage),
         backImage: safeImage(card.backImage),
+        sectionId: sectionIds.has(card.sectionId) ? card.sectionId : "",
       };
     });
     const progress = Object.fromEntries(
@@ -103,6 +157,7 @@ export function normalizeState(value) {
       ...set,
       name: set.name.trim().slice(0, 100),
       cards,
+      sections,
       progress,
       color: COLORS.includes(set.color)
         ? set.color

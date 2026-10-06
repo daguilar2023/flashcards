@@ -13,7 +13,8 @@ import {
   counts,
   emptyCard,
   hasContent,
-  nextCard,
+  nextStudyCard,
+  sectionGroups,
   normalizeState,
   plainText,
   sanitize,
@@ -22,6 +23,7 @@ import {
 import { loadState, saveState } from "./lib/storage";
 import { useCloudSync } from "./lib/useCloudSync";
 import CloudAccount from "./CloudAccount";
+import SectionsEditor from "./SectionsEditor";
 import "./App.css";
 
 const NAV = [
@@ -53,7 +55,7 @@ export default function FlashcardsApp() {
   const [session, setSession] = useState(null);
   const [showBack, setShowBack] = useState(false);
   const [order, setOrder] = useState("ordered");
-  const [pile, setPile] = useState("all");
+  const [pile, setPile] = useState("red");
   const [studyUndo, setStudyUndo] = useState(null);
   const importRef = useRef(null);
   const draftsRef = useRef(new Map());
@@ -91,9 +93,17 @@ export default function FlashcardsApp() {
   );
   const browseCard =
     activeSet?.cards[Math.min(browseIndex, activeSet.cards.length - 1)];
-  const currentCard = activeSet?.cards.find(
+  const sessionCard = activeSet?.cards.find(
     (card) => card.id === session?.currentId,
   );
+  const groups = sectionGroups(activeSet);
+  const learningGroup = groups.find((group) => group.cards.some((card) => activeSet.progress?.[card.id] !== "green"));
+  const sessionCardEligible = sessionCard && (pile === "green"
+    ? activeSet.progress[sessionCard.id] === "green"
+    : activeSet.progress[sessionCard.id] !== "green" && (order === "random" || learningGroup?.cards.some((card) => card.id === sessionCard.id)));
+  const currentCard = !session?.currentId || sessionCardEligible ? sessionCard : activeSet?.cards.find((card) =>
+    card.id === nextStudyCard(activeSet, activeSet.progress, null, order, pile).currentId);
+  const currentGroup = groups.find((group) => group.cards.some((card) => card.id === currentCard?.id)) || learningGroup;
   const blankCard = useMemo(
     () => (activeSetId ? emptyCard() : null),
     [activeSetId],
@@ -159,7 +169,7 @@ export default function FlashcardsApp() {
       setSession(null);
       setShowBack(false);
       setStudyUndo(null);
-      setPile("all");
+      setPile("red");
     }
     if (route) navigate(route);
   }
@@ -167,6 +177,27 @@ export default function FlashcardsApp() {
     setDraft({ card: emptyCard(), editing: false });
     setEditorError("");
     navigate("/sets");
+  }
+  function changeSections(sections) {
+    updateSet(activeSet.id, (set) => ({ ...set, sections }));
+    setSession(null); setStudyUndo(null);
+  }
+  function removeSection(section) {
+    const setId = activeSet.id;
+    const index = activeSet.sections.findIndex((item) => item.id === section.id);
+    const assignedIds = activeSet.cards.filter((card) => card.sectionId === section.id).map((card) => card.id);
+    updateSet(setId, (set) => ({ ...set,
+      sections: set.sections.filter((item) => item.id !== section.id),
+      cards: set.cards.map((card) => card.sectionId === section.id ? { ...card, sectionId: "" } : card),
+    }));
+    setSession(null); setStudyUndo(null);
+    if (draft?.card.sectionId === section.id) changeDraft("sectionId", "");
+    notify("Section removed. Its cards are now unsectioned.", () => updateSet(setId, (set) => {
+      const sections = [...set.sections];
+      sections.splice(Math.min(index, sections.length), 0, section);
+      return { ...set, sections, cards: set.cards.map((card) => assignedIds.includes(card.id) && !card.sectionId
+        ? { ...card, sectionId: section.id } : card) };
+    }));
   }
   function editCard(card) {
     setDraft({ card: { ...card }, editing: true });
@@ -185,6 +216,7 @@ export default function FlashcardsApp() {
     if (!activeSet) return;
     const card = {
       ...draftCard,
+      sectionId: activeSet.sections?.some((section) => section.id === draftCard.sectionId) ? draftCard.sectionId : "",
       frontText: sanitize(draftCard.frontText),
       backText: sanitize(draftCard.backText),
     };
@@ -271,7 +303,7 @@ export default function FlashcardsApp() {
       updateSet(dialog.set.id, (set) => ({ ...set, name, color }));
     else {
       draftsRef.current.set(activeSetId, draft);
-      const set = { id: uid(), name, color, cards: [], progress: {} };
+      const set = { id: uid(), name, color, cards: [], sections: [], progress: {} };
       setState((previous) => ({
         ...previous,
         sets: [...previous.sets, set],
@@ -280,7 +312,7 @@ export default function FlashcardsApp() {
       setDraft({ card: emptyCard(), editing: false });
       setSession(null);
       setBrowseIndex(0);
-      setPile("all");
+      setPile("red");
       navigate("/sets");
     }
     setDialog(null);
@@ -330,7 +362,7 @@ export default function FlashcardsApp() {
       setSession(null);
       setBrowseIndex(0);
       setBrowseBack(false);
-      setPile("all");
+      setPile("red");
       setSearch("");
       notify(
         `Imported ${incoming.sets.length} ${incoming.sets.length === 1 ? "set" : "sets"}. Your other sets are kept.`,
@@ -348,11 +380,11 @@ export default function FlashcardsApp() {
     const progress = reset
       ? Object.fromEntries(activeSet.cards.map((card) => [card.id, "red"]))
       : activeSet.progress || {};
-    if (reset) updateSet(activeSet.id, (set) => ({ ...set, progress }));
-    const selectedPile = reset ? "all" : pile;
-    setPile(selectedPile);
+    if (reset) updateSet(activeSet.id, (set) => ({ ...set, progress, studyResetId: uid() }));
+    const next = nextStudyCard(activeSet, progress, null, order, reset ? "red" : pile);
+    setPile(next.pile);
     setSession({
-      currentId: nextCard(activeSet.cards, progress, null, order, selectedPile),
+      currentId: next.currentId,
       reviewed: 0,
     });
     setShowBack(false);
@@ -361,22 +393,19 @@ export default function FlashcardsApp() {
   const rateCard = useCallback(
     (choice) => {
       if (!activeSet || !currentCard || !showBack) return;
+      if (choice === "red" && activeSet.progress[currentCard.id] === "yellow") return;
       const progress = { ...activeSet.progress, [currentCard.id]: choice };
-      setStudyUndo({ progress: activeSet.progress, session });
+      setStudyUndo({ cardId: currentCard.id, previousColor: activeSet.progress[currentCard.id] || "red", session, pile });
       setState((previous) => ({
         ...previous,
         sets: previous.sets.map((set) =>
           set.id === activeSet.id ? { ...set, progress } : set,
         ),
       }));
+      const next = nextStudyCard(activeSet, progress, currentCard.id, order, pile);
+      setPile(next.pile);
       setSession({
-        currentId: nextCard(
-          activeSet.cards,
-          progress,
-          currentCard.id,
-          order,
-          pile,
-        ),
+        currentId: next.currentId,
         reviewed: session.reviewed + 1,
       });
       setShowBack(false);
@@ -384,30 +413,40 @@ export default function FlashcardsApp() {
     [activeSet, currentCard, showBack, session, order, pile],
   );
   function selectPile(value) {
-    setPile(value);
+    const next = nextStudyCard(activeSet, activeSet.progress || {}, null, order, value);
+    setPile(next.pile);
     setShowBack(false);
     setStudyUndo(null);
     if (session)
       setSession((previous) => ({
         ...previous,
-        currentId: nextCard(
-          activeSet.cards,
-          activeSet.progress || {},
-          null,
-          order,
-          value,
-        ),
+        currentId: next.currentId,
       }));
   }
   function undoRating() {
     if (!studyUndo) return;
     updateSet(activeSet.id, (set) => ({
       ...set,
-      progress: studyUndo.progress,
+      progress: { ...set.progress, [studyUndo.cardId]: studyUndo.previousColor },
     }));
     setSession(studyUndo.session);
+    setPile(studyUndo.pile);
     setShowBack(true);
     setStudyUndo(null);
+  }
+  function changeOrder(value) {
+    setOrder(value);
+    setStudyUndo(null);
+    if (session) {
+      if (value === "random" && currentCard && activeSet.progress[currentCard.id] !== "green") {
+        setPile(activeSet.progress[currentCard.id] || "red");
+        return;
+      }
+      setShowBack(false);
+      const next = nextStudyCard(activeSet, activeSet.progress, null, value, pile === "green" ? "green" : "red");
+      setPile(next.pile);
+      setSession((previous) => ({ ...previous, currentId: next.currentId }));
+    }
   }
   useEffect(() => {
     if (location.pathname !== "/learn" || !session || !currentCard) return;
@@ -810,6 +849,7 @@ export default function FlashcardsApp() {
                   <>
                     {setHeader}
                     {setTabs}
+                    <SectionsEditor key={activeSet.id} set={activeSet} onChange={changeSections} onRemove={removeSection} />
                     <div className="editor-layout">
                       <section className="card-list-panel">
                         <div className="panel-heading">
@@ -854,6 +894,7 @@ export default function FlashcardsApp() {
                                   <strong>
                                     {plainText(card.frontText) || "Image card"}
                                   </strong>
+                                  <small className="card-section-label">{activeSet.sections?.find((section) => section.id === card.sectionId)?.name || "No section"}</small>
                                   <small>
                                     {plainText(card.backText) || "Image answer"}
                                   </small>
@@ -891,6 +932,13 @@ export default function FlashcardsApp() {
                             One idea. Two sides.
                           </span>
                         </div>
+                        <label className="field-label card-section-field">Section (optional)
+                          <select aria-label="Card section" value={draftCard.sectionId || ""}
+                            onChange={(event) => changeDraft("sectionId", event.target.value)}>
+                            <option value="">No section</option>
+                            {(activeSet.sections || []).map((section) => <option key={section.id} value={section.id}>{section.name}</option>)}
+                          </select>
+                        </label>
                         <RichEditor
                           key={`${editorKey}-front`}
                           side="Front"
@@ -1127,15 +1175,6 @@ export default function FlashcardsApp() {
                       <div className="learn-area">
                         <div className="study-settings">
                           <div className="pile-tabs" aria-label="Study pile">
-                            <button
-                              className={pile === "all" ? "selected" : ""}
-                              onClick={() => selectPile("all")}
-                            >
-                              To practice{" "}
-                              <span>
-                                {activeCounts.red + activeCounts.yellow}
-                              </span>
-                            </button>
                             {PILES.map(([color, label]) => (
                               <button
                                 key={color}
@@ -1152,13 +1191,35 @@ export default function FlashcardsApp() {
                             <select
                               aria-label="Study order"
                               value={order}
-                              onChange={(event) => setOrder(event.target.value)}
+                              onChange={(event) => changeOrder(event.target.value)}
                             >
                               <option value="ordered">In order</option>
                               <option value="random">Random</option>
                             </select>
                           </label>
+                          <button className="button restart-study" onClick={() => {
+                            startSession(true);
+                            notify("Study restarted. Every card is red again.");
+                          }}>Restart study</button>
                         </div>
+                        {!!activeSet.sections?.length && <div className="study-section-context">
+                          <strong>{order === "random" ? "All sections · Random order" : currentGroup
+                            ? `${currentGroup.name} · Section ${groups.indexOf(currentGroup) + 1} of ${groups.length}`
+                            : "All sections completed"}</strong>
+                          <p>{pile === "green" ? "Review mastered cards. Choose red or yellow to continue learning."
+                            : order === "random" ? "Mix all unfinished cards across sections."
+                            : "Make every card in this section green to unlock the next."}</p>
+                          <details className="section-progress-list">
+                            <summary>Section progress</summary>
+                            <ol>{groups.map((group, index) => {
+                              const mastered = group.cards.filter((card) => activeSet.progress[card.id] === "green").length;
+                              const locked = order === "ordered" && learningGroup && index > groups.indexOf(learningGroup);
+                              return <li key={group.id} className={group.id === currentGroup?.id ? "current-section" : ""}>
+                                <span>{group.name}</span><small>{mastered}/{group.cards.length} green{locked ? " · Locked" : mastered === group.cards.length ? " · Complete" : ""}</small>
+                              </li>;
+                            })}</ol>
+                          </details>
+                        </div>}
                         <div className="study-progress">
                           <div className="progress-track">
                             <div style={{ width: `${masteredPercent}%` }} />
@@ -1186,13 +1247,10 @@ export default function FlashcardsApp() {
                             </p>
                             <button
                               className="button primary"
-                              onClick={() =>
-                                startSession(
-                                  masteredPercent === 100 && pile === "all",
-                                )
-                              }
+                              onClick={() => masteredPercent === 100 && pile !== "green"
+                                ? startSession(true) : startSession()}
                             >
-                              {masteredPercent === 100 && pile === "all"
+                              {masteredPercent === 100 && pile !== "green"
                                 ? "Practice again"
                                 : "Start studying"}
                               <Icon name="arrow" size={17} />
@@ -1267,7 +1325,7 @@ export default function FlashcardsApp() {
                                 <button
                                   key={color}
                                   className={`rating-button ${color}`}
-                                  disabled={!showBack}
+                                  disabled={!showBack || (color === "red" && activeSet.progress[currentCard.id] === "yellow")}
                                   onClick={() => rateCard(color)}
                                 >
                                   <span className="confidence-dot" />
@@ -1281,6 +1339,7 @@ export default function FlashcardsApp() {
                                 {showBack
                                   ? "Choose the answer that feels right. Honesty helps you learn."
                                   : "Reveal the answer to rate your recall."}
+                                {showBack && activeSet.progress[currentCard.id] === "yellow" && " Yellow cards stay yellow or move to green."}
                               </span>
                               {studyUndo && (
                                 <button
@@ -1318,7 +1377,7 @@ export default function FlashcardsApp() {
                                 onClick={() =>
                                   masteredPercent === 100
                                     ? startSession(true)
-                                    : selectPile("all")
+                                    : selectPile("red")
                                 }
                               >
                                 {masteredPercent === 100

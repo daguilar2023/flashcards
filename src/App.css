@@ -1454,6 +1454,43 @@ kbd {
   gap: 10px;
   justify-content: center;
 }
+.sections-editor {
+  border: 1px solid #dce0d2;
+  background: #f6f7f0;
+  border-radius: 9px;
+  padding: 16px 20px;
+  margin-bottom: 22px;
+}
+.sections-editor summary, .section-progress-list summary { cursor: pointer; font-size: 13px; font-weight: 600; }
+.optional-label { font-weight: 400; color: #77816d; margin-left: 8px; }
+.sections-editor > p, .study-section-context p { font-size: 12px; line-height: 1.6; color: #77816d; }
+.section-edit-list, .section-progress-list ol { list-style: none; padding: 0; margin: 12px 0; }
+.section-edit-list li, .section-progress-list li {
+  display: flex; align-items: center; gap: 12px; padding: 10px 0;
+  border-bottom: 1px solid #e0e4d7; font-size: 12px; flex-wrap: wrap;
+}
+.section-edit-list li > span, .section-progress-list li > span { flex: 1; min-width: 150px; }
+.section-edit-list small, .section-progress-list small { color: #77816d; }
+.section-row-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.section-row-actions button { background: #fff; border: 1px solid #dce0d2; border-radius: 5px; padding: 6px 9px; font-size: 11px; cursor: pointer; }
+.section-row-actions button:disabled { opacity: .35; cursor: default; }
+.section-add-form { display: flex; gap: 12px; align-items: end; flex-wrap: wrap; }
+.section-add-form .field-label { flex: 1; min-width: 160px; }
+.card-section-field { margin-bottom: 22px; }
+.card-list-select .card-section-label { color: #86715d; font-size: 10px; margin: 3px 0; }
+.study-section-context { padding: 15px 18px; background: #f0f3e9; border: 1px solid #dce2d2; border-radius: 9px; margin: 18px 0; }
+.study-section-context > strong { font-size: 13px; line-height: 1.6; }
+.study-section-context p { margin: 5px 0 10px; }
+.section-progress-list .current-section { font-weight: 600; color: #536348; }
+.study-settings { flex-wrap: wrap; }
+.restart-study { font-size: 11px; padding: 9px 13px; }
+@media (max-width: 600px) {
+  .section-row-actions { width: 100%; }
+  .section-edit-list li > span { min-width: 0; }
+  .sections-editor { padding: 14px; }
+  .study-settings .order-select { margin-left: 0; }
+  .restart-study { margin-left: auto; }
+}
 .empty-state {
   margin-top: 25px;
   min-height: 380px;

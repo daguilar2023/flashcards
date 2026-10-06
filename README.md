@@ -25,6 +25,9 @@ Open the URL printed by Vite, usually http://127.0.0.1:5173. Use the same browse
 - Browse cards without changing study progress.
 - Switch Browse to **All questions & answers** to read full fronts and backs together, search them, or open any card for editing.
 - Ordered or random study, three confidence piles, saved progress, and undo for the last rating.
+- **Restart study** resets every card in the current set to red and starts again. Resets sync across devices.
+- Optional sections can be added, renamed, reordered, or removed in the Card editor. Each card can belong to a section or have no section. Removing a section keeps its cards and offers Undo.
+- Ordered study stays in the earliest unfinished section: review its red cards, then its yellow cards, until every card is green. Only then does the next section unlock. Unsectioned cards come last. Random study mixes unfinished cards across all sections and both colors. Green is available for reviewing mastered cards. Yellow cards can stay yellow or move to green.
 - Space to flip; 1, 2, and 3 to rate after revealing an answer. Shortcuts pause while typing in a field or using a dialog.
 - Unfinished card drafts survive navigation and set switches during the current app session. Save a card before refreshing or closing the tab.
 - Delete cards or sets with a temporary Undo action.
@@ -51,7 +54,7 @@ Progress from the old localhost URL stays in that browser's storage. To carry it
 
 The app includes **Android Midterm · October 8, 2026**, with 86 cards in the review sheet's order. Every main bullet and widget/layout/navigation sub-bullet is represented, including the eight reading reminders. Section counts are 6, 6, 7, 8, 24, 16, 7, and 12. Answers include relevant Java/XML practice fragments and PDF page references to the supplied professor slides (lectures 1, 2, 4, 5, 6, 7, 8, 10, 11, and 12). Supplemental explanations are labeled for gaps such as the Java compiler, R.java, ViewPager, and navigation patterns; textbook content was not added. Version answers explicitly follow the lecture table.
 
-The set installs once, alongside existing sets, without replacing their cards or progress. Edits and deliberate deletions are preserved after refreshing. Its source is `src/data/android-midterm.json`; `src/lib/midterm.js` handles the one-time installation. Use Export for a transferable backup.
+The set installs once, alongside existing sets, without replacing their cards or progress. Its 86 cards are assigned to the eight review topics as sections. Previously installed copies gain these sections once, preserving edits and ratings; deliberate unassignment is preserved afterward. Edits and deliberate deletions are preserved after refreshing. Its source is `src/data/android-midterm.json`; `src/lib/midterm.js` handles the one-time installation. Use Export for a transferable backup.
 
 ## Validation
 
@@ -65,7 +68,7 @@ npm audit
 
 Browser tests use an installed Google Chrome and isolated desktop/mobile contexts. They cover editing, draft navigation, code and images, study progression and shortcuts, old backups, HTML sanitization, storage failures, and responsive layout. Screenshots are written to `test-results/`.
 
-Sync tests exercise concurrent updates, offline recovery, updates during pending requests, cloud downloads, and hash routes. The database test runs the actual setup SQL in isolated Postgres (PGlite), checking row-level isolation, anonymous access denial, and stale-write rejection. Live cloud sync must also be verified after provisioning Supabase and signing in.
+Tests also cover ordered section completion, optional assignments, section changes, restart persistence, and merging section edits and resets across devices. Browser tests run on an isolated local port with cloud credentials disabled. Sync tests exercise concurrent updates, offline recovery, updates during pending requests, cloud downloads, and hash routes. The database test runs the actual setup SQL in isolated Postgres (PGlite), checking row-level isolation, anonymous access denial, and stale-write rejection. Live account saving and downloading were verified against the provisioned Supabase project.
 
 ## Source
 

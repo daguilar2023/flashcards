@@ -20,14 +20,21 @@ export function statePatch(before, after) {
         .filter((card) => !old || (set.progress?.[card.id] || "red") !== (old.progress?.[card.id] || "red"))
         .map((card) => [card.id, set.progress?.[card.id] || "red"])),
     };
-    for (const field of ["name", "color"]) {
+    for (const field of ["name", "color", "sectionSchemaVersion", "studyResetId"]) {
       if (!old || set[field] !== old[field]) patch.meta[field] = set[field];
+    }
+    const oldSections = new Map((old?.sections || []).map((section) => [section.id, section]));
+    patch.sections = (set.sections || []).filter((section) => !equal(section, oldSections.get(section.id)));
+    patch.removedSections = [...oldSections.keys()].filter((id) => !(set.sections || []).some((section) => section.id === id));
+    if (!equal((old?.sections || []).map((section) => section.id), (set.sections || []).map((section) => section.id))) {
+      patch.sectionOrder = (set.sections || []).map((section) => section.id);
     }
     if (!equal(set.cards.map((c) => c.id), (old?.cards || []).map((c) => c.id))) {
       patch.order = set.cards.map((c) => c.id);
     }
     if (patch.created || Object.keys(patch.meta).length || patch.cards.length ||
-        patch.removed.length || Object.keys(patch.progress).length || patch.order) {
+        patch.removed.length || Object.keys(patch.progress).length || patch.order ||
+        patch.sections.length || patch.removedSections.length || patch.sectionOrder) {
       changes.push(patch);
     }
   }
@@ -48,7 +55,13 @@ export function applyPatch(remote, patch) {
     // A stale rating alone must not resurrect a set deleted on another device.
     if (!sets.has(change.id) && !change.created) continue;
     const set = sets.get(change.id) || { id: change.id, cards: [], progress: {} };
+    const reset = change.meta.studyResetId && change.meta.studyResetId !== set.studyResetId;
     Object.assign(set, change.meta);
+    const sections = new Map((set.sections || []).filter((section) => !change.removedSections.includes(section.id))
+      .map((section) => [section.id, section]));
+    change.sections.forEach((section) => sections.set(section.id, structuredClone(section)));
+    set.sections = [...new Set([...(change.sectionOrder || [...sections.keys()]), ...sections.keys()])]
+      .filter((id) => sections.has(id)).map((id) => sections.get(id));
     const cards = new Map(set.cards.filter((card) => !change.removed.includes(card.id))
       .map((card) => [card.id, card]));
     change.cards.forEach((card) => cards.set(card.id, structuredClone(card)));
@@ -56,7 +69,7 @@ export function applyPatch(remote, patch) {
     set.cards = [...new Set([...order, ...cards.keys()])]
       .filter((id) => cards.has(id)).map((id) => cards.get(id));
     set.progress = Object.fromEntries(set.cards.map((card) => [card.id,
-      change.progress[card.id] || set.progress?.[card.id] || "red",
+      change.progress[card.id] || (reset ? "red" : set.progress?.[card.id]) || "red",
     ]));
     sets.set(set.id, set);
   }

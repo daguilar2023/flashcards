@@ -5,7 +5,7 @@ export default defineConfig({
   fullyParallel: true,
   reporter: "list",
   use: {
-    baseURL: "http://127.0.0.1:5173",
+    baseURL: "http://127.0.0.1:5182",
     channel: "chrome",
     trace: "retain-on-failure",
   },
@@ -23,8 +23,9 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "node node_modules/vite/bin/vite.js --host 127.0.0.1",
-    url: "http://127.0.0.1:5173",
-    reuseExistingServer: true,
+    command: "node node_modules/vite/bin/vite.js --host 127.0.0.1 --port 5182 --strictPort",
+    url: "http://127.0.0.1:5182",
+    env: { VITE_SUPABASE_URL: "", VITE_SUPABASE_PUBLISHABLE_KEY: "" },
+    reuseExistingServer: false,
   },
 });
