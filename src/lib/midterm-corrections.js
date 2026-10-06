@@ -12,7 +12,8 @@ export function correctMidtermContent(set) {
       const replacement = midterm.cards.find((item) => item.id === card.id);
       const corrected = { ...card };
       for (const field of ["frontText", "backText"]) {
-        if (card[field] === old[field]) corrected[field] = replacement[field];
+        const previous = Array.isArray(old[field]) ? old[field] : [old[field]];
+        if (previous.includes(card[field])) corrected[field] = replacement[field];
       }
       return corrected;
     }),

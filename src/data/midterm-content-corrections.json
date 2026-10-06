@@ -1,6 +1,9 @@
 {
   "android-midterm-2026-036": {
-    "frontText": "<p><span class=\"topic-label\">5. Views and Widgets</span></p><p>Describe in general the purpose and basic characteristics of:</p>",
+    "frontText": [
+      "<p><span class=\"topic-label\">5. Views and Widgets</span></p><p>Describe in general the purpose and basic characteristics of:</p>",
+      "<p><span class=\"topic-label\">5. Views and Widgets</span></p><p>Describe the purpose and basic characteristics of these Android widgets: TextView, EditText, Button, ImageView, Spinner, CheckBox, RadioButton and RadioGroup, DatePicker, AnalogClock and TextClock, VideoView, ViewPager, and ProgressBar.</p>"
+    ],
     "backText": "<p>The following twelve cards cover the widgets in this bullet’s list: TextView, EditText, Button, ImageView, Spinner, CheckBox, RadioButton/RadioGroup, DatePicker, AnalogClock/TextClock, VideoView, ViewPager, and ProgressBar.</p><p>For each, be able to say what it displays or accepts, how the user interacts with it, and the important property or method illustrated by the lecture. The individual cards include relevant examples.</p><p><em>Slides: 7, pp. 7–111; 11, p. 87; 12, p. 75. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>"
   },
   "android-midterm-2026-055": {

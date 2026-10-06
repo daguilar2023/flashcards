@@ -196,7 +196,11 @@ test("content corrections reach an existing cloud set once and preserve personal
     const old = structuredClone(local);
     delete old.sets[0].studyContentVersion;
     for (const card of old.sets[0].cards) {
-      if (originals[card.id]) Object.assign(card, originals[card.id]);
+      if (originals[card.id]) {
+        for (const [field, text] of Object.entries(originals[card.id])) {
+          card[field] = Array.isArray(text) ? text.at(-1) : text;
+        }
+      }
     }
     const widgets = old.sets[0].cards.find((card) => card.id.endsWith("-036"));
     const layouts = old.sets[0].cards.find((card) => card.id.endsWith("-055"));
@@ -233,5 +237,5 @@ test("content corrections reach an existing cloud set once and preserve personal
   expect(result.layouts.sectionId).toBe("");
   expect(result.progress[result.widgets.id]).toBe("yellow");
   expect(result.progress[result.layouts.id]).toBe("green");
-  expect(result.revision).toBe(1);
+  expect(result.revision).toBe(2);
 });

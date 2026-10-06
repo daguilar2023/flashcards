@@ -321,7 +321,7 @@
     {
       "id": "android-midterm-2026-036",
       "topic": "5. Views and Widgets",
-      "frontText": "<p><span class=\"topic-label\">5. Views and Widgets</span></p><p>Describe the purpose and basic characteristics of these Android widgets: TextView, EditText, Button, ImageView, Spinner, CheckBox, RadioButton and RadioGroup, DatePicker, AnalogClock and TextClock, VideoView, ViewPager, and ProgressBar.</p>",
+      "frontText": "<p><span class=\"topic-label\">5. Views and Widgets</span></p><p>Describe the purpose and basic characteristics of these Android widgets:</p><ul class=\"prompt-list\"><li>TextView</li><li>EditText</li><li>Button</li><li>ImageView</li><li>Spinner</li><li>CheckBox</li><li>RadioButton and RadioGroup</li><li>DatePicker</li><li>AnalogClock and TextClock</li><li>VideoView</li><li>ViewPager</li><li>ProgressBar</li></ul>",
       "backText": "<p>These are the widgets named in the midterm review:</p><ul><li><strong>TextView:</strong> Displays text such as a label or result; text can be set in XML or changed in Java.</li><li><strong>EditText:</strong> Accepts editable user input; hint prompts the user and inputType configures the expected input.</li><li><strong>Button:</strong> Triggers an action when clicked, commonly through an OnClickListener.</li><li><strong>ImageView:</strong> Displays a drawable image; src chooses it and scaleType controls how it fits.</li><li><strong>Spinner:</strong> Shows the selected item and lets the user choose from a list, supplied through entries or an adapter.</li><li><strong>CheckBox:</strong> An independent checked/unchecked option; multiple CheckBoxes may be checked.</li><li><strong>RadioButton and RadioGroup:</strong> Mutually exclusive choices: selecting one RadioButton in a RadioGroup clears the previous selection.</li><li><strong>DatePicker:</strong> Lets the user select a year, month, and day; supports calendar and spinner presentations.</li><li><strong>AnalogClock and TextClock:</strong> Display the current time with hour/minute hands or formatted text, respectively. TextClock supports 12/24-hour formats and a time zone.</li><li><strong>VideoView:</strong> Displays and plays video; a MediaController supplies playback controls.</li><li><strong>ViewPager:</strong> Presents pages the user moves between by swiping, supplied through an adapter. Supplemental: the slides mention paging but do not explain it in detail.</li><li><strong>ProgressBar:</strong> Indicates work in progress. Indeterminate mode shows ongoing work with an unknown completion amount; determinate mode uses max and progress to show a known amount.</li></ul><p><em>Slides: 7, pp. 7–111; 11, p. 87; 12, p. 75. PDF page numbers count the cover as page 1. Code examples are practice adaptations of the slide concepts.</em></p>",
       "frontImage": "",
       "backImage": "",
@@ -901,5 +901,5 @@
     }
   ],
   "sectionSchemaVersion": 1,
-  "studyContentVersion": 1
+  "studyContentVersion": 2
 }
