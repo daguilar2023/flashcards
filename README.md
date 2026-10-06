@@ -52,9 +52,9 @@ Progress from the old localhost URL stays in that browser's storage. To carry it
 
 ## Android midterm study set
 
-The app includes **Android Midterm · October 8, 2026**, with 86 cards in the review sheet's order. Every main bullet and widget/layout/navigation sub-bullet is represented, including the eight reading reminders. Section counts are 6, 6, 7, 8, 24, 16, 7, and 12. Answers include relevant Java/XML practice fragments and PDF page references to the supplied professor slides (lectures 1, 2, 4, 5, 6, 7, 8, 10, 11, and 12). Supplemental explanations are labeled for gaps such as the Java compiler, R.java, ViewPager, and navigation patterns; textbook content was not added. Version answers explicitly follow the lecture table.
+The app includes **Android Midterm · October 8, 2026**, with 86 review cards plus four XML layout practice cards in the review sheet's order. Every main bullet and widget/layout/navigation sub-bullet is represented, including the eight reading reminders. Section counts are 6, 6, 7, 8, 24, 20, 7, and 12. Answers include relevant Java/XML practice fragments and PDF page references to the supplied professor slides (lectures 1, 2, 4, 5, 6, 7, 8, 10, 11, and 12). Supplemental explanations are labeled for gaps such as the Java compiler, R.java, ViewPager, and navigation patterns; textbook content was not added. Version answers explicitly follow the lecture table.
 
-The set installs once, alongside existing sets, without replacing their cards or progress. Its 86 cards are assigned to the eight review topics as sections. Previously installed copies gain these sections once, preserving edits and ratings; deliberate unassignment is preserved afterward. Edits and deliberate deletions are preserved after refreshing. Its source is `src/data/android-midterm.json`; `src/lib/midterm.js` handles the one-time installation. Bundled overview cards are self-contained; a versioned content repair updates only unchanged original text in existing local and cloud copies, preserving personal edits, deletions, assignments, and ratings. Use Export for a transferable backup.
+The set installs once, alongside existing sets, without replacing their cards or progress. Its 90 cards are assigned to the eight review topics as sections. Previously installed copies gain these sections once, preserving edits and ratings; deliberate unassignment is preserved afterward. Edits and deliberate deletions are preserved after refreshing. Its source is `src/data/android-midterm.json`; `src/lib/midterm.js` handles the one-time installation. Bundled overview cards are self-contained; a versioned content repair updates only unchanged original text in existing local and cloud copies, preserving personal edits, deletions, assignments, and ratings. Use Export for a transferable backup.
 
 ## Validation
 
@@ -77,3 +77,5 @@ Tests also cover ordered section completion, optional assignments, section chang
 - `src/lib/model.js`: validation, sanitization, progress, and traversal.
 - `src/lib/storage.js`: backward-compatible loading and queued persistence.
 - `src/App.css` and `src/index.css`: app styling and responsive layouts.
+
+Four original XML layout practice cards (easy and semi-difficult LinearLayout and ConstraintLayout) follow review card 060. Each has a generated diagram, full XML solution, and slide-based explanation. Existing copies install these once with red ratings while preserving prior progress and edits; removed practice cards stay removed.

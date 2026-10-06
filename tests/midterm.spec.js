@@ -9,19 +9,19 @@ async function open(page, route = "/") {
   await expect(page.locator(".local-status")).toContainText("Saved on this device");
 }
 
-test("default midterm covers all 86 bullets and saves the review order", async ({ page }, testInfo) => {
+test("default midterm covers the review bullets plus four layout exercises in order", async ({ page }, testInfo) => {
   await open(page);
   const state = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)), key);
   expect(state.sets).toHaveLength(1);
   const set = state.sets[0];
   expect(set.id).toBe(midterm.id);
-  expect(set.cards).toHaveLength(86);
+  expect(set.cards).toHaveLength(90);
   expect(set.cards.map((card) => card.id)).toEqual(midterm.cards.map((card) => card.id));
   expect(set.cards.every((card) => card.frontText && card.backText && set.progress[card.id] === "red")).toBe(true);
   expect(set.cards.reduce((groups, card) => {
     groups[card.topic[0]] = (groups[card.topic[0]] || 0) + 1;
     return groups;
-  }, {})).toEqual({ 1: 6, 2: 6, 3: 7, 4: 8, 5: 24, 6: 16, 7: 7, 8: 12 });
+  }, {})).toEqual({ 1: 6, 2: 6, 3: 7, 4: 8, 5: 24, 6: 20, 7: 7, 8: 12 });
   await page.reload();
   await expect(page.locator(".deck-card")).toHaveCount(1);
   await page.screenshot({ path: `test-results/midterm-library-${testInfo.project.name}.png`, fullPage: true });
@@ -32,7 +32,7 @@ test("complete question/answer view shows code and supports direct editing", asy
   page.on("pageerror", (error) => errors.push(error.message));
   await open(page, "/browse");
   await page.getByRole("button", { name: "All questions & answers", exact: true }).click();
-  await expect(page.locator(".answer-sheet-card")).toHaveCount(86);
+  await expect(page.locator(".answer-sheet-card")).toHaveCount(90);
   await page.getByLabel("Search questions and answers").fill("For Linear and Constraint layouts");
   await expect(page.locator(".answer-sheet-card")).toHaveCount(1);
   await expect(page.locator(".answer-sheet-back pre")).toHaveCount(2);
@@ -47,7 +47,7 @@ test("complete question/answer view shows code and supports direct editing", asy
   await expect(page.locator(".local-status")).toContainText("Saved on this device");
   await page.reload();
   const saved = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)), key);
-  expect(saved.sets[0].cards).toHaveLength(86);
+  expect(saved.sets[0].cards).toHaveLength(90);
   expect(saved.sets[0].cards.find((card) => card.backText.includes("My revised layout answer"))).toBeTruthy();
   expect(errors).toEqual([]);
 });

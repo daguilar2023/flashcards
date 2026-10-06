@@ -161,6 +161,9 @@ test("legacy cloud midterm sections migrate and save once without changing ratin
     const old = structuredClone(local);
     delete old.sets[0].sections;
     delete old.sets[0].sectionSchemaVersion;
+    delete old.sets[0].layoutPracticeVersion;
+    old.sets[0].studyContentVersion = 2;
+    old.sets[0].cards = old.sets[0].cards.filter((card) => !card.practiceExercise);
     old.sets[0].cards.forEach((card) => { delete card.sectionId; });
     old.sets[0].progress[old.sets[0].cards[0].id] = "green";
     // Deliberate user deletion must survive the upgrade.
@@ -183,7 +186,7 @@ test("legacy cloud midterm sections migrate and save once without changing ratin
     return { writes, sections: set.sections.length, assigned: set.cards.every((card) => card.sectionId),
       cards: set.cards.length, color: set.progress[set.cards[0].id], version: set.sectionSchemaVersion };
   });
-  expect(result).toEqual({ writes: 1, sections: 8, assigned: true, cards: 85, color: "green", version: 1 });
+  expect(result).toEqual({ writes: 1, sections: 8, assigned: true, cards: 89, color: "green", version: 1 });
 });
 
 test("content corrections reach an existing cloud set once and preserve personal edits and ratings", async ({ page }) => {
@@ -229,7 +232,7 @@ test("content corrections reach an existing cloud set once and preserve personal
       revision: set.studyContentVersion };
   });
   expect(result.writes).toBe(1);
-  expect(result.cards).toBe(85);
+  expect(result.cards).toBe(89);
   expect(result.widgets.frontText).toContain("ProgressBar");
   expect(result.widgets.backText).toContain("Displays text");
   expect(result.layouts.frontText).toContain("ConstraintLayout");
@@ -237,5 +240,5 @@ test("content corrections reach an existing cloud set once and preserve personal
   expect(result.layouts.sectionId).toBe("");
   expect(result.progress[result.widgets.id]).toBe("yellow");
   expect(result.progress[result.layouts.id]).toBe("green");
-  expect(result.revision).toBe(2);
+  expect(result.revision).toBe(3);
 });

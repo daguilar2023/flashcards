@@ -48,7 +48,7 @@ export class CloudSync {
       const needsSectionUpgrade = row?.state.sets?.some((set) =>
         set.id === MIDTERM_SET_ID && !set.sectionSchemaVersion);
       const needsContentUpgrade = row?.state.sets?.some((set) =>
-        set.id === MIDTERM_SET_ID && !(set.studyContentVersion >= midterm.studyContentVersion));
+        set.id === MIDTERM_SET_ID && (!(set.studyContentVersion >= midterm.studyContentVersion) || !set.layoutPracticeVersion));
       if (!changes) {
         // First login carries meaningful guest changes, but never downgrades
         // cloud ratings just because this device has untouched red defaults.

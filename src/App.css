@@ -1238,6 +1238,17 @@
   margin-bottom: 20px;
   border-radius: 7px;
 }
+.card-content:has(.layout-practice-prompt) .card-image {
+  width: min(100%, 760px);
+  max-height: none;
+  height: auto;
+}
+.card-content .rich-content .layout-practice-prompt {
+  font-size: 17px;
+  line-height: 1.6;
+  letter-spacing: 0;
+  text-align: left;
+}
 .flip-button {
   display: flex;
   align-items: center;
