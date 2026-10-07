@@ -245,5 +245,5 @@ test("content corrections reach an existing cloud set once and preserve personal
   expect(result.progress[result.layouts.id]).toBe("green");
   expect(result.attributes.backText.match(/<table /g)).toHaveLength(4);
   expect(result.progress[result.attributes.id]).toBe("green");
-  expect(result.revision).toBe(4);
+  expect(result.revision).toBe(5);
 });

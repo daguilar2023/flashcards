@@ -128,7 +128,7 @@ test("overview questions name their subjects and answers stand alone", async ({ 
   await expect(page.locator(".answer-sheet-back")).toContainText("Supplemental");
   await page.getByLabel("Search questions and answers").fill("Describe the main principles governing placement");
   await expect(page.locator(".answer-sheet-front")).toContainText("ConstraintLayout");
-  await page.getByLabel("Search questions and answers").fill("Describe these navigational patterns");
+  await page.getByLabel("Search questions and answers").fill("these basic navigational patterns");
   await expect(page.locator(".answer-sheet-back")).toContainText("Lateral moves between sibling destinations");
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
