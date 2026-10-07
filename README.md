@@ -79,3 +79,5 @@ Tests also cover ordered section completion, optional assignments, section chang
 - `src/App.css` and `src/index.css`: app styling and responsive layouts.
 
 Four original XML layout practice cards (easy and semi-difficult LinearLayout and ConstraintLayout) follow review card 060. Each has a generated diagram, full XML solution, and slide-based explanation. Existing copies install these once with red ratings while preserving prior progress and edits; removed practice cards stay removed.
+
+The layout attributes review card includes one semantic table per layout, with parent/child scope, example values, and meanings drawn from Lecture 11. Tables scroll sideways on narrow screens and survive editing, exports, and cloud sync. Content version 4 upgrades the unchanged original answer while preserving personal edits and progress.

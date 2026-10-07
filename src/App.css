@@ -2395,6 +2395,83 @@ kbd {
 }
 
 /* Full answers and code remain readable in both review and study views. */
+.rich-content .attribute-table-scroll {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  margin: 28px 0 18px;
+  border: 1px solid #d9ddcf;
+  border-radius: 10px;
+  -webkit-overflow-scrolling: touch;
+}
+.rich-content .attribute-table-scroll:focus-visible {
+  outline: 2px solid #53634a;
+  outline-offset: 3px;
+}
+.rich-content .attribute-table {
+  width: 100%;
+  min-width: 620px;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: left;
+}
+.rich-content .attribute-table caption {
+  padding: 15px 16px;
+  background: #f1f3eb;
+  color: #354331;
+  font-size: 19px;
+  font-weight: 700;
+  text-align: left;
+}
+.rich-content .attribute-table th,
+.rich-content .attribute-table td {
+  padding: 12px;
+  vertical-align: top;
+  border-top: 1px solid #d9ddcf;
+  border-right: 1px solid #d9ddcf;
+  overflow-wrap: anywhere;
+}
+.rich-content .attribute-table th:last-child,
+.rich-content .attribute-table td:last-child {
+  border-right: 0;
+}
+.rich-content .attribute-table thead th {
+  background: #53634a;
+  color: #fff;
+  font-weight: 650;
+}
+.rich-content .attribute-table th:nth-child(1) { width: 28%; }
+.rich-content .attribute-table th:nth-child(2) { width: 18%; }
+.rich-content .attribute-table th:nth-child(3) { width: 22%; }
+.rich-content .attribute-table th:nth-child(4) { width: 32%; }
+.rich-content .attribute-table tbody th {
+  font-weight: 550;
+}
+.rich-content .attribute-table tbody tr:nth-child(even) {
+  background: #f7f8f3;
+}
+.rich-content .attribute-table code {
+  font-size: 12px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  padding: 0;
+  background: transparent;
+}
+.rich-content .attribute-note {
+  padding: 12px 15px;
+  border-left: 3px solid #87966e;
+  background: #f7f8f3;
+  border-radius: 0 6px 6px 0;
+  font-size: 14px;
+  line-height: 1.75;
+}
+.rich-content .attribute-scroll-tip {
+  color: #6c755f;
+  font-size: 12px;
+}
 .topic-label {
   display: block;
   color: #6c7a60;

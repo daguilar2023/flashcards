@@ -207,10 +207,12 @@ test("content corrections reach an existing cloud set once and preserve personal
     }
     const widgets = old.sets[0].cards.find((card) => card.id.endsWith("-036"));
     const layouts = old.sets[0].cards.find((card) => card.id.endsWith("-055"));
+    const attributes = old.sets[0].cards.find((card) => card.id.endsWith("-061"));
     layouts.backText = "My personal answer";
     layouts.sectionId = "";
     old.sets[0].progress[widgets.id] = "yellow";
     old.sets[0].progress[layouts.id] = "green";
+    old.sets[0].progress[attributes.id] = "green";
     old.sets[0].cards = old.sets[0].cards.filter((card) => !card.id.endsWith("-077"));
     let row = { state: old, version: 50 }, writes = 0;
     const client = {
@@ -229,6 +231,7 @@ test("content corrections reach an existing cloud set once and preserve personal
     const set = row.state.sets[0];
     return { writes, cards: set.cards.length, widgets: set.cards.find((card) => card.id === widgets.id),
       layouts: set.cards.find((card) => card.id === layouts.id), progress: set.progress,
+      attributes: set.cards.find((card) => card.id === attributes.id),
       revision: set.studyContentVersion };
   });
   expect(result.writes).toBe(1);
@@ -240,5 +243,7 @@ test("content corrections reach an existing cloud set once and preserve personal
   expect(result.layouts.sectionId).toBe("");
   expect(result.progress[result.widgets.id]).toBe("yellow");
   expect(result.progress[result.layouts.id]).toBe("green");
-  expect(result.revision).toBe(3);
+  expect(result.attributes.backText.match(/<table /g)).toHaveLength(4);
+  expect(result.progress[result.attributes.id]).toBe("green");
+  expect(result.revision).toBe(4);
 });
