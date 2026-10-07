@@ -21,6 +21,9 @@ test("layout tables show parent/child scope, stay within the screen, and survive
   await expect(linear.getByRole("row").filter({ hasText: "android:layout_weight" })).toContainText("Child view");
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   const region = page.getByRole("region", { name: "LinearLayout attributes; scroll sideways if needed", exact: true });
+  if (testInfo.project.name === "desktop") {
+    expect(await region.evaluate((el) => el.scrollWidth <= el.clientWidth)).toBe(true);
+  }
   if (await region.evaluate((el) => el.scrollWidth > el.clientWidth)) {
     await region.press("ArrowRight");
     await expect.poll(() => region.evaluate((el) => el.scrollLeft)).toBeGreaterThan(0);

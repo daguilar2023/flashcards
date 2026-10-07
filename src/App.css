@@ -2541,6 +2541,13 @@ kbd {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
 }
+.answer-sheet-card:has(.attribute-table) .answer-sheet-sides {
+  grid-template-columns: minmax(0, 1fr);
+}
+.answer-sheet-card:has(.attribute-table) .answer-sheet-front {
+  border-right: 0;
+  border-bottom: 1px solid var(--border);
+}
 .answer-sheet-front,
 .answer-sheet-back {
   min-width: 0;
