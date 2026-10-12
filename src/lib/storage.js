@@ -1,6 +1,6 @@
 import Dexie from "dexie";
 import { normalizeState } from "./model";
-import { withMidtermSet } from "./midterm";
+import { withStudySets } from "./study-sets";
 
 const db = new Dexie("flashcardsDB");
 db.version(1).stores({ kv: "key" });
@@ -45,7 +45,7 @@ export async function loadState() {
     candidates.sort((a, b) => b.savedAt - a.savedAt);
     lastSavedAt = candidates[0].savedAt;
     return {
-      state: withMidtermSet(candidates[0].state),
+      state: withStudySets(candidates[0].state),
       warning: databaseUnavailable ? "Using browser backup storage." : "",
     };
   }
@@ -58,7 +58,7 @@ export async function loadState() {
         ? "Saved data could not be read. Import a backup to recover your cards."
         : "Local database unavailable. Refresh to retry, or import a backup.",
     };
-  return { state: withMidtermSet({ sets: [], activeSetId: null }), warning: "" };
+  return { state: withStudySets({ sets: [], activeSetId: null }), warning: "" };
 }
 export function saveState(state) {
   const operation = async () => {

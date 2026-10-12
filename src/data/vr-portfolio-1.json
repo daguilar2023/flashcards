@@ -1,0 +1,536 @@
+{
+  "id": "vr-portfolio-1-fall-2026",
+  "name": "VR Portfolio 1 — Personalized Quiz",
+  "color": "blue",
+  "studyContentVersion": 1,
+  "sourceGuide": "QUIZ_GUIDE.md",
+  "sourceCommit": "751e0837db920eddaefa3eb86802f6f9ce9159b8",
+  "sections": [
+    {
+      "id": "vr-portfolio-1-demo-1",
+      "name": "Demo 1 — Ferris wheel: graphics & transforms"
+    },
+    {
+      "id": "vr-portfolio-1-demo-2",
+      "name": "Demo 2 — Table tennis: physics & tracking"
+    },
+    {
+      "id": "vr-portfolio-1-demo-3",
+      "name": "Demo 3 — Fire response: procedure & manipulation"
+    },
+    {
+      "id": "vr-portfolio-1-demo-4",
+      "name": "Demo 4 — Warehouse hunt: locomotion & comfort"
+    }
+  ],
+  "cards": [
+    {
+      "id": "vr-portfolio-1-demo-1-summary",
+      "sectionId": "vr-portfolio-1-demo-1",
+      "topic": "Demo 1 — Ferris wheel: graphics & transforms",
+      "summaryCard": true,
+      "frontText": "<p><span class=\"topic-label\">Demo 1 — Ferris wheel: graphics &amp; transforms</span></p><p>What was Demo 1 about? Give a brief summary.</p>",
+      "backText": "<p>My first demo was a level-gondola Ferris wheel showing transform hierarchies, authored textures and lighting, with ground and rider views.</p><ul><li>A code-driven turntable, spinning wheel, counter-rotating cabin pivot and rocking seat demonstrate <strong>parent–child transforms</strong>. The pivot’s <strong>−θ</strong> cancels the wheel’s <strong>+θ</strong>, keeping cabins upright.</li><li>A custom cabin uses <strong>UV coordinates, colour, normal and emission maps</strong>. Day/night, light types and shadows demonstrate appearance and rendering cost.</li><li>The <strong>rider camera is attached to the seat</strong>. The real corrected bug was <strong>inward normals/winding</strong>; the B leveling fault is deliberate.</li><li>This demo is <strong>desktop WebGL using Three.js</strong>, not the native Unity app or an immersive Quest demo.</li></ul><p><em>Implementation: Demo1_Ride/main.js; Demo1_Ride/cabin.js.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-1-q01",
+      "sectionId": "vr-portfolio-1-demo-1",
+      "topic": "Demo 1 — Ferris wheel: graphics & transforms",
+      "guideQuestion": "How do the gondolas remain level?",
+      "frontText": "<p><span class=\"topic-label\">Demo 1 — Ferris wheel: graphics &amp; transforms</span></p><p>How do the gondolas remain level?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>The wheel rotates by +θ, and its child leveling pivot rotates by −θ. The rotations cancel, so the cabin stays upright while still moving around the wheel.</p><h3>How our project does it</h3><p>The wheel adds θ around local Z; the leveling pivot, its child, adds −θ. Parent and child rotations compose to zero roll. The platform only yaws about vertical. The cabin still inherits the wheel's orbital position. The seat has its own small rocking X rotation. The HUD checks the cabin's world up-vector against world vertical.</p><h3>Understand the idea</h3><ul><li><strong>Local rotation</strong> means rotation relative to the parent; <strong>world rotation</strong> includes every ancestor. If the wheel adds 60° and the pivot adds −60°, the cabin has 0° roll.</li><li>Counter-rotation cancels orientation, <strong>not orbital position</strong>. The cabin is attached at the rim and still rides around it.</li><li>The turntable yaws about vertical, so the cancellation concerns the wheel’s roll; it is not a general rule that every 3D rotation commutes. The seat can rock inside a level cabin.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo1_Ride/main.js; Demo1_Ride/cabin.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-1-q02",
+      "sectionId": "vr-portfolio-1-demo-1",
+      "topic": "Demo 1 — Ferris wheel: graphics & transforms",
+      "guideQuestion": "Why use a hierarchy instead of assigning world positions?",
+      "frontText": "<p><span class=\"topic-label\">Demo 1 — Ferris wheel: graphics &amp; transforms</span></p><p>Why use a hierarchy instead of assigning world positions?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>A hierarchy defines children in their parents’ coordinate frames, so moving a parent carries its entire subtree. Our rider camera inherits the turntable, wheel, compensated cabin and rocking seat motion.</p><h3>How our project does it</h3><p>Child coordinates are defined in their parent's frame. Changing a parent automatically carries the whole attached subtree. In rider view, the camera is actually parented to the rocking seat; it inherits all ancestor movement. <code>getWorldQuaternion</code> queries the composed rotation, while <code>.rotation</code> changes a local rotation.</p><h3>Understand the idea</h3><ul><li>Think of a passenger sitting in a seat inside a cabin: moving the cabin moves the seat and passenger without separately calculating every world position.</li><li>Our chain is <strong>Turntable → Wheel → LevelingPivot → Cabin → RockingSeat → Camera</strong>. This makes ownership and inherited motion explicit.</li><li><code>.rotation</code> sets a local rotation; <code>getWorldQuaternion()</code> reads the combined world orientation. A quaternion is an orientation representation, not a new physical force.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo1_Ride/main.js; Demo1_Ride/cabin.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-1-q03",
+      "sectionId": "vr-portfolio-1-demo-1",
+      "topic": "Demo 1 — Ferris wheel: graphics & transforms",
+      "guideQuestion": "What breaks when compensation is removed?",
+      "frontText": "<p><span class=\"topic-label\">Demo 1 — Ferris wheel: graphics &amp; transforms</span></p><p>What breaks when compensation is removed?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>Removing the pivot’s −θ compensation lets the cabin inherit the wheel’s roll, so it tips instead of remaining level. B deliberately toggles this diagnostic fault.</p><h3>How our project does it</h3><p>The pivot's local roll becomes zero, so its world roll is the wheel's angle. Cabins tip. B intentionally injects this failure; it is not a discovered real-world hardware bug.</p><h3>Understand the idea</h3><ul><li>A child with 0° <strong>local</strong> roll is not necessarily upright in the <strong>world</strong>: its parent may already be rotated.</li><li>If the wheel is at 90° and the pivot is at 0°, the cabin also has 90° world roll. Restoring −90° cancels it.</li><li>This is a <strong>deliberately injected fault</strong>. The inward-normal bug was the separate, genuinely discovered modeling error.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo1_Ride/main.js; Demo1_Ride/cabin.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-1-q04",
+      "sectionId": "vr-portfolio-1-demo-1",
+      "topic": "Demo 1 — Ferris wheel: graphics & transforms",
+      "guideQuestion": "How is your own model unwrapped?",
+      "frontText": "<p><span class=\"topic-label\">Demo 1 — Ferris wheel: graphics &amp; transforms</span></p><p>How is your own model unwrapped?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>The custom cabin’s four wall quads each occupy one-quarter of the texture’s U range, with V running bottom-to-top. Separate wall vertices allow independent UVs and face normals.</p><h3>How our project does it</h3><p><code>cabin.js</code> authors four tapered wall quads. Each wall's four UV corners occupy a quarter of the texture's U axis, with V from bottom to top. Adjacent geometric walls have separate vertices so they can have separate normal/UV values. Each quad is two indexed triangles. Floor/roof are separate meshes.</p><h3>Understand the idea</h3><ul><li><strong>UV coordinates</strong> are 2D addresses on a texture. U is horizontal and V is vertical; a 3D wall’s vertices tell the renderer which pixels to stretch across it.</li><li>Wall 0 uses U=0–0.25, wall 1 uses 0.25–0.5, wall 2 uses 0.5–0.75 and wall 3 uses 0.75–1. Each wall consists of <strong>two triangles</strong>.</li><li>Duplicating corner vertices across wall boundaries permits a UV seam and a different surface normal for each flat wall. The floor and roof are separate meshes.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo1_Ride/main.js; Demo1_Ride/cabin.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-1-q05",
+      "sectionId": "vr-portfolio-1-demo-1",
+      "topic": "Demo 1 — Ferris wheel: graphics & transforms",
+      "guideQuestion": "What does a normal map change?",
+      "frontText": "<p><span class=\"topic-label\">Demo 1 — Ferris wheel: graphics &amp; transforms</span></p><p>What does a normal map change?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>A normal map perturbs the lighting normal to create the appearance of surface detail without changing geometry. Our corrugation normal map changes highlights; the emission map makes selected strips appear bright.</p><h3>How our project does it</h3><p>It changes the normal used in lighting, not the silhouette or geometry. RGB stores tangent-space directions and is interpreted as linear data. The corrugation texture changes visible highlights. An emission map marks a strip as bright; it does not illuminate surrounding geometry in this renderer.</p><h3>Understand the idea</h3><ul><li>A <strong>normal</strong> is a direction perpendicular to a surface. Lighting uses it to decide how the surface faces the light.</li><li><strong>Tangent-space</strong> normal-map RGB encodes direction relative to the textured surface. It is linear vector data, not colour that should receive an sRGB colour conversion.</li><li>The cabin can look ridged while keeping the same silhouette and triangle count. <strong>Emission does not cast light onto nearby surfaces</strong> in this renderer; the point/spot lights do that.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo1_Ride/main.js; Demo1_Ride/cabin.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-1-q06",
+      "sectionId": "vr-portfolio-1-demo-1",
+      "topic": "Demo 1 — Ferris wheel: graphics & transforms",
+      "guideQuestion": "Which light is which?",
+      "frontText": "<p><span class=\"topic-label\">Demo 1 — Ferris wheel: graphics &amp; transforms</span></p><p>Which light is which?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>Directional light models sunlight, point light radiates around the wheel, spotlight illuminates a cone at the loading area, and hemisphere light supplies ambient fill. Diffuse shading depends on light-facing direction; specular highlights also depend on viewing direction and material.</p><h3>How our project does it</h3><p>Directional: roughly parallel sunlight. Point: light radiating around the wheel, with distance attenuation. Spot: light in a cone toward the loading area. Hemisphere is the ambient fill. Diffuse responds to the surface/light angle; specular depends on view direction and roughness/metalness.</p><h3>Understand the idea</h3><ul><li><strong>Directional:</strong> approximately parallel rays. <strong>Point:</strong> rays spread from a position and weaken with distance. <strong>Spot:</strong> a position plus a restricted cone.</li><li><strong>Diffuse</strong> is the broad lit appearance; <strong>specular</strong> is the shiny highlight. Our standard PBR materials use roughness and metalness to control the appearance.</li><li>Moving the viewpoint can move a specular highlight even when the object and light stay still. A bright emission strip and a real light source are different things.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo1_Ride/main.js; Demo1_Ride/cabin.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-1-q07",
+      "sectionId": "vr-portfolio-1-demo-1",
+      "topic": "Demo 1 — Ferris wheel: graphics & transforms",
+      "guideQuestion": "What do shadows cost?",
+      "frontText": "<p><span class=\"topic-label\">Demo 1 — Ferris wheel: graphics &amp; transforms</span></p><p>What do shadows cost?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>A shadow-casting light needs an additional depth-map render before the main view. Our day directional light uses 1024², the night spotlight uses 512², and the point light’s shadows are disabled to avoid six cube-map faces.</p><h3>How our project does it</h3><p>A shadow-casting light renders another view of shadow-casting geometry to a depth map before the main view. Directional uses one 1024² map by day; spotlight uses one 512² map at night. The point light does not cast shadows because its cube map would need six faces. H allows a live comparison; the HUD reports actual draw calls.</p><h3>Understand the idea</h3><ul><li>A <strong>shadow map</strong> records the nearest surfaces seen from a light. The main render compares against that depth to decide whether another surface blocks the light.</li><li>Higher resolution can sharpen shadows but uses more memory/rendering work. More shadow-casting lights add work.</li><li>Shared geometry/materials reduce duplication, but <strong>sharing alone is not instanced rendering</strong> and does not automatically eliminate draw calls. The HUD shows actual draw calls/FPS.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo1_Ride/main.js; Demo1_Ride/cabin.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-1-q08",
+      "sectionId": "vr-portfolio-1-demo-1",
+      "topic": "Demo 1 — Ferris wheel: graphics & transforms",
+      "guideQuestion": "What real error was fixed?",
+      "frontText": "<p><span class=\"topic-label\">Demo 1 — Ferris wheel: graphics &amp; transforms</span></p><p>What real error was fixed?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>The authored cabin initially had inward-facing normals and reversed triangle winding. A normal-dot-outward-direction test found the sign error; reversing cross-product order and triangle indices fixed it.</p><h3>How our project does it</h3><p>The authored wall normals/winding initially pointed inward because the cross-product order was reversed. A face-normal dot outward-position test exposed it. Reversing the operands and triangle indices fixed it. Tests now check normal direction, winding and UV ranges. Double-sided rendering can conceal this sort of mistake, so an explicit check matters.</p><h3>Understand the idea</h3><ul><li><strong>Triangle winding</strong> is the vertex order used to define the triangle’s front face. <strong>Cross-product order</strong> controls the normal’s direction: swapping operands reverses it.</li><li>The <strong>dot product</strong> measures alignment. A normal pointing opposite the expected outward direction gives a negative value.</li><li>Regression tests now check outward normals, triangle winding and UV bounds. Double-sided materials may hide wrong faces visually, which is why a direct geometry test was useful.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo1_Ride/main.js; Demo1_Ride/cabin.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-2-summary",
+      "sectionId": "vr-portfolio-1-demo-2",
+      "topic": "Demo 2 — Table tennis: physics & tracking",
+      "summaryCard": true,
+      "frontText": "<p><span class=\"topic-label\">Demo 2 — Table tennis: physics &amp; tracking</span></p><p>What was Demo 2 about? Give a brief summary.</p>",
+      "backText": "<p>My second demo was a stationary Unity/Quest table-tennis trainer where tracked paddle movement, spin and wind affect a simulated ball.</p><ul><li>The main systems are <strong>machine launch, gravity/drag/Magnus flight, tracked paddle contact, table/floor bounce and rolling, and wind</strong>.</li><li>Physics uses <strong>FixedUpdate at 180 Hz</strong> with <strong>four substeps</strong>. Swept collision checks reduce tunneling; the paddle is <strong>kinematic</strong> and its velocity comes from tracking.</li><li><strong>3D approach, impact and ambience audio</strong>, repeated feeds, targets and score provide practice feedback. The independent <strong>30 cm → approximately 23 cm</strong> bounce check is the main accuracy benchmark.</li><li>This is a <strong>native Unity Android Quest APK</strong>, not WebXR. It is a simplified real-time teaching model, not a fully validated professional simulator.</li></ul><p><em>Implementation: Demo2_Trainer/Assets/Scripts/Trainer.cs; BallPhysics.cs; SpatialAudio.cs.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-2-q01",
+      "sectionId": "vr-portfolio-1-demo-2",
+      "topic": "Demo 2 — Table tennis: physics & tracking",
+      "guideQuestion": "What are the systems?",
+      "frontText": "<p><span class=\"topic-label\">Demo 2 — Table tennis: physics &amp; tracking</span></p><p>What are the systems?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>The trainer combines machine launch, flight, tracked paddle contact, surface bounce/rolling and wind. The systems interact: spin affects both aerodynamic lift in flight and frictional slip when the ball bounces.</p><h3>How our project does it</h3><p>Machine launch, flight under gravity/drag/Magnus, tracked paddle contact, table/floor bounce and rolling, and wind through air-relative velocity. Spin makes flight and contact interact: it affects lift during flight and tangential slip at a bounce.</p><h3>Understand the idea</h3><ul><li><strong>Launch</strong> sets initial velocity/spin. <strong>Flight</strong> integrates gravity, drag and Magnus lift. <strong>Paddle contact</strong> responds to a moving tracked surface.</li><li><strong>Table/floor contact</strong> changes normal/tangential velocity and spin; low-speed contact approximates rolling loss. <strong>Wind</strong> changes velocity relative to the surrounding air.</li><li>The ball’s state is explicitly owned by our solver. We do <strong>not</strong> combine custom integration with extra PhysX forces on a dynamic ball, which would risk applying physics twice.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo2_Trainer/Assets/Scripts/Trainer.cs; BallPhysics.cs; SpatialAudio.cs). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-2-q02",
+      "sectionId": "vr-portfolio-1-demo-2",
+      "topic": "Demo 2 — Table tennis: physics & tracking",
+      "guideQuestion": "Why does a machine feed clear the net?",
+      "frontText": "<p><span class=\"topic-label\">Demo 2 — Table tennis: physics &amp; tracking</span></p><p>Why does a machine feed clear the net?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>FeedTrajectory predicts with the same forces and timestep as live play, then searches for an initial upward velocity that lands on the player’s half. That fixes short feeds without steering the ball or disabling the net.</p><h3>How our project does it</h3><p>The speed preset sets forward velocity. <code>FeedTrajectory</code> predicts the first table-height crossing using the same forces and timestep as play. If it lands too short, increase initial upward velocity; if too far, decrease it. Sixteen binary-search steps aim for z=0.85 on the player's half, and the result is cached per preset. Tests cover all 24 speed/spin/wind combinations against actual table/net colliders. No forces or net collision are disabled, and there is no steering after launch. A weak, low player return can still hit the net normally.</p><h3>Understand the idea</h3><ul><li>The speed button controls the <strong>forward component</strong>, not the total 3D speed. A separate upward component determines airtime and the arc.</li><li>Sixteen <strong>binary-search</strong> iterations repeatedly halve the upward-velocity interval, aiming for the first table-height crossing at <strong>z=0.85 m</strong>.</li><li>Results are <strong>cached per preset</strong>, so the prediction is not repeated every frame. All 24 tested speed/spin/wind presets cleared the actual net collider; low player returns can still hit it.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo2_Trainer/Assets/Scripts/Trainer.cs; BallPhysics.cs; SpatialAudio.cs). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-2-q03",
+      "sectionId": "vr-portfolio-1-demo-2",
+      "topic": "Demo 2 — Table tennis: physics & tracking",
+      "guideQuestion": "What values are sourced?",
+      "frontText": "<p><span class=\"topic-label\">Demo 2 — Table tennis: physics &amp; tracking</span></p><p>What values are sourced?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>We use SI units and ITTF ball/table dimensions plus the 30 cm→approximately 23 cm bounce reference. Other quantities are identified as sourced values, calibrated model values, or explicit approximations in PARAMETERS.md.</p><h3>How our project does it</h3><p>ITTF: 40 mm diameter, 2.7 g ball; table 2.74×1.525 m with top at 0.76 m; 30 cm drop produces approximately 23 cm rebound. Gravity is 9.80665 m/s²; density is approximately 1.225 kg/m³. Other coefficients are identified as approximations or calibrated design values in PARAMETERS.md. Never call an assumed friction coefficient a measured manufacturer number.</p><h3>Understand the idea</h3><ul><li><strong>Units:</strong> metres, kilograms, seconds, and radians. A 2.7 g ball becomes <strong>0.0027 kg</strong>; 40 mm diameter becomes <strong>0.040 m</strong> (radius 0.020 m).</li><li><strong>Table:</strong> 2.74 m long, 1.525 m wide, top 0.76 m high. Gravity is 9.80665 m/s²; the chosen approximate air density is 1.225 kg/m³.</li><li>Table restitution <strong>0.918 is calibrated</strong> to the bounce with drag enabled—not an ITTF-prescribed material constant. The feed speeds, lift cap and some friction/loss values are authored approximations, not measurements of our particular equipment.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo2_Trainer/Assets/Scripts/Trainer.cs; BallPhysics.cs; SpatialAudio.cs). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-2-q04",
+      "sectionId": "vr-portfolio-1-demo-2",
+      "topic": "Demo 2 — Table tennis: physics & tracking",
+      "guideQuestion": "Where and how do forces run?",
+      "frontText": "<p><span class=\"topic-label\">Demo 2 — Table tennis: physics &amp; tracking</span></p><p>Where and how do forces run?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>Trainer.FixedUpdate runs at 180 Hz and divides each update into four physics substeps. Each substep uses semi-implicit Euler: update velocity from acceleration, then move position using that new velocity.</p><h3>How our project does it</h3><p>Trainer.FixedUpdate runs at 180 Hz with four internal physics substeps per fixed update. Each substep integrates forces and checks contact. BallPhysics.Integrate uses semi-implicit Euler: add acceleration×dt to velocity, then updated velocity×dt to position. Update samples tracking/buttons and updates the HUD, not force integration.</p><h3>Understand the idea</h3><ul><li>The fixed update is <strong>1/180 s ≈5.56 ms</strong>. Each internal substep is <strong>1/720 s ≈1.39 ms</strong>, while a ball is active.</li><li><code>velocity += acceleration × dt</code>, then <code>position += velocity × dt</code>. The <strong>new</strong> velocity is used for the position update.</li><li><strong>Update</strong> samples tracking/buttons and updates the interface; <strong>FixedUpdate</strong> advances forces and contacts at a consistent simulation cadence. Four substeps include integration and collision work, not just four overlap checks.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo2_Trainer/Assets/Scripts/Trainer.cs; BallPhysics.cs; SpatialAudio.cs). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-2-q05",
+      "sectionId": "vr-portfolio-1-demo-2",
+      "topic": "Demo 2 — Table tennis: physics & tracking",
+      "guideQuestion": "Explain drag and Magnus.",
+      "frontText": "<p><span class=\"topic-label\">Demo 2 — Table tennis: physics &amp; tracking</span></p><p>Explain drag and Magnus.</p>",
+      "backText": "<h3>Short quiz answer</h3><p>Drag opposes air-relative velocity and grows with speed squared. Magnus lift acts perpendicular to spin and air-relative travel, so reversing spin changes the lift direction; our lift coefficient is deliberately bounded.</p><h3>How our project does it</h3><p>Drag opposes the ball's velocity relative to wind and scales with its speed squared, frontal area, density and Cd. Magnus lift points along ω×v and depends on spin ratio. Here the lift coefficient is capped at 0.6, a stated approximation. Positive/negative spin reverses lift direction. Real ball aerodynamics can be more complicated than this model.</p><h3>Understand the idea</h3><ul><li>Air-relative velocity is <strong>ball velocity − wind velocity</strong>. Still air and a crosswind therefore produce different forces even if the ball’s world velocity initially matches.</li><li>Drag follows <strong>½ρCdA|v|v</strong> with the opposite sign, divided by mass to get acceleration. Here ρ is air density, Cd is drag coefficient, and A=πr² is frontal area.</li><li>Magnus direction follows <strong>ω×v</strong>, a cross product. Our coefficient is <strong>min(0.6, 0.6r|ω|/|v|)</strong>. This is an approximate bounded model, not a complete aerodynamic fit.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo2_Trainer/Assets/Scripts/Trainer.cs; BallPhysics.cs; SpatialAudio.cs). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-2-q06",
+      "sectionId": "vr-portfolio-1-demo-2",
+      "topic": "Demo 2 — Table tennis: physics & tracking",
+      "guideQuestion": "How does swing speed enter the response?",
+      "frontText": "<p><span class=\"topic-label\">Demo 2 — Table tennis: physics &amp; tracking</span></p><p>How does swing speed enter the response?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>Tracked pose differences give paddle linear and angular velocity. Contact uses ball velocity relative to the moving paddle, including the rotational contribution ω×offset, so faster and differently directed swings change the return.</p><h3>How our project does it</h3><p><code>TrackedPose.Update</code> calculates <code>(current position − previous position)/deltaTime</code> and angular change/deltaTime. The paddle is kinematic. Its contact-point velocity adds angular velocity cross the offset from controller to contact. The impulse is computed using ball velocity relative to that moving surface. Swing direction and racket orientation change the outgoing direction.</p><h3>Understand the idea</h3><ul><li>Linear velocity is <strong>change in position ÷ elapsed time</strong>. Angular velocity describes how fast and around which axis the controller rotates.</li><li>A point at the paddle face can move faster than the controller origin because it is offset from the hand: <strong>contact velocity = hand velocity + ω×offset</strong>.</li><li>The paddle is <strong>kinematic</strong>: tracking dictates its pose, rather than simulated forces moving it. Surface-relative velocity, face orientation and contact friction determine the outgoing ball.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo2_Trainer/Assets/Scripts/Trainer.cs; BallPhysics.cs; SpatialAudio.cs). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-2-q07",
+      "sectionId": "vr-portfolio-1-demo-2",
+      "topic": "Demo 2 — Table tennis: physics & tracking",
+      "guideQuestion": "Why is the paddle aligned with my hand?",
+      "frontText": "<p><span class=\"topic-label\">Demo 2 — Table tennis: physics &amp; tracking</span></p><p>Why is the paddle aligned with my hand?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>The paddle uses the grip/palm pose plus a fixed model-to-grip rotation. We subtract the rotated handle offset from the face position so the handle center stays at the palm for every controller rotation.</p><h3>How our project does it</h3><p>Tracking uses the grip/palm pose, not the pointing ray. <code>PaddleGrip</code> rotates the model shaft toward grip +Z and its face normal toward grip +X. It places the face so the handle center is exactly at the palm: face position = grip position − rotated handle offset. Visuals follow the controller each render frame; physics uses that same transform rule in FixedUpdate. This separates a natural holding pose from a UI aiming pose without changing the collision rules.</p><h3>Understand the idea</h3><ul><li><strong>Grip pose</strong> is a holding frame; <strong>aim pose</strong> is a pointing frame. Mounting the racket with the pointing-ray frame was not a comfortable holding alignment.</li><li><code>faceRotation = gripRotation × ModelToGrip</code>; <code>facePosition = gripPosition − faceRotation × HandleCenter</code>.</li><li>The authored shaft +Y maps to grip +Z and blade normal +Z maps to grip +X. Visuals and the contact solver use the <strong>same mapping</strong>; fixing appearance alone could leave collisions misaligned. You confirmed the new grip felt natural.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo2_Trainer/Assets/Scripts/Trainer.cs; BallPhysics.cs; SpatialAudio.cs). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-2-q08",
+      "sectionId": "vr-portfolio-1-demo-2",
+      "topic": "Demo 2 — Table tennis: physics & tracking",
+      "guideQuestion": "How do the settings buttons work?",
+      "frontText": "<p><span class=\"topic-label\">Demo 2 — Table tennis: physics &amp; tracking</span></p><p>How do the settings buttons work?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>The left controller’s aim ray intersects a button collider; a trigger press calls that button’s callback once. Trainer owns the settings, while TrainerMenu handles layout, highlights, press feedback and haptics.</p><h3>How our project does it</h3><p>The left controller's Touch aim pose supplies a four-metre ray. <code>TrainerMenu</code> finds a button collider, highlights it, and calls its callback only on the trigger's rising edge; holding trigger does not repeat clicks. <code>Trainer</code> owns the actual settings. Speed clamps within 3.5–6.5; spin buttons set 0/−40/+40 directly and highlight only the selected preset. The button animates/haptics on activation without moving its collider. Update handles this interaction; FixedUpdate continues the same ball solver. Bounce measurement temporarily blocks feed/restart, so a click cannot interrupt the benchmark. A Resources material retains the lightweight stereo-compatible unlit panel shader.</p><h3>Understand the idea</h3><ul><li><strong>Rising edge</strong> means the transition from unpressed to pressed. It prevents a held trigger from changing a setting again every frame.</li><li>Speed selects <strong>3.5–6.5 m/s forward velocity</strong>; spin directly selects <strong>0/−40/+40 rev/s</strong>; wind toggles <strong>0 or +1.5 m/s along X</strong>. Speed/spin affect the next feed; wind affects the active ball.</li><li><strong>Bounce check measures rebound</strong>; it does not change restitution. It pauses/blocks feeds during measurement. <strong>Reset score</strong> clears practice counts/score but keeps settings.</li><li>The panel’s explicit Resources material prevents its shader being stripped from the APK. UI animation does not move the selection collider, so the ray target remains predictable.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo2_Trainer/Assets/Scripts/Trainer.cs; BallPhysics.cs; SpatialAudio.cs). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-2-q09",
+      "sectionId": "vr-portfolio-1-demo-2",
+      "topic": "Demo 2 — Table tennis: physics & tracking",
+      "guideQuestion": "How is tunneling prevented?",
+      "frontText": "<p><span class=\"topic-label\">Demo 2 — Table tennis: physics &amp; tracking</span></p><p>How is tunneling prevented?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>We check swept paths rather than only final overlaps: a sphere cast for world surfaces and a relative moving-paddle sweep for the racket. Four substeps also resolve the paddle’s changing orientation.</p><h3>How our project does it</h3><p>The ball moves as an explicitly simulated state. A sphere cast examines the complete old→new segment against world colliders. A relative sweep examines ball/paddle poses against the moving elliptical face; four substeps account for its changing orientation. Endpoint-only overlap would miss a ball that crosses a thin surface in one step. The kinematic Rigidbody's flag is not the entire contact method.</p><h3>Understand the idea</h3><ul><li><strong>Tunneling</strong> occurs when a fast ball is before a thin surface at one sample and beyond it at the next, with neither endpoint overlapping.</li><li>A <strong>sphere cast</strong> follows a sphere along the whole old→new segment. The custom paddle sweep considers <strong>relative ball/paddle motion</strong> and the racket’s elliptical face.</li><li>This is <strong>custom continuous detection</strong>. We do not claim the solution is simply a Rigidbody CCD checkbox, and smaller timesteps alone are not the whole method.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo2_Trainer/Assets/Scripts/Trainer.cs; BallPhysics.cs; SpatialAudio.cs). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-2-q10",
+      "sectionId": "vr-portfolio-1-demo-2",
+      "topic": "Demo 2 — Table tennis: physics & tracking",
+      "guideQuestion": "Restitution versus friction?",
+      "frontText": "<p><span class=\"topic-label\">Demo 2 — Table tennis: physics &amp; tracking</span></p><p>Restitution versus friction?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>Restitution controls rebound along the surface normal; friction changes contact slip along the surface, coupling translation and spin. Their different roles explain why topspin and backspin change bounce behavior.</p><h3>How our project does it</h3><p>Restitution controls reversed normal speed. The racket uses the published fit <code>0.878−0.020×normal impact speed</code>, bounded to 0.2–0.95; its normal rebound weakens at higher speed. Table restitution 0.918 is calibrated to the drop benchmark, and table sliding friction is the sourced 0.25. Tangential friction acts on contact slip, including spin, changing both translation and rotation. The shell inertia assumption is I=2/3 mr². That coupling is why opposite spin gives different table bounce behavior.</p><h3>Understand the idea</h3><ul><li>With <strong>restitution e</strong>, the approaching normal component reverses and scales by e relative to the surface. e=0 is no normal rebound; e=1 would preserve that component in an ideal collision.</li><li>The table uses <strong>0.918</strong> calibrated with drag. Paddle restitution uses <strong>clamp(0.878−0.020×normal impact speed, 0.2, 0.95)</strong>.</li><li><strong>Friction</strong> opposes tangential contact slip, which includes the spinning ball’s surface speed. The resulting impulse changes both ball velocity and angular velocity using the thin-shell inertia assumption <strong>I=⅔mr²</strong>.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo2_Trainer/Assets/Scripts/Trainer.cs; BallPhysics.cs; SpatialAudio.cs). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-2-q11",
+      "sectionId": "vr-portfolio-1-demo-2",
+      "topic": "Demo 2 — Table tennis: physics & tracking",
+      "guideQuestion": "What did you validate?",
+      "frontText": "<p><span class=\"topic-label\">Demo 2 — Table tennis: physics &amp; tracking</span></p><p>What did you validate?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>We checked the ITTF 30 cm drop benchmark: 23.004 cm numerically and 23.054 cm in the actual editor scene, versus approximately 23 cm. We also tested spin-dependent contact, fast paddle sweeps and feed clearance.</p><h3>How our project does it</h3><p>The independent numerical check gave 23.004 cm rebound; the actual Unity editor scene gave 23.054 cm, against the ITTF's approximately 23 cm benchmark. It also checked spin changes bounce and a high-speed segment cannot skip the racket. These are limited checks, not proof every trajectory matches real equipment. The recorded headset panel showed approximately 23.05 cm; it is a snapshot, not an independent comprehensive physics or sustained performance validation.</p><h3>Understand the idea</h3><ul><li>The <strong>numerical check</strong> exercises force/contact rules; the <strong>scene check</strong> includes real table collider queries and hit processing. They are complementary rather than identical tests.</li><li>The recorded headset panel showed roughly <strong>23.05 cm</strong>. The small difference from the independent numerical result comes from collision clearance and hit-fraction handling.</li><li>These checks do <strong>not</strong> prove every real trajectory, friction coefficient, controller swing or sustained headset frame rate is accurate. Constant drag, bounded lift and simplified contacts are stated limitations.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo2_Trainer/Assets/Scripts/Trainer.cs; BallPhysics.cs; SpatialAudio.cs). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-2-q12",
+      "sectionId": "vr-portfolio-1-demo-2",
+      "topic": "Demo 2 — Table tennis: physics & tracking",
+      "guideQuestion": "How does timestep affect accuracy and cost?",
+      "frontText": "<p><span class=\"topic-label\">Demo 2 — Table tennis: physics &amp; tracking</span></p><p>How does timestep affect accuracy and cost?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>Smaller timesteps resolve forces and rapidly changing contacts more closely but increase CPU work. We chose 180 fixed updates per second with four substeps, one active ball and bounded buffers/pools to balance accuracy and cost.</p><h3>How our project does it</h3><p>The configured 1/180 s fixed update is divided into four physics substeps: 720 substeps per simulated second for an active ball. This is not necessarily 720 total collision queries: world sphere casts and custom paddle sweeps are separate and conditional. Larger steps increase integration error and coarsen rotation sampling; smaller steps cost CPU. One-ball play, a fixed-size cast buffer and pooled impact voices bound work. At 72 Hz, a complete frame has 13.89 ms; the displayed physics CPU time is only part of that frame, not total GPU/CPU time.</p><h3>Understand the idea</h3><ul><li><strong>180×4=720 physics substeps per simulated second</strong> for an active ball. This is not necessarily 720 total collision queries: world and racket checks are separate and can be conditional.</li><li>Larger steps produce greater numerical error and coarser rotation sampling; smaller steps require more work. Sweeps complement the small steps to reduce missed contacts.</li><li>A <strong>72 Hz</strong> display allows <strong>1000/72≈13.89 ms</strong> per frame. The physics CPU counter measures only that solver’s work, <strong>not total CPU/GPU frame time</strong>. Physics frequency and display FPS are different.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo2_Trainer/Assets/Scripts/Trainer.cs; BallPhysics.cs; SpatialAudio.cs). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-2-q13",
+      "sectionId": "vr-portfolio-1-demo-2",
+      "topic": "Demo 2 — Table tennis: physics & tracking",
+      "guideQuestion": "Why does the audio count as 3D?",
+      "frontText": "<p><span class=\"topic-label\">Demo 2 — Table tennis: physics &amp; tracking</span></p><p>Why does the audio count as 3D?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>Our audio is 3D because the approach source follows the ball, impacts originate at world contact points, and ambience has a world position. Mono sources use spatialBlend=1 with distance attenuation and directional panning.</p><h3>How our project does it</h3><p>Approach follows the ball; an impact source is placed at the world contact; ambience is positioned in the room. Mono clips use spatialBlend=1 with attenuation/panning/Doppler. Table, floor and paddle tones differ; speed varies volume/pitch. No additional HRTF plugin is used. Turn your head during an approach to demonstrate direction.</p><h3>Understand the idea</h3><ul><li>A <strong>world-positioned source</strong> changes its apparent direction relative to the headset listener as you turn your head; a plain 2D clip would not represent that position.</li><li><strong>Attenuation</strong> makes distant sounds quieter; <strong>Doppler</strong> changes perceived pitch with relative motion. Impact material changes tone/decay, while speed changes intensity/pitch.</li><li>We use Unity’s 3D audio behavior, <strong>not an additional proprietary HRTF plugin</strong>. The recording retaining game audio is not itself proof of every in-headset spatial cue.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo2_Trainer/Assets/Scripts/Trainer.cs; BallPhysics.cs; SpatialAudio.cs). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-3-summary",
+      "sectionId": "vr-portfolio-1-demo-3",
+      "topic": "Demo 3 — Fire response: procedure & manipulation",
+      "summaryCard": true,
+      "frontText": "<p><span class=\"topic-label\">Demo 3 — Fire response: procedure &amp; manipulation</span></p><p>What was Demo 3 about? Give a brief summary.</p>",
+      "backText": "<p>My third demo was a guided, arm’s-reach WebXR fire-response trainer combining ordered procedure logic with two-handed extinguisher manipulation.</p><ul><li>Seven outcomes: <strong>alarm → simulated help call → validate suitable extinguisher → Pull → Aim → Squeeze → Sweep</strong>. Pickup and looking are not counted as separate procedural outcomes.</li><li>A <strong>state machine</strong> enforces order and prerequisites, rejects wrong tools/low pressure and allows recovery. Current instructions, highlights and Hint follow the step.</li><li><strong>Both hands</strong> hold tank/nozzle separately. The alarm and pin use <strong>scripted sliders</strong>; the squeeze lever uses a constrained rotation. An <strong>aimed ray and three coverage timers</strong> determine extinguishing.</li><li>The <strong>hose and white powder are visual effects</strong>, not general fluid/fire physics. Calls and emergencies are simulated; this is <strong>not real emergency certification</strong>.</li></ul><p><em>Implementation: Demo3_Procedure/procedure.js; main.js; mechanics.js; visuals.js.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-3-q01",
+      "sectionId": "vr-portfolio-1-demo-3",
+      "topic": "Demo 3 — Fire response: procedure & manipulation",
+      "guideQuestion": "Which seven outcomes count?",
+      "frontText": "<p><span class=\"topic-label\">Demo 3 — Fire response: procedure &amp; manipulation</span></p><p>Which seven outcomes count?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>The seven outcomes are alarm, simulated help notification, suitable extinguisher validation, pin removed, nozzle aimed, discharge started and fire extinguished by sweeping. They are meaningful state changes, not extra points for looking or picking up.</p><h3>How our project does it</h3><p>Alarm activated, emergency help notified in simulation, suitable extinguisher validated, pin removed, nozzle aimed at the base, discharge started, and fire extinguished by sweeping. Pickup, looking, releasing a pin and clicking Finish do not inflate the count. Even without treating readiness as a distinct action, the alarm, call and four PASS actions provide six substantive outcomes. The professor's October 7 clarification prompted the revision from the original weaker eight-label model.</p><h3>Understand the idea</h3><ul><li>Remember the order as <strong>Alarm → Help → Ready → PASS</strong>. PASS is <strong>Pull, Aim, Squeeze, Sweep</strong>.</li><li>Alarm/help become visible completed outcomes; readiness verifies an actual suitable held tank. The four PASS actions each change procedural state.</li><li><strong>Picking up, gaze and clicking Finish are not separate outcomes.</strong> The original weak label-based sequence was revised after the professor clarified this. The final app is guided-only and finishes automatically.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo3_Procedure/procedure.js; main.js; mechanics.js; visuals.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-3-q02",
+      "sectionId": "vr-portfolio-1-demo-3",
+      "topic": "Demo 3 — Fire response: procedure & manipulation",
+      "guideQuestion": "What stores progress?",
+      "frontText": "<p><span class=\"topic-label\">Demo 3 — Fire response: procedure &amp; manipulation</span></p><p>What stores progress?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>Procedure stores a current-step index, error count, completion flag, explicit prerequisite flags and three coverage timers. Events advance only when they match the expected action and satisfy its conditions.</p><h3>How our project does it</h3><p><code>Procedure.step</code>, error count, completion, three coverage timers and explicit flags for alarm, help, readiness, pin and aim. <code>ACTIONS</code> lists seven expected events. State logic is separate from input/scene adapters. A rejected event leaves prior outcomes intact; completed exercises freeze further changes until Reset.</p><h3>Understand the idea</h3><ul><li>A <strong>state machine</strong> describes allowed states and transitions. Here <code>ACTIONS[step]</code> identifies the next expected action.</li><li>A wrong part/out-of-order event calls <code>reject()</code>, increments errors and displays feedback <strong>without erasing completed outcomes</strong>. The learner can recover instead of restarting.</li><li><code>coverage=[0,0,0]</code> tracks left/center/right discharge time. Completed exercises ignore later events; <strong>Reset</strong> clears state for a clean walkthrough.</li><li>Input/scene adapters supply measured conditions to the state logic, so state rules can be tested without a headset.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo3_Procedure/procedure.js; main.js; mechanics.js; visuals.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-3-q03",
+      "sectionId": "vr-portfolio-1-demo-3",
+      "topic": "Demo 3 — Fire response: procedure & manipulation",
+      "guideQuestion": "What does inspection actually check?",
+      "frontText": "<p><span class=\"topic-label\">Demo 3 — Fire response: procedure &amp; manipulation</span></p><p>What does inspection actually check?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>Readiness requires a held tank, ABC classification and green pressure. WATER and low-pressure ABC tanks are rejected; simply picking up the correct tank does not complete inspection.</p><h3>How our project does it</h3><p>The tank must be held, classified ABC and show green pressure. The right red ABC has a low-pressure needle and fails; blue WATER is unsuitable for the depicted energized equipment. Holding the left green-pressure ABC alone does not advance. A free-hand trigger on CHECK supplies type/pressure/held conditions. These are authored equipment conditions, not simulated fluid pressure.</p><h3>Understand the idea</h3><ul><li>The depicted scenario is <strong>energized electrical equipment</strong>. In the trainer, the blue WATER tank is unsuitable; the right red ABC tank is low-pressure; the left green-pressure ABC is accepted.</li><li>A <strong>free-hand trigger</strong> on CHECK supplies the held/type/pressure conditions to the state machine. The current-step CHECK button is intentionally not permanently on-screen.</li><li>Pressure and type are <strong>authored equipment conditions</strong>, not simulated gas/flow measurements. Wrong choices give corrective feedback and preserve previous outcomes in the guided mode.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo3_Procedure/procedure.js; main.js; mechanics.js; visuals.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-3-q04",
+      "sectionId": "vr-portfolio-1-demo-3",
+      "topic": "Demo 3 — Fire response: procedure & manipulation",
+      "guideQuestion": "How does guidance work?",
+      "frontText": "<p><span class=\"topic-label\">Demo 3 — Fire response: procedure &amp; manipulation</span></p><p>How does guidance work?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>Guidance is a short in-world current-step instruction, progress dots, an active-part highlight and an optional Hint. It updates with the state machine rather than showing every action at once.</p><h3>How our project does it</h3><p>One short current-step card, seven progress dots, a highlighted active part and an on-demand Hint card. CHECK appears only during readiness. Alarm and simulated call have persistent visible outcomes. There is no assessment mode or Finish gate. Reset clears all outcomes, parts, spray, errors and coverage.</p><h3>Understand the idea</h3><ul><li><strong>In-world</strong> means the interface is placed in the 3D scene and can be viewed in the headset, instead of relying on a desktop-only menu.</li><li>CHECK is shown during readiness; alarm and call show persistent completed status. The on-demand Hint explains the current action without cluttering every frame.</li><li>The final version has <strong>no test mode or Finish acknowledgment gate</strong>. Reset returns parts/flags/coverage/errors to their starting condition.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo3_Procedure/procedure.js; main.js; mechanics.js; visuals.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-3-q05",
+      "sectionId": "vr-portfolio-1-demo-3",
+      "topic": "Demo 3 — Fire response: procedure & manipulation",
+      "guideQuestion": "What detects grabbing/placing?",
+      "frontText": "<p><span class=\"topic-label\">Demo 3 — Fire response: procedure &amp; manipulation</span></p><p>What detects grabbing/placing?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>Grip input compares the controller position with eligible objects’ world-space grab zones. Holding reparents a tool to the grip controller with a handle offset; release reparents and snaps it to a designated stand, tray or holster.</p><h3>How our project does it</h3><p>Side-grip searches eligible local spheres: handle 0.18 m, tank 0.17 m, pin 0.085 m, nozzle 0.12 m, alarm 0.09 m. Centers transform into world coordinates before comparison with the grip position. Inactive nested parts do not intercept tank grabs. Held objects become controller-grip children with compensated handle offsets. Release reparents/snaps them to their stands, tray or holster. Free-hand trigger rays select raised controls; held tank trigger uses its valve. There is no general rigidbody collision solver.</p><h3>Understand the idea</h3><ul><li><strong>Grab zones</strong> are small interaction spheres, not a full rigidbody simulation. Their local centers must be transformed to world coordinates before measuring distance to a world-space hand.</li><li>The authored radii are handle <strong>0.18 m</strong>, tank <strong>0.17 m</strong>, pin <strong>0.085 m</strong>, nozzle <strong>0.12 m</strong> and alarm <strong>0.09 m</strong>.</li><li><strong>Reparenting</strong> makes the held object inherit hand movement. The handle offset puts the intended holding point at the hand rather than putting the model’s arbitrary origin there.</li><li>Hidden/inactive nested parts must not intercept a tank grab. Free-hand trigger rays activate controls; a held tank’s trigger operates its valve. Both hands are supported.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo3_Procedure/procedure.js; main.js; mechanics.js; visuals.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-3-q06",
+      "sectionId": "vr-portfolio-1-demo-3",
+      "topic": "Demo 3 — Fire response: procedure & manipulation",
+      "guideQuestion": "How do the alarm and pin constraints work?",
+      "frontText": "<p><span class=\"topic-label\">Demo 3 — Fire response: procedure &amp; manipulation</span></p><p>How do the alarm and pin constraints work?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>The alarm and pin use scripted one-axis motion in their own local frames. The alarm is clamped to downward travel; the pin is clamped to outward travel, and crossing their thresholds changes procedure state.</p><h3>How our project does it</h3><p>The alarm projects the held handle into station-local coordinates, keeps local X/Z fixed and clamps downward Y travel to 0–0.11 m. At 0.09 m it activates and stays latched. The pin projects into the tank frame, fixes Y/Z and clamps outward X to 0–0.2 m; more than 0.15 m removes it while the tank is held. Both recompute from the original grip offset so previous corrections do not accumulate. Coordinate-frame constraints still work after recentering/rotation.</p><h3>Understand the idea</h3><ul><li><strong>Constraint</strong> means restricting permitted movement. These are <strong>scripted sliders</strong>, not unrestricted physics joints.</li><li>Alarm: keep local X/Z fixed; clamp downward Y to <strong>0–0.11 m</strong>; activation threshold <strong>0.09 m</strong>. Pin: keep local Y/Z fixed; clamp X to <strong>0–0.20 m</strong>; removal requires <strong>more than 0.15 m</strong> while holding the tank.</li><li>Using <strong>station-local/tank-local coordinates</strong> keeps the allowed axes correct even after workspace rotation. Recomputing from the original grip offset avoids accumulated correction drift.</li><li>The squeeze lever is a separate <strong>constrained hinge-like rotation</strong>.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo3_Procedure/procedure.js; main.js; mechanics.js; visuals.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-3-q07",
+      "sectionId": "vr-portfolio-1-demo-3",
+      "topic": "Demo 3 — Fire response: procedure & manipulation",
+      "guideQuestion": "Why two hands and which trigger?",
+      "frontText": "<p><span class=\"topic-label\">Demo 3 — Fire response: procedure &amp; manipulation</span></p><p>Why two hands and which trigger?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>Tank and nozzle must be held by different controllers. The tank hand’s index trigger squeezes the lever and starts discharge only with valid aim; the other hand aims, and dropping either tool stops spray.</p><h3>How our project does it</h3><p>Body/nozzle holders must be distinct controllers. The TANK hand's index trigger squeezes the lever from raised −0.3 radians to closed 0; the nozzle hand points and cannot operate the tank valve. Dropping either tool stops spray. A live valid aim is required to begin discharge.</p><h3>Understand the idea</h3><ul><li>Think <strong>tank hand = valve</strong>, <strong>nozzle hand = direction</strong>. Triggering the nozzle hand must not operate the tank’s valve.</li><li>The lever rotates from approximately <strong>−0.3 radians raised to 0 closed</strong>, a scripted constrained rotation.</li><li>The state machine checks the two-hand prerequisite before starting discharge; the scene also requires a live valid aim and both tools held while spraying.</li><li>This creates a deliberate coordinated manipulation task instead of a single button that automatically completes PASS.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo3_Procedure/procedure.js; main.js; mechanics.js; visuals.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-3-q08",
+      "sectionId": "vr-portfolio-1-demo-3",
+      "topic": "Demo 3 — Fire response: procedure & manipulation",
+      "guideQuestion": "Why distinguish grip and pointing poses?",
+      "frontText": "<p><span class=\"topic-label\">Demo 3 — Fire response: procedure &amp; manipulation</span></p><p>Why distinguish grip and pointing poses?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>Grip pose anchors the held nozzle, while target-ray pose supplies its pointing direction. Converting the desired ray orientation into the parent’s local frame makes the nozzle point naturally even when grip and aim frames differ.</p><h3>How our project does it</h3><p>Grip space anchors a held object; target-ray space supplies ergonomic pointing. Nozzle local rotation is <code>inverse(parent world rotation) × controller ray world rotation</code>. World forward therefore matches the pointing pose, even when it differs from the grip pose.</p><h3>Understand the idea</h3><ul><li><strong>Grip frame</strong> models holding; <strong>aim/target-ray frame</strong> models pointing. They are not necessarily the same rotation on a controller.</li><li><code>localRotation = inverse(parentWorldRotation) × rayWorldRotation</code>. The inverse removes the parent’s orientation so recomposing parent×local yields the desired world direction.</li><li>If we simply used the grip orientation as the nozzle’s ray, the visual nozzle and natural pointing direction could disagree. This distinction also matters for the Unity paddle versus menu ray.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo3_Procedure/procedure.js; main.js; mechanics.js; visuals.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-3-q09",
+      "sectionId": "vr-portfolio-1-demo-3",
+      "topic": "Demo 3 — Fire response: procedure & manipulation",
+      "guideQuestion": "What counts as sweeping?",
+      "frontText": "<p><span class=\"topic-label\">Demo 3 — Fire response: procedure &amp; manipulation</span></p><p>What counts as sweeping?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>Sweep completion requires valid aimed discharge over all three fire-base regions, each for 1.2 seconds. Coverage comes from a nozzle ray with range/alignment/obstruction checks, not from individual powder particles.</p><h3>How our project does it</h3><p>The nozzle ray must pass within 0.17 m of a base section, in front and within the authored 1.5 m range. Mesh intersections against the bench/equipment reject blocked paths. Only the nearest matching section gets time. Each section needs 1.2 seconds; stationary spray cannot finish the other sections. Invalid input is ignored and one stalled frame grants at most 0.05 seconds. All three complete the single sweep outcome and finish automatically.</p><h3>Understand the idea</h3><ul><li>The base must be <strong>in front</strong>, within the authored <strong>1.5 m</strong> range, and within the ray’s <strong>0.17 m tolerance</strong>. Bench/equipment mesh intersections block invalid paths.</li><li>Only the most closely aligned valid region gets time; stationary spray over one region cannot complete the other two.</li><li>Each timer caps at <strong>1.2 s</strong>. A stalled frame can contribute at most <strong>0.05 s</strong>, preventing a pause from granting unobserved seconds of progress.</li><li>Once all three timers finish, the single <strong>Sweep outcome</strong> completes and the exercise ends automatically.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo3_Procedure/procedure.js; main.js; mechanics.js; visuals.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-3-q10",
+      "sectionId": "vr-portfolio-1-demo-3",
+      "topic": "Demo 3 — Fire response: procedure & manipulation",
+      "guideQuestion": "How do hose and powder work?",
+      "frontText": "<p><span class=\"topic-label\">Demo 3 — Fire response: procedure &amp; manipulation</span></p><p>How do hose and powder work?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>The hose is a buffered curved tube updated between valve and nozzle; powder uses a fixed pool of white sprites emitted from the nozzle mouth. They communicate discharge visually, while the aimed-ray coverage logic decides whether fire is extinguished.</p><h3>How our project does it</h3><p>A buffered 18-segment/eight-sided curved tube joins valve to nozzle rear. A fixed 192-particle pool emits white sprites from the mouth along the aiming direction. Curved sag is visual, not elastic hose physics; sprites are not collision bodies. Ray coverage, not sprites, determines extinguishing.</p><h3>Understand the idea</h3><ul><li>The hose has <strong>18 segments, eight sides and real mesh thickness</strong>. Its sag is authored curvature, <strong>not elastic rope/hose dynamics</strong>.</li><li>The powder pool holds <strong>192 particles</strong>. Reusing particles and geometry buffers avoids continually allocating objects while spraying.</li><li>These visuals are <strong>not collision bodies or a fluid solver</strong>. A sprite visually overlapping a flame does not directly advance the procedure.</li><li>Separating readable effects from simple detection makes the system cheaper and easier to test/explain, at the cost of physical realism.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo3_Procedure/procedure.js; main.js; mechanics.js; visuals.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-3-q11",
+      "sectionId": "vr-portfolio-1-demo-3",
+      "topic": "Demo 3 — Fire response: procedure & manipulation",
+      "guideQuestion": "Why recenter?",
+      "frontText": "<p><span class=\"topic-label\">Demo 3 — Fire response: procedure &amp; manipulation</span></p><p>Why recenter?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>Recenter moves and rotates the workspace to the user’s current position/heading and adjusts it for head height. It releases tools safely while preserving completed procedure outcomes; it does not teleport the player.</p><h3>How our project does it</h3><p>Entry/Left X translates the bench to the user's horizontal head position, rotates it to face their heading, and offsets vertically by head height minus the 1.6 m design height. It releases tools safely but preserves outcomes. It moves the workspace, not the player.</p><h3>Understand the idea</h3><ul><li>An arm’s-reach task must be placed where the user can comfortably reach. Entry/Left X aligns the bench to the horizontal head position and heading.</li><li>The vertical adjustment uses <strong>head height minus the 1.6 m design height</strong>, allowing the authored layout to fit the current user posture.</li><li>This differs from Demo 4’s Reset View: <strong>Demo 3 moves the workspace</strong>; Demo 4 changes the player rig’s heading. Neither should erase task progress.</li><li>Coordinate-frame-aware grab zones and sliders remain correct after the workspace moves.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo3_Procedure/procedure.js; main.js; mechanics.js; visuals.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-3-q12",
+      "sectionId": "vr-portfolio-1-demo-3",
+      "topic": "Demo 3 — Fire response: procedure & manipulation",
+      "guideQuestion": "What tradeoff did you choose?",
+      "frontText": "<p><span class=\"topic-label\">Demo 3 — Fire response: procedure &amp; manipulation</span></p><p>What tradeoff did you choose?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>We chose predictable scripted constraints, ray-based detection and pooled visuals instead of general rigidbody, hose, fluid and fire simulation. That keeps the trainer responsive and explainable but limits physical realism.</p><h3>How our project does it</h3><p>Scripted kinematic constraints, finite rays and pooled visuals bound work and make the interactions explainable, but omit general collisions, hose elasticity, actual pressure, smoke and fire chemistry. School/workplace emergency training is still necessary; a simulated help call never contacts a real service. Physical Quest testing must confirm reach, control poses and performance.</p><h3>Understand the idea</h3><ul><li><strong>Benefit:</strong> bounded computation, clear step prerequisites, recoverable mistakes and interactions that can be regression-tested without reproducing arbitrary physics.</li><li><strong>Cost:</strong> no general object collision solver, elastic hose behavior, pressure depletion, realistic smoke or combustion chemistry.</li><li>The call is <strong>simulated</strong> and never contacts emergency services. The procedure is sourced, but this classroom app is <strong>not certification or a substitute for real safety training</strong>.</li><li>Numerical/state tests do not by themselves prove reach, controller comfort or sustained headset performance.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo3_Procedure/procedure.js; main.js; mechanics.js; visuals.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-4-summary",
+      "sectionId": "vr-portfolio-1-demo-4",
+      "topic": "Demo 4 — Warehouse hunt: locomotion & comfort",
+      "summaryCard": true,
+      "frontText": "<p><span class=\"topic-label\">Demo 4 — Warehouse hunt: locomotion &amp; comfort</span></p><p>What was Demo 4 about? Give a brief summary.</p>",
+      "backText": "<p>My fourth demo was a WebXR warehouse scavenger hunt demonstrating two travel systems and configurable VR comfort while searching for five targets.</p><ul><li><strong>Four signed regions</strong> contain <strong>five targets among twenty similar distractors</strong>. Exact-code selection, found/remaining display, timer and score make it a search task.</li><li><strong>Teleport with fade</strong> and <strong>head-relative smooth joystick movement</strong> are distinct, switchable systems. Turning rotates around the tracked head.</li><li><strong>Vignette, snap/smooth turning, speed, height calibration and Reset View</strong> address usability and the mismatch between visual movement and vestibular sensation.</li><li>Preferences persist in <strong>localStorage</strong>. <strong>Reset View changes heading</strong>; <strong>height calibration changes eye-height offset</strong>; <strong>New Hunt resets the task</strong>. These are different actions.</li></ul><p><em>Implementation: Demo4_Hunt/main.js; hunt.js; height.js; view.js.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-4-q01",
+      "sectionId": "vr-portfolio-1-demo-4",
+      "topic": "Demo 4 — Warehouse hunt: locomotion & comfort",
+      "guideQuestion": "What is the search task?",
+      "frontText": "<p><span class=\"topic-label\">Demo 4 — Warehouse hunt: locomotion &amp; comfort</span></p><p>What is the search task?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>The hunt has four signed warehouse regions, five exact-code targets among twenty similar distractors, and found/remaining, time and score feedback. A Set prevents duplicate collection, and completion freezes the final result.</p><h3>How our project does it</h3><p>Four signed warehouse regions contain 25 similar bins. Five exact codes are targets; twenty are distractors. A Set prevents duplicates. Score is <code>max(0,round(1000−2×seconds−25×wrong selections))</code>. Timer starts on movement/selection and freezes at completion. Inventory selection requires proximity within 2 m, so travel is necessary.</p><h3>Understand the idea</h3><ul><li><strong>25 similar bins</strong> force close inspection rather than recognizing a unique flashy object. Targets are AX-104, BX-208, CX-306, DX-412 and EX-510.</li><li>Selection requires being within <strong>2 m</strong>, making locomotion necessary. The timer begins with movement/selection.</li><li>The actual score is <strong>max(0, round(1000 − 2×seconds − 25×wrong selections))</strong>. A Set stores unique finds; selecting an already-found item adds nothing.</li><li>A fixed bug now prevents <strong>wrong selections after completion</strong> from changing the finished score. New Hunt clears task state.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo4_Hunt/main.js; hunt.js; height.js; view.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-4-q02",
+      "sectionId": "vr-portfolio-1-demo-4",
+      "topic": "Demo 4 — Warehouse hunt: locomotion & comfort",
+      "guideQuestion": "Why are there two distinct systems?",
+      "frontText": "<p><span class=\"topic-label\">Demo 4 — Warehouse hunt: locomotion &amp; comfort</span></p><p>Why are there two distinct systems?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>Smooth locomotion continuously integrates joystick-driven velocity, while teleport relocates the user to a selected valid destination during a fade. They are different movement mechanisms, and both support the entire hunt.</p><h3>How our project does it</h3><p>Smooth travel integrates a continuous velocity from the joystick. Teleport relocates the user to a sampled ray destination during a fade. Fade/no-fade variants alone would still be one system. Both work through the whole flat-floor warehouse and can be switched in the world.</p><h3>Understand the idea</h3><ul><li><strong>Smooth:</strong> continuous artificial movement each frame. <strong>Teleport:</strong> discrete relocation after aiming/confirming a destination.</li><li>Teleport with and without fade would still be <strong>one mechanism</strong>; the fade is a comfort effect, not another locomotion system.</li><li>Both systems work in the same flat-floor navigable warehouse and are switchable in-app. Bounds/wall/doorway checks prevent invalid movement or destinations.</li><li>The menu pauses travel input while it is open, helping avoid unintended motion while changing settings.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo4_Hunt/main.js; hunt.js; height.js; view.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-4-q03",
+      "sectionId": "vr-portfolio-1-demo-4",
+      "topic": "Demo 4 — Warehouse hunt: locomotion & comfort",
+      "guideQuestion": "Head-relative versus world-relative?",
+      "frontText": "<p><span class=\"topic-label\">Demo 4 — Warehouse hunt: locomotion &amp; comfort</span></p><p>Head-relative versus world-relative?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>Smooth travel uses the headset’s forward direction projected onto the floor; teleport moves the rig so the tracked head reaches the destination. Artificial turning pivots around the current head position rather than the rig origin.</p><h3>How our project does it</h3><p>Smooth movement projects the headset's forward direction onto the ground; the right direction is perpendicular to it. The rig moves along those vectors. Local tracking poses still report the user's real movement inside the physical space. Teleport adjusts rig position by destination minus current world head position, preserving room-scale offset correctly. Turning pivots about the user's head.</p><h3>Understand the idea</h3><ul><li><strong>Head-relative</strong> means joystick forward follows where the head faces; <strong>world-relative</strong> would use a fixed warehouse direction regardless of head orientation.</li><li>Set forward.y=0 and normalize to keep travel horizontal. Build a perpendicular right vector, combine joystick axes and multiply by <strong>speed×deltaTime</strong>.</li><li>The <strong>rig</strong> applies artificial travel, while the head retains its local real-world tracking offset. Teleport adds <strong>destination − current world head position</strong> to rig X/Z.</li><li>Turning around the rig origin could swing a physically offset user through an unintended arc. Compensating rig X/Z preserves the head’s position while rotating heading.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo4_Hunt/main.js; hunt.js; height.js; view.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-4-q04",
+      "sectionId": "vr-portfolio-1-demo-4",
+      "topic": "Demo 4 — Warehouse hunt: locomotion & comfort",
+      "guideQuestion": "Why does vignette help?",
+      "frontText": "<p><span class=\"topic-label\">Demo 4 — Warehouse hunt: locomotion &amp; comfort</span></p><p>Why does vignette help?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>The vignette darkens peripheral vision during continuous movement/rotation, reducing peripheral optic flow that signals motion without matching inner-ear sensation. It can reduce discomfort but is not a guarantee.</p><h3>How our project does it</h3><p>It darkens peripheral vision during continuous translation/rotation, reducing peripheral optic flow. It doesn't make the inner ear detect virtual acceleration. It is one comfort option, not a guarantee against sickness.</p><h3>Understand the idea</h3><ul><li><strong>Optic flow</strong> is the apparent movement of scene features across your vision. Fast peripheral movement strongly suggests self-motion.</li><li>During joystick travel your eyes see movement while the <strong>vestibular system</strong> in the inner ear does not feel that virtual acceleration. This sensory mismatch can cause discomfort.</li><li>Our vignette fades toward its active amount during smooth translation or smooth turning, and away when movement stops. It is configurable.</li><li>It does <strong>not</strong> create physical acceleration or remove every cause of motion sickness.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo4_Hunt/main.js; hunt.js; height.js; view.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-4-q05",
+      "sectionId": "vr-portfolio-1-demo-4",
+      "topic": "Demo 4 — Warehouse hunt: locomotion & comfort",
+      "guideQuestion": "Why snap, fade, speed and calibration?",
+      "frontText": "<p><span class=\"topic-label\">Demo 4 — Warehouse hunt: locomotion &amp; comfort</span></p><p>Why snap, fade, speed and calibration?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>Snap turning reduces sustained rotational flow, teleport fade masks a jump, adjustable speed limits artificial motion, and height calibration makes the scene usable in the current posture. Reset View restores heading separately from calibration.</p><h3>How our project does it</h3><p>Snap avoids prolonged rotational flow. Fade masks the jump. Lower speed reduces artificial visual motion. Seated calibration gives a usable eye height for the current posture. View reset faces the starting aisle at the current position without changing height or hunt progress. All are configurable in the world.</p><h3>Understand the idea</h3><ul><li><strong>Snap turn:</strong> a brief <strong>30°</strong> yaw change rather than prolonged rotating imagery; smooth turning remains an option.</li><li><strong>Teleport fade:</strong> fade to black before relocating, then fade back. <strong>Speed:</strong> clamp user settings to <strong>0.5–3 m/s</strong>.</li><li><strong>Calibration:</strong> establish a useful eye height for sitting/standing. <strong>Reset View:</strong> face the starting aisle without changing eye height or score.</li><li>These features have different roles. Comfort options help users choose a tolerable experience; they do not make virtual locomotion physically sensed.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo4_Hunt/main.js; hunt.js; height.js; view.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-4-q06",
+      "sectionId": "vr-portfolio-1-demo-4",
+      "topic": "Demo 4 — Warehouse hunt: locomotion & comfort",
+      "guideQuestion": "How was Reset View fixed?",
+      "frontText": "<p><span class=\"topic-label\">Demo 4 — Warehouse hunt: locomotion &amp; comfort</span></p><p>How was Reset View fixed?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>The original reference-space reset did not cancel yaw and could change height. The fix computes a yaw correction from the current world-facing direction and rotates the rig around the head, preserving position, height and hunt progress.</p><h3>How our project does it</h3><p>Requesting another <code>local-floor</code> reference space did not cancel the artificial turn; the student observed a small height change instead of a heading reset. The corrected action reads the current world forward vector and adds yaw <code>atan2(forward.x, −forward.z)</code> to face world −Z. It rotates around the head, compensating rig X/Z with the head's before/after position so a real tracking offset does not orbit into another location. It does not change Y, recalibrate height, replace the tracking reference space or reset the hunt. Height calibration is a separate button. Test it at the start with three right snap turns: the <strong>A RECEIVING ← → B TOOLS</strong> sign should return in front, with eye height unchanged.</p><h3>Understand the idea</h3><ul><li>Starting-aisle forward is <strong>world −Z</strong>. Compute the correction using <code>atan2(forward.x, −forward.z)</code>.</li><li>Record world head position before/after the rotation, then compensate the rig’s <strong>X/Z translation</strong> so an existing room-scale offset does not orbit.</li><li>This is <strong>heading reset</strong>, not replacing the tracking reference space, changing Y, recalibrating height or restarting the hunt.</li><li>At the starting location, the <strong>A RECEIVING ← → B TOOLS</strong> sign should return ahead after turning and resetting. That is a behavioral check, not proof of every device condition.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo4_Hunt/main.js; hunt.js; height.js; view.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-4-q07",
+      "sectionId": "vr-portfolio-1-demo-4",
+      "topic": "Demo 4 — Warehouse hunt: locomotion & comfort",
+      "guideQuestion": "How does seated/standing calibration work now?",
+      "frontText": "<p><span class=\"topic-label\">Demo 4 — Warehouse hunt: locomotion &amp; comfort</span></p><p>How does seated/standing calibration work now?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>Calibration waits for a fresh XR frame and sets rig Y to 1.6 minus native headset Y. Both posture modes calibrate once, then preserve normal real head movement instead of continuously forcing the camera to a fixed height.</p><h3>How our project does it</h3><p>Sit before enabling Seated; stand before disabling it. Entry, either posture switch and Calibrate Height request a one-time measurement from the next valid XR animation frame. The offset is <code>1.6 − nativeHeadY</code>, and the rig's Y is set to that offset. Both modes therefore use an authored 1.6 m eye height at calibration, including if the tracked floor origin is biased. Later real head movement is still added normally; height is not continually clamped. This trades an individual's exact physical stature for consistent scene accessibility. Reading native pose Y avoids counting our own adjustment again. The old OFF action set offset to zero and could expose an excessively high tracked standing pose; calibration on session start also preceded a valid pose. Raw/offset values are not saved across sessions, only the user's seated preference. Regression tests check the correction and its invariants; do not claim every headset/tracking setup has been independently validated.</p><h3>Understand the idea</h3><ul><li>Sit before enabling Seated; stand before disabling it. Entry, either toggle and Calibrate Height request a <strong>one-time measurement</strong> from the next valid XR pose.</li><li>Example: native head Y=1.1 m gives offset <strong>+0.5 m</strong>; native Y=1.8 m gives <strong>−0.2 m</strong>. Both initially result in virtual eye height <strong>1.6 m</strong>.</li><li>Read <strong>native/reference-space Y</strong>, not an already-adjusted world camera Y, or repeated calibration would double-count its own offset.</li><li>Afterward leaning/crouching still changes height naturally. We save the <strong>seated preference, not the raw offset</strong>. The tradeoff is a consistent authored height rather than preserving each person’s exact stature.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo4_Hunt/main.js; hunt.js; height.js; view.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-4-q08",
+      "sectionId": "vr-portfolio-1-demo-4",
+      "topic": "Demo 4 — Warehouse hunt: locomotion & comfort",
+      "guideQuestion": "What persists?",
+      "frontText": "<p><span class=\"topic-label\">Demo 4 — Warehouse hunt: locomotion &amp; comfort</span></p><p>What persists?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>Travel mode, turn mode, speed, seated preference and vignette preference persist as JSON in localStorage. Tracking-space height offsets are deliberately recalculated for the current session, not reused from an older pose.</p><h3>How our project does it</h3><p>Validated travel, turn, speed, seated and vignette preferences are saved as JSON in localStorage. A page restart reloads them. Eye-height offset is recalculated from the current tracked head, rather than reusing a potentially stale room pose. Test persistence by changing settings and restarting the browser.</p><h3>Understand the idea</h3><ul><li><strong>localStorage</strong> is persistent browser storage for this site/origin. A page restart loads the preferences; it is not automatically an account/cloud sync system.</li><li><code>validSettings()</code> validates modes and clamps speed to <strong>0.5–3 m/s</strong>, so malformed settings cannot produce unsafe or nonsensical movement values.</li><li>Do <strong>not</strong> claim the hunt’s found targets/timer are saved just because comfort preferences are saved. Task progress and settings are separate state.</li><li>To demonstrate persistence, change a preference and reload/reopen. Eye height must be freshly calibrated because posture/tracking origins can change.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo4_Hunt/main.js; hunt.js; height.js; view.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    },
+    {
+      "id": "vr-portfolio-1-demo-4-q09",
+      "sectionId": "vr-portfolio-1-demo-4",
+      "topic": "Demo 4 — Warehouse hunt: locomotion & comfort",
+      "guideQuestion": "Which method suits the warehouse?",
+      "frontText": "<p><span class=\"topic-label\">Demo 4 — Warehouse hunt: locomotion &amp; comfort</span></p><p>Which method suits the warehouse?</p>",
+      "backText": "<h3>Short quiz answer</h3><p>Teleport suits long warehouse-aisle jumps with pauses to inspect codes; smooth movement suits fine positioning and continuous exploration. The preferred method depends on the user’s comfort and the current task.</p><h3>How our project does it</h3><p>Teleport is comfortable for long aisle jumps and pauses for code inspection; smooth motion offers fine movement and continuous exploration. Explain the comfort/speed tradeoff with your actual test rather than claiming everyone prefers one method.</p><h3>Understand the idea</h3><ul><li><strong>Teleport advantage:</strong> skip long continuous visual travel and quickly inspect distant regions. <strong>Tradeoff:</strong> discrete jumps can be less continuous for spatial exploration.</li><li><strong>Smooth advantage:</strong> fine-grained movement and a continuous view of the route. <strong>Tradeoff:</strong> more visual/vestibular mismatch, so speed and vignette matter.</li><li>Both were intentionally made usable for the whole hunt. An answer should connect the choice to this <strong>warehouse’s aisles and close code inspection</strong>, not simply define teleport.</li><li>Describe your own experience as personal evidence; do not claim one option is universally comfortable for everyone.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo4_Hunt/main.js; hunt.js; height.js; view.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "frontImage": "",
+      "backImage": ""
+    }
+  ],
+  "progress": {
+    "vr-portfolio-1-demo-1-summary": "red",
+    "vr-portfolio-1-demo-1-q01": "red",
+    "vr-portfolio-1-demo-1-q02": "red",
+    "vr-portfolio-1-demo-1-q03": "red",
+    "vr-portfolio-1-demo-1-q04": "red",
+    "vr-portfolio-1-demo-1-q05": "red",
+    "vr-portfolio-1-demo-1-q06": "red",
+    "vr-portfolio-1-demo-1-q07": "red",
+    "vr-portfolio-1-demo-1-q08": "red",
+    "vr-portfolio-1-demo-2-summary": "red",
+    "vr-portfolio-1-demo-2-q01": "red",
+    "vr-portfolio-1-demo-2-q02": "red",
+    "vr-portfolio-1-demo-2-q03": "red",
+    "vr-portfolio-1-demo-2-q04": "red",
+    "vr-portfolio-1-demo-2-q05": "red",
+    "vr-portfolio-1-demo-2-q06": "red",
+    "vr-portfolio-1-demo-2-q07": "red",
+    "vr-portfolio-1-demo-2-q08": "red",
+    "vr-portfolio-1-demo-2-q09": "red",
+    "vr-portfolio-1-demo-2-q10": "red",
+    "vr-portfolio-1-demo-2-q11": "red",
+    "vr-portfolio-1-demo-2-q12": "red",
+    "vr-portfolio-1-demo-2-q13": "red",
+    "vr-portfolio-1-demo-3-summary": "red",
+    "vr-portfolio-1-demo-3-q01": "red",
+    "vr-portfolio-1-demo-3-q02": "red",
+    "vr-portfolio-1-demo-3-q03": "red",
+    "vr-portfolio-1-demo-3-q04": "red",
+    "vr-portfolio-1-demo-3-q05": "red",
+    "vr-portfolio-1-demo-3-q06": "red",
+    "vr-portfolio-1-demo-3-q07": "red",
+    "vr-portfolio-1-demo-3-q08": "red",
+    "vr-portfolio-1-demo-3-q09": "red",
+    "vr-portfolio-1-demo-3-q10": "red",
+    "vr-portfolio-1-demo-3-q11": "red",
+    "vr-portfolio-1-demo-3-q12": "red",
+    "vr-portfolio-1-demo-4-summary": "red",
+    "vr-portfolio-1-demo-4-q01": "red",
+    "vr-portfolio-1-demo-4-q02": "red",
+    "vr-portfolio-1-demo-4-q03": "red",
+    "vr-portfolio-1-demo-4-q04": "red",
+    "vr-portfolio-1-demo-4-q05": "red",
+    "vr-portfolio-1-demo-4-q06": "red",
+    "vr-portfolio-1-demo-4-q07": "red",
+    "vr-portfolio-1-demo-4-q08": "red",
+    "vr-portfolio-1-demo-4-q09": "red"
+  }
+}

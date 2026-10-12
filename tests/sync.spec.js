@@ -85,8 +85,8 @@ test("a fresh device downloads mastered cards without downgrading cloud progress
   await page.goto("/");
   const result = await page.evaluate(async () => {
     const { CloudSync } = await import("/src/lib/cloud-sync.js");
-    const { withMidtermSet } = await import("/src/lib/midterm.js");
-    let local = withMidtermSet({ sets: [], activeSetId: null });
+    const { withStudySets } = await import("/src/lib/study-sets.js");
+    let local = withStudySets({ sets: [], activeSetId: null });
     const remote = structuredClone(local);
     remote.sets[0].progress[remote.sets[0].cards[0].id] = "green";
     let writes = 0;
@@ -108,8 +108,8 @@ test("ratings made during a pending save are retained and uploaded next", async 
   await page.goto("/");
   const result = await page.evaluate(async () => {
     const { CloudSync } = await import("/src/lib/cloud-sync.js");
-    const { withMidtermSet } = await import("/src/lib/midterm.js");
-    let local = withMidtermSet({ sets: [], activeSetId: null });
+    const { withStudySets } = await import("/src/lib/study-sets.js");
+    let local = withStudySets({ sets: [], activeSetId: null });
     let row = { version: 1, state: structuredClone(local) };
     const cache = { getItem: () => JSON.stringify({ state: row.state }), setItem: () => {} };
     let release;
@@ -156,8 +156,8 @@ test("legacy cloud midterm sections migrate and save once without changing ratin
   await page.goto("/");
   const result = await page.evaluate(async () => {
     const { CloudSync } = await import("/src/lib/cloud-sync.js");
-    const { withMidtermSet } = await import("/src/lib/midterm.js");
-    let local = withMidtermSet({ sets: [], activeSetId: null });
+    const { withStudySets } = await import("/src/lib/study-sets.js");
+    let local = withStudySets({ sets: [], activeSetId: null });
     const old = structuredClone(local);
     delete old.sets[0].sections;
     delete old.sets[0].sectionSchemaVersion;
@@ -193,9 +193,9 @@ test("content corrections reach an existing cloud set once and preserve personal
   await page.goto("/");
   const result = await page.evaluate(async () => {
     const { CloudSync } = await import("/src/lib/cloud-sync.js");
-    const { withMidtermSet } = await import("/src/lib/midterm.js");
+    const { withStudySets } = await import("/src/lib/study-sets.js");
     const { default: originals } = await import("/src/data/midterm-content-corrections.json");
-    let local = withMidtermSet({ sets: [], activeSetId: null });
+    let local = withStudySets({ sets: [], activeSetId: null });
     const old = structuredClone(local);
     delete old.sets[0].studyContentVersion;
     for (const card of old.sets[0].cards) {

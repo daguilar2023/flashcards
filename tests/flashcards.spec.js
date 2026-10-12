@@ -13,7 +13,7 @@ test.beforeEach(async ({ page }) => {
           { id: "demo-2", frontText: "What is the derivative of sin(x)?", backText: "cos(x)" },
           { id: "demo-3", frontText: "What is the time complexity of binary search?", backText: "O(log n)" },
         ], progress: {},
-      }], activeSetId: "demo", installedStudySets: ["android-midterm-fall-2026"],
+      }], activeSetId: "demo", installedStudySets: ["android-midterm-fall-2026", "vr-portfolio-1-fall-2026"],
     }));
   });
 });

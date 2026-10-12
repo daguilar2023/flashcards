@@ -1,9 +1,10 @@
 import { normalizeState } from "./model";
-import { withMidtermSet, MIDTERM_SET_ID } from "./midterm";
+import { MIDTERM_SET_ID } from "./midterm";
+import { withStudySets } from "./study-sets";
 import { statePatch, applyPatch, hasPatch } from "./sync-merge";
 import midterm from "../data/android-midterm.json";
 
-const freshState = () => withMidtermSet({ sets: [], activeSetId: null });
+const freshState = () => withStudySets({ sets: [], activeSetId: null });
 const empty = () => ({ sets: [], installedStudySets: [], activeSetId: null });
 
 export class CloudSync {
@@ -55,8 +56,12 @@ export class CloudSync {
         const before = this.baseline || (row ? freshState() : empty());
         changes = statePatch(before, local);
       }
-      let merged = normalizeState(applyPatch(remote, changes));
-      if (!row || hasPatch(changes) || needsSectionUpgrade || needsContentUpgrade) {
+      let merged = withStudySets(normalizeState(applyPatch(remote, changes)));
+      // A new bundled deck must also reach existing cloud accounts. A marker
+      // records the install so deleting it on any device does not reinstall it.
+      const needsStudySetInstall = merged.installedStudySets.some((id) =>
+        !(remote.installedStudySets || []).includes(id));
+      if (!row || hasPatch(changes) || needsSectionUpgrade || needsContentUpgrade || needsStudySetInstall) {
         const { data: saved, error: saveError } = await this.client.rpc("save_flashcard_state", {
           target_user_id: this.userId,
           expected_version: row?.version || 0,

@@ -12,7 +12,7 @@ async function open(page, route = "/") {
 test("default midterm covers the review bullets plus four layout exercises in order", async ({ page }, testInfo) => {
   await open(page);
   const state = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)), key);
-  expect(state.sets).toHaveLength(1);
+  expect(state.sets).toHaveLength(2);
   const set = state.sets[0];
   expect(set.id).toBe(midterm.id);
   expect(set.cards).toHaveLength(90);
@@ -23,7 +23,7 @@ test("default midterm covers the review bullets plus four layout exercises in or
     return groups;
   }, {})).toEqual({ 1: 6, 2: 6, 3: 7, 4: 8, 5: 24, 6: 20, 7: 7, 8: 12 });
   await page.reload();
-  await expect(page.locator(".deck-card")).toHaveCount(1);
+  await expect(page.locator(".deck-card")).toHaveCount(2);
   await page.screenshot({ path: `test-results/midterm-library-${testInfo.project.name}.png`, fullPage: true });
 });
 
@@ -95,9 +95,9 @@ test("installation preserves existing sets, cards, and progress", async ({ page 
     }], activeSetId: "personal" }));
   }, key);
   await open(page);
-  await expect(page.locator(".deck-card")).toHaveCount(2);
+  await expect(page.locator(".deck-card")).toHaveCount(3);
   await page.reload();
-  await expect(page.locator(".deck-card")).toHaveCount(2);
+  await expect(page.locator(".deck-card")).toHaveCount(3);
   const saved = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)), key);
   expect(saved.activeSetId).toBe("personal");
   expect(saved.sets[0].cards[0].backText).toBe("Existing answer");
@@ -109,10 +109,10 @@ test("deleting the bundled set does not reinstall it on refresh", async ({ page 
   await page.getByRole("button", { name: `Edit ${midterm.name}`, exact: true }).click();
   await page.getByRole("button", { name: "Delete set", exact: true }).click();
   await page.getByRole("dialog").getByRole("button", { name: "Delete set", exact: true }).click();
-  await expect(page.locator(".deck-card")).toHaveCount(0);
+  await expect(page.locator(".deck-card")).toHaveCount(1);
   await expect(page.locator(".local-status")).toContainText("Saved on this device");
   await page.reload();
-  await expect(page.locator(".deck-card")).toHaveCount(0);
+  await expect(page.locator(".deck-card")).toHaveCount(1);
 });
 
 test("overview questions name their subjects and answers stand alone", async ({ page }) => {

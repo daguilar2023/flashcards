@@ -56,7 +56,39 @@ The app includes **Android Midterm · October 8, 2026**, with 86 review cards pl
 
 The set installs once, alongside existing sets, without replacing their cards or progress. Its 90 cards are assigned to the eight review topics as sections. Previously installed copies gain these sections once, preserving edits and ratings; deliberate unassignment is preserved afterward. Edits and deliberate deletions are preserved after refreshing. Its source is `src/data/android-midterm.json`; `src/lib/midterm.js` handles the one-time installation. Bundled overview cards are self-contained; a versioned content repair updates only unchanged original text in existing local and cloud copies, preserving personal edits, deletions, assignments, and ratings. Use Export for a transferable backup.
 
-## Validation
+## VR Portfolio 1 personalized quiz deck
+
+**VR Portfolio 1 — Personalized Quiz** installs once alongside the Android
+midterm and existing personal sets. It contains **46 cards in four sections**:
+
+- Demo 1 — Ferris wheel: graphics & transforms (9 cards).
+- Demo 2 — Table tennis: physics & tracking (14 cards).
+- Demo 3 — Fire response: procedure & manipulation (13 cards).
+- Demo 4 — Warehouse hunt: locomotion & comfort (10 cards).
+
+Each section begins with a brief demo-summary card, with important concepts
+highlighted. The following 42 cards correspond one-for-one, in order, to every
+question under the four demos in the student's `QUIZ_GUIDE.md`. Each detailed
+answer includes a short quiz response, the submitted implementation, plain-English
+definitions/examples, and relevant limitations. These are practice questions,
+not the professor's actual personalized quiz. Answers were checked against the
+portfolio source at commit `751e0837db920eddaefa3eb86802f6f9ce9159b8`.
+
+The deck clarifies that the Unity solver has **180 fixed updates per second with
+four integration/contact substeps each**, not necessarily exactly 720 total
+collision queries. It also includes the actual rounded hunt-score formula and
+distinguishes desktop/editor tests from physical-headset observations.
+
+The source is `src/data/vr-portfolio-1.json`; `src/lib/study-sets.js` handles
+one-time installation. Local saves and cloud downloads install missing bundled
+sets without overwriting existing cards, section assignments, progress or active
+selection. Deliberate deletions are recorded and are not reinstalled on refresh
+or another device. A transferable import file is available at
+[study-decks/vr-portfolio-1.json](https://daguilar2023.github.io/flashcards/study-decks/vr-portfolio-1.json).
+Import merges by deck ID; importing over the same deck intentionally replaces
+its content and ratings, so do not reimport after studying unless that is intended.
+
+## Validation commands
 
 ```sh
 npm run lint

@@ -10,7 +10,7 @@ const fixture = {
       { id: "a2", sectionId: "a", frontText: "Android two", backText: "Answer two" },
       { id: "other", frontText: "Unsectioned question", backText: "Unsectioned answer" },
     ], progress: { a1: "red", b1: "red", a2: "red", other: "red" },
-  }], activeSetId: "sections", installedStudySets: ["android-midterm-fall-2026"],
+  }], activeSetId: "sections", installedStudySets: ["android-midterm-fall-2026", "vr-portfolio-1-fall-2026"],
 };
 async function open(page, route = "learn", value = fixture) {
   await page.addInitScript(({ key, value }) => {
