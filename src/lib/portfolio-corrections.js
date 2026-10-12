@@ -10,9 +10,15 @@ export function correctPortfolioContent(set) {
     studyContentVersion: portfolio.studyContentVersion,
     cards: set.cards.map((card) => {
       const original = originals[card.id];
-      if (!original || card.backText !== original.backText) return card;
+      if (!original) return card;
       const replacement = portfolio.cards.find((item) => item.id === card.id);
-      return { ...card, backText: replacement.backText };
+      const corrected = { ...card };
+      for (const field of ["frontText", "backText"]) {
+        if (typeof original[field] === "string" && card[field] === original[field]) {
+          corrected[field] = replacement[field];
+        }
+      }
+      return corrected;
     }),
   };
 }

@@ -85,6 +85,11 @@ their geometry. The wording migrates once in existing local/cloud decks only
 when the old bundled answer is unchanged; personal edits, removed cards, section
 assignments and study progress are preserved.
 
+Content version 3 makes the lighting front self-contained: “Which light types
+are used in my Ferris-wheel demo, and what does each one do?” The same guarded
+migration now handles fronts and backs independently, keeping the existing
+answer, personal edits and ratings intact.
+
 The source is `src/data/vr-portfolio-1.json`; `src/lib/study-sets.js` handles
 one-time installation. Local saves and cloud downloads install missing bundled
 sets without overwriting existing cards, section assignments, progress or active

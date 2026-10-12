@@ -4,7 +4,7 @@
       "id": "vr-portfolio-1-fall-2026",
       "name": "VR Portfolio 1 — Personalized Quiz",
       "color": "blue",
-      "studyContentVersion": 2,
+      "studyContentVersion": 3,
       "sourceGuide": "QUIZ_GUIDE.md",
       "sourceCommit": "751e0837db920eddaefa3eb86802f6f9ce9159b8",
       "sections": [
@@ -91,7 +91,7 @@
           "sectionId": "vr-portfolio-1-demo-1",
           "topic": "Demo 1 — Ferris wheel: graphics & transforms",
           "guideQuestion": "Which light is which?",
-          "frontText": "<p><span class=\"topic-label\">Demo 1 — Ferris wheel: graphics &amp; transforms</span></p><p>Which light is which?</p>",
+          "frontText": "<p><span class=\"topic-label\">Demo 1 — Ferris wheel: graphics &amp; transforms</span></p><p>Which light types are used in my Ferris-wheel demo, and what does each one do?</p>",
           "backText": "<h3>Short quiz answer</h3><p>Directional light models sunlight, point light radiates around the wheel, spotlight illuminates a cone at the loading area, and hemisphere light supplies ambient fill. Diffuse shading depends on light-facing direction; specular highlights also depend on viewing direction and material.</p><h3>How our project does it</h3><p>Directional: roughly parallel sunlight. Point: light radiating around the wheel, with distance attenuation. Spot: light in a cone toward the loading area. Hemisphere is the ambient fill. Diffuse responds to the surface/light angle; specular depends on view direction and roughness/metalness.</p><h3>Understand the idea</h3><ul><li><strong>Directional:</strong> approximately parallel rays. <strong>Point:</strong> rays spread from a position and weaken with distance. <strong>Spot:</strong> a position plus a restricted cone.</li><li><strong>Diffuse</strong> is the broad lit appearance; <strong>specular</strong> is the shiny highlight. Our standard PBR materials use roughness and metalness to control the appearance.</li><li>Moving the viewpoint can move a specular highlight even when the object and light stay still. A bright emission strip and a real light source are different things.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo1_Ride/main.js; Demo1_Ride/cabin.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
           "frontImage": "",
           "backImage": ""

@@ -6,11 +6,92 @@ const backup = JSON.parse(readFileSync(new URL("../public/study-decks/vr-portfol
 const key = "flashcards_app_v1";
 const corrections = JSON.parse(readFileSync(new URL("../src/data/portfolio-content-corrections.json", import.meta.url), "utf8"));
 const normalMapId = "vr-portfolio-1-demo-1-q05";
+const lightingId = "vr-portfolio-1-demo-1-q06";
 
 async function ready(page) {
   await page.goto("/");
   await expect(page.locator(".local-status")).toContainText("Saved on this device");
 }
+
+test("lighting question is self-contained and migrates without changing its answer or rating", async ({ page }, testInfo) => {
+  const old = structuredClone(deck);
+  old.studyContentVersion = 2;
+  const light = old.cards.find((card) => card.id === lightingId);
+  light.frontText = corrections[lightingId].frontText;
+  old.progress[lightingId] = "yellow";
+  await page.addInitScript(({ key, old }) => {
+    if (!localStorage.getItem(key)) localStorage.setItem(key, JSON.stringify({
+      sets: [old], activeSetId: old.id,
+      installedStudySets: ["android-midterm-fall-2026", old.id],
+    }));
+  }, { key, old });
+  await ready(page);
+  await page.getByRole("button", { name: deck.name, exact: true }).click();
+  await page.getByRole("button", { name: "All questions & answers", exact: true }).click();
+  await page.getByLabel("Search questions and answers").fill("Which light types are used");
+  await expect(page.locator(".answer-sheet-card")).toHaveCount(1);
+  await expect(page.locator(".answer-sheet-front")).toContainText("Which light types are used in my Ferris-wheel demo, and what does each one do?");
+  await expect(page.locator(".answer-sheet-back")).toContainText("Directional light models sunlight");
+  await page.screenshot({ path: `test-results/portfolio-lighting-${testInfo.project.name}.png`, fullPage: true });
+  const saved = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)).sets[0], key);
+  expect(saved.studyContentVersion).toBe(deck.studyContentVersion);
+  expect(saved.cards.find((card) => card.id === lightingId).backText).toBe(light.backText);
+  expect(saved.progress[lightingId]).toBe("yellow");
+  const personal = await page.evaluate(async ({ old, lightingId }) => {
+    const { normalizeState } = await import("/src/lib/model.js");
+    const edited = structuredClone(old);
+    const card = edited.cards.find((card) => card.id === lightingId);
+    card.frontText = "My own lighting question";
+    card.backText = "My own lighting notes";
+    card.sectionId = "";
+    const updated = normalizeState({ sets: [edited] }).sets[0];
+    edited.cards = edited.cards.filter((card) => card.id !== lightingId);
+    const deleted = normalizeState({ sets: [edited] }).sets[0];
+    return { card: updated.cards.find((card) => card.id === lightingId),
+      deleted: !deleted.cards.some((card) => card.id === lightingId) };
+  }, { old, lightingId });
+  expect(personal.card.frontText).toBe("My own lighting question");
+  expect(personal.card.backText).toBe("My own lighting notes");
+  expect(personal.card.sectionId).toBe("");
+  expect(personal.deleted).toBe(true);
+});
+
+test("cloud lighting front upgrades once without replacing a personal answer", async ({ page }) => {
+  await ready(page);
+  const result = await page.evaluate(async ({ deck, oldFront, lightingId }) => {
+    const { withStudySets } = await import("/src/lib/study-sets.js");
+    const { CloudSync } = await import("/src/lib/cloud-sync.js");
+    let local = withStudySets({ sets: [], activeSetId: null });
+    const old = structuredClone(local);
+    const set = old.sets.find((set) => set.id === deck.id);
+    set.studyContentVersion = 2;
+    const card = set.cards.find((card) => card.id === lightingId);
+    card.frontText = oldFront;
+    card.backText = "My personal lighting explanation";
+    set.progress[lightingId] = "green";
+    let row = { version: 30, state: old }, writes = 0;
+    const client = {
+      from: () => ({ select: () => ({ eq: () => ({ maybeSingle: async () => ({ data: structuredClone(row) }) }) }) }),
+      rpc: async (_name, args) => {
+        writes++;
+        row = { state: args.next_state, version: row.version + 1 };
+        return { data: structuredClone(row) };
+      },
+    };
+    const sync = new CloudSync({ client, userId: "user", getState: () => local,
+      onState: (value) => { local = value; }, onStatus: () => {},
+      cache: { getItem: () => null, setItem: () => {} } });
+    await sync.sync(); await sync.sync(); sync.stop();
+    const saved = row.state.sets.find((set) => set.id === deck.id);
+    return { writes, version: saved.studyContentVersion, rating: saved.progress[lightingId],
+      card: saved.cards.find((card) => card.id === lightingId) };
+  }, { deck, oldFront: corrections[lightingId].frontText, lightingId });
+  expect(result.writes).toBe(1);
+  expect(result.version).toBe(deck.studyContentVersion);
+  expect(result.rating).toBe("green");
+  expect(result.card.frontText).toBe(deck.cards.find((card) => card.id === lightingId).frontText);
+  expect(result.card.backText).toBe("My personal lighting explanation");
+});
 
 test("normal-map wording updates saved decks without changing ratings, edits or deleted cards", async ({ page }, testInfo) => {
   const old = structuredClone(deck);
@@ -36,7 +117,7 @@ test("normal-map wording updates saved decks without changing ratings, edits or 
   await page.screenshot({ path: `test-results/portfolio-normal-map-${testInfo.project.name}.png`, fullPage: true });
   await page.reload();
   const saved = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)).sets[0], key);
-  expect(saved.studyContentVersion).toBe(2);
+  expect(saved.studyContentVersion).toBe(deck.studyContentVersion);
   expect(saved.cards).toHaveLength(45);
   expect(saved.progress[normalMapId]).toBe("green");
   expect(saved.cards[1].backText).toBe("My own gondola explanation");
@@ -79,7 +160,7 @@ test("existing cloud normal-map answer upgrades once and keeps mastered progress
       back: saved.cards.find((card) => card.id === normalMapId).backText };
   }, { deck, oldBack: corrections[normalMapId].backText, normalMapId });
   expect(result.writes).toBe(1);
-  expect(result.version).toBe(2);
+  expect(result.version).toBe(deck.studyContentVersion);
   expect(result.rating).toBe("green");
   expect(result.back).toBe(deck.cards.find((card) => card.id === normalMapId).backText);
 });
