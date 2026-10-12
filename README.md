@@ -79,6 +79,12 @@ four integration/contact substeps each**, not necessarily exactly 720 total
 collision queries. It also includes the actual rounded hunt-score formula and
 distinguishes desktop/editor tests from physical-headset observations.
 
+Content version 2 uses the student's preferred plain-English normal-map quiz
+answer, explaining how the cabin walls look like ridged metal without changing
+their geometry. The wording migrates once in existing local/cloud decks only
+when the old bundled answer is unchanged; personal edits, removed cards, section
+assignments and study progress are preserved.
+
 The source is `src/data/vr-portfolio-1.json`; `src/lib/study-sets.js` handles
 one-time installation. Local saves and cloud downloads install missing bundled
 sets without overwriting existing cards, section assignments, progress or active

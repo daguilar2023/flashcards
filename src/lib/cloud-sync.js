@@ -3,6 +3,7 @@ import { MIDTERM_SET_ID } from "./midterm";
 import { withStudySets } from "./study-sets";
 import { statePatch, applyPatch, hasPatch } from "./sync-merge";
 import midterm from "../data/android-midterm.json";
+import portfolio from "../data/vr-portfolio-1.json";
 
 const freshState = () => withStudySets({ sets: [], activeSetId: null });
 const empty = () => ({ sets: [], installedStudySets: [], activeSetId: null });
@@ -49,7 +50,8 @@ export class CloudSync {
       const needsSectionUpgrade = row?.state.sets?.some((set) =>
         set.id === MIDTERM_SET_ID && !set.sectionSchemaVersion);
       const needsContentUpgrade = row?.state.sets?.some((set) =>
-        set.id === MIDTERM_SET_ID && (!(set.studyContentVersion >= midterm.studyContentVersion) || !set.layoutPracticeVersion));
+        (set.id === MIDTERM_SET_ID && (!(set.studyContentVersion >= midterm.studyContentVersion) || !set.layoutPracticeVersion)) ||
+        (set.id === portfolio.id && !(set.studyContentVersion >= portfolio.studyContentVersion)));
       if (!changes) {
         // First login carries meaningful guest changes, but never downgrades
         // cloud ratings just because this device has untouched red defaults.

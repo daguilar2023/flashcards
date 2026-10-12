@@ -4,7 +4,7 @@
       "id": "vr-portfolio-1-fall-2026",
       "name": "VR Portfolio 1 — Personalized Quiz",
       "color": "blue",
-      "studyContentVersion": 1,
+      "studyContentVersion": 2,
       "sourceGuide": "QUIZ_GUIDE.md",
       "sourceCommit": "751e0837db920eddaefa3eb86802f6f9ce9159b8",
       "sections": [
@@ -82,7 +82,7 @@
           "topic": "Demo 1 — Ferris wheel: graphics & transforms",
           "guideQuestion": "What does a normal map change?",
           "frontText": "<p><span class=\"topic-label\">Demo 1 — Ferris wheel: graphics &amp; transforms</span></p><p>What does a normal map change?</p>",
-          "backText": "<h3>Short quiz answer</h3><p>A normal map perturbs the lighting normal to create the appearance of surface detail without changing geometry. Our corrugation normal map changes highlights; the emission map makes selected strips appear bright.</p><h3>How our project does it</h3><p>It changes the normal used in lighting, not the silhouette or geometry. RGB stores tangent-space directions and is interpreted as linear data. The corrugation texture changes visible highlights. An emission map marks a strip as bright; it does not illuminate surrounding geometry in this renderer.</p><h3>Understand the idea</h3><ul><li>A <strong>normal</strong> is a direction perpendicular to a surface. Lighting uses it to decide how the surface faces the light.</li><li><strong>Tangent-space</strong> normal-map RGB encodes direction relative to the textured surface. It is linear vector data, not colour that should receive an sRGB colour conversion.</li><li>The cabin can look ridged while keeping the same silhouette and triangle count. <strong>Emission does not cast light onto nearby surfaces</strong> in this renderer; the point/spot lights do that.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo1_Ride/main.js; Demo1_Ride/cabin.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+          "backText": "<h3>Short quiz answer</h3><p>A normal map changes the <strong>surface normals used for lighting</strong> without changing the geometry. In my project, it makes the cabin walls look like <strong>ridged metal</strong> by changing their shading and highlights.</p><h3>How our project does it</h3><p>It changes the normal used in lighting, not the silhouette or geometry. RGB stores tangent-space directions and is interpreted as linear data. The corrugation texture changes visible highlights. An emission map marks a strip as bright; it does not illuminate surrounding geometry in this renderer.</p><h3>Understand the idea</h3><ul><li>A <strong>normal</strong> is a direction perpendicular to a surface. Lighting uses it to decide how the surface faces the light.</li><li><strong>Tangent-space</strong> normal-map RGB encodes direction relative to the textured surface. It is linear vector data, not colour that should receive an sRGB colour conversion.</li><li>The cabin can look ridged while keeping the same silhouette and triangle count. <strong>Emission does not cast light onto nearby surfaces</strong> in this renderer; the point/spot lights do that.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo1_Ride/main.js; Demo1_Ride/cabin.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
           "frontImage": "",
           "backImage": ""
         },

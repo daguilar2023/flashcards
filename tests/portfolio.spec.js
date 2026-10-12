@@ -4,11 +4,85 @@ import { readFileSync } from "node:fs";
 const deck = JSON.parse(readFileSync(new URL("../src/data/vr-portfolio-1.json", import.meta.url), "utf8"));
 const backup = JSON.parse(readFileSync(new URL("../public/study-decks/vr-portfolio-1.json", import.meta.url), "utf8"));
 const key = "flashcards_app_v1";
+const corrections = JSON.parse(readFileSync(new URL("../src/data/portfolio-content-corrections.json", import.meta.url), "utf8"));
+const normalMapId = "vr-portfolio-1-demo-1-q05";
 
 async function ready(page) {
   await page.goto("/");
   await expect(page.locator(".local-status")).toContainText("Saved on this device");
 }
+
+test("normal-map wording updates saved decks without changing ratings, edits or deleted cards", async ({ page }, testInfo) => {
+  const old = structuredClone(deck);
+  old.studyContentVersion = 1;
+  old.cards.find((card) => card.id === normalMapId).backText = corrections[normalMapId].backText;
+  old.progress[normalMapId] = "green";
+  old.cards[1].backText = "My own gondola explanation";
+  old.cards[1].sectionId = "";
+  old.cards.splice(2, 1);
+  await page.addInitScript(({ key, old }) => {
+    if (!localStorage.getItem(key)) localStorage.setItem(key, JSON.stringify({
+      sets: [old], activeSetId: old.id,
+      installedStudySets: ["android-midterm-fall-2026", old.id],
+    }));
+  }, { key, old });
+  await ready(page);
+  await page.getByRole("button", { name: deck.name, exact: true }).click();
+  await page.getByRole("button", { name: "All questions & answers", exact: true }).click();
+  await page.getByLabel("Search questions and answers").fill("What does a normal map change?");
+  await expect(page.locator(".answer-sheet-card")).toHaveCount(1);
+  await expect(page.locator(".answer-sheet-back")).toContainText("A normal map changes the surface normals used for lighting without changing the geometry.");
+  await expect(page.locator(".answer-sheet-back")).toContainText("In my project, it makes the cabin walls look like ridged metal by changing their shading and highlights.");
+  await page.screenshot({ path: `test-results/portfolio-normal-map-${testInfo.project.name}.png`, fullPage: true });
+  await page.reload();
+  const saved = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)).sets[0], key);
+  expect(saved.studyContentVersion).toBe(2);
+  expect(saved.cards).toHaveLength(45);
+  expect(saved.progress[normalMapId]).toBe("green");
+  expect(saved.cards[1].backText).toBe("My own gondola explanation");
+  expect(saved.cards[1].sectionId).toBe("");
+  const edited = await page.evaluate(async ({ old, normalMapId }) => {
+    const { normalizeState } = await import("/src/lib/model.js");
+    const value = structuredClone(old);
+    value.cards.find((card) => card.id === normalMapId).backText = "My personal normal-map notes";
+    return normalizeState({ sets: [value] }).sets[0];
+  }, { old, normalMapId });
+  expect(edited.cards.find((card) => card.id === normalMapId).backText).toBe("My personal normal-map notes");
+});
+
+test("existing cloud normal-map answer upgrades once and keeps mastered progress", async ({ page }) => {
+  await ready(page);
+  const result = await page.evaluate(async ({ deck, oldBack, normalMapId }) => {
+    const { withStudySets } = await import("/src/lib/study-sets.js");
+    const { CloudSync } = await import("/src/lib/cloud-sync.js");
+    let local = withStudySets({ sets: [], activeSetId: null });
+    const old = structuredClone(local);
+    const set = old.sets.find((set) => set.id === deck.id);
+    set.studyContentVersion = 1;
+    set.cards.find((card) => card.id === normalMapId).backText = oldBack;
+    set.progress[normalMapId] = "green";
+    let row = { version: 10, state: old }, writes = 0;
+    const client = {
+      from: () => ({ select: () => ({ eq: () => ({ maybeSingle: async () => ({ data: structuredClone(row) }) }) }) }),
+      rpc: async (_name, args) => {
+        writes++;
+        row = { state: args.next_state, version: row.version + 1 };
+        return { data: structuredClone(row) };
+      },
+    };
+    const sync = new CloudSync({ client, userId: "user", getState: () => local,
+      onState: (value) => { local = value; }, onStatus: () => {},
+      cache: { getItem: () => null, setItem: () => {} } });
+    await sync.sync(); await sync.sync(); sync.stop();
+    const saved = row.state.sets.find((set) => set.id === deck.id);
+    return { writes, version: saved.studyContentVersion, rating: saved.progress[normalMapId],
+      back: saved.cards.find((card) => card.id === normalMapId).backText };
+  }, { deck, oldBack: corrections[normalMapId].backText, normalMapId });
+  expect(result.writes).toBe(1);
+  expect(result.version).toBe(2);
+  expect(result.rating).toBe("green");
+  expect(result.back).toBe(deck.cards.find((card) => card.id === normalMapId).backText);
+});
 
 test("portfolio has all guide questions plus a highlighted summary first in each demo", async ({ page }, testInfo) => {
   const errors = [];

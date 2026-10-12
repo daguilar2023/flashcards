@@ -1,5 +1,6 @@
 import DOMPurify from "dompurify";
 import { correctMidtermContent } from "./midterm-corrections";
+import { correctPortfolioContent } from "./portfolio-corrections";
 
 export const COLORS = ["clay", "sage", "blue", "gold"];
 export const uid = () => crypto.randomUUID();
@@ -116,6 +117,7 @@ export function normalizeState(value) {
       throw new Error("The backup contains an invalid or duplicate set.");
     setIds.add(set.id);
     set = correctMidtermContent(set);
+    set = correctPortfolioContent(set);
     // Upgrade the already-installed midterm once, preserving answers and ratings.
     if (set.id === "android-midterm-fall-2026" && !set.sectionSchemaVersion) {
       set = { ...set, sections: set.sections || MIDTERM_SECTIONS, sectionSchemaVersion: 1,
