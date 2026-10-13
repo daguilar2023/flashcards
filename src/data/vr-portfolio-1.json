@@ -2,7 +2,7 @@
   "id": "vr-portfolio-1-fall-2026",
   "name": "VR Portfolio 1 — Personalized Quiz",
   "color": "blue",
-  "studyContentVersion": 3,
+  "studyContentVersion": 4,
   "sourceGuide": "QUIZ_GUIDE.md",
   "sourceCommit": "751e0837db920eddaefa3eb86802f6f9ce9159b8",
   "sections": [
@@ -70,7 +70,7 @@
       "topic": "Demo 1 — Ferris wheel: graphics & transforms",
       "guideQuestion": "How is your own model unwrapped?",
       "frontText": "<p><span class=\"topic-label\">Demo 1 — Ferris wheel: graphics &amp; transforms</span></p><p>How is your own model unwrapped?</p>",
-      "backText": "<h3>Short quiz answer</h3><p>The custom cabin’s four wall quads each occupy one-quarter of the texture’s U range, with V running bottom-to-top. Separate wall vertices allow independent UVs and face normals.</p><h3>How our project does it</h3><p><code>cabin.js</code> authors four tapered wall quads. Each wall's four UV corners occupy a quarter of the texture's U axis, with V from bottom to top. Adjacent geometric walls have separate vertices so they can have separate normal/UV values. Each quad is two indexed triangles. Floor/roof are separate meshes.</p><h3>Understand the idea</h3><ul><li><strong>UV coordinates</strong> are 2D addresses on a texture. U is horizontal and V is vertical; a 3D wall’s vertices tell the renderer which pixels to stretch across it.</li><li>Wall 0 uses U=0–0.25, wall 1 uses 0.25–0.5, wall 2 uses 0.5–0.75 and wall 3 uses 0.75–1. Each wall consists of <strong>two triangles</strong>.</li><li>Duplicating corner vertices across wall boundaries permits a UV seam and a different surface normal for each flat wall. The floor and roof are separate meshes.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo1_Ride/main.js; Demo1_Ride/cabin.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
+      "backText": "<h3>Short quiz answer</h3><p>We applied a <strong>2D texture to the 3D cabin using UV coordinates</strong>. Each of its four walls uses <strong>one-quarter of the horizontal U range</strong> and the <strong>full vertical V range</strong>, with V going from <strong>0 at the bottom to 1 at the top</strong>.</p><h3>How our project does it</h3><p><code>cabin.js</code> authors four tapered wall quads. Each wall's four UV corners occupy a quarter of the texture's U axis, with V from bottom to top. Adjacent geometric walls have separate vertices so they can have separate normal/UV values. Each quad is two indexed triangles. Floor/roof are separate meshes.</p><h3>Understand the idea</h3><ul><li><strong>UV coordinates</strong> are 2D addresses on a texture. U is horizontal and V is vertical; a 3D wall’s vertices tell the renderer which pixels to stretch across it.</li><li>Wall 0 uses U=0–0.25, wall 1 uses 0.25–0.5, wall 2 uses 0.5–0.75 and wall 3 uses 0.75–1. Each wall consists of <strong>two triangles</strong>.</li><li>Duplicating corner vertices across wall boundaries permits a UV seam and a different surface normal for each flat wall. The floor and roof are separate meshes.</li></ul><p><em>Source: personalized QUIZ_GUIDE.md, checked against the submitted implementation (Demo1_Ride/main.js; Demo1_Ride/cabin.js). Explain observed results and limitations honestly; these are practice questions, not the professor’s actual quiz.</em></p>",
       "frontImage": "",
       "backImage": ""
     },

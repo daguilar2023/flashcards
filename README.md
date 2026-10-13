@@ -90,6 +90,11 @@ are used in my Ferris-wheel demo, and what does each one do?” The same guarded
 migration now handles fronts and backs independently, keeping the existing
 answer, personal edits and ratings intact.
 
+Content version 4 replaces the UV-unwrapping card's short answer with the
+student's preferred plain-English explanation: a 2D texture on the 3D cabin,
+one-quarter of the horizontal U range per wall, and the full V range from 0 at
+the bottom to 1 at the top. The detailed implementation notes are unchanged.
+
 The source is `src/data/vr-portfolio-1.json`; `src/lib/study-sets.js` handles
 one-time installation. Local saves and cloud downloads install missing bundled
 sets without overwriting existing cards, section assignments, progress or active

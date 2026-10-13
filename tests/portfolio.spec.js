@@ -7,11 +7,85 @@ const key = "flashcards_app_v1";
 const corrections = JSON.parse(readFileSync(new URL("../src/data/portfolio-content-corrections.json", import.meta.url), "utf8"));
 const normalMapId = "vr-portfolio-1-demo-1-q05";
 const lightingId = "vr-portfolio-1-demo-1-q06";
+const unwrapId = "vr-portfolio-1-demo-1-q04";
 
 async function ready(page) {
   await page.goto("/");
   await expect(page.locator(".local-status")).toContainText("Saved on this device");
 }
+
+test("UV card uses preferred answer, preserves details and ratings, and respects personal edits", async ({ page }, testInfo) => {
+  const old = structuredClone(deck);
+  old.studyContentVersion = 3;
+  const original = old.cards.find((card) => card.id === unwrapId);
+  original.backText = corrections[unwrapId].backText;
+  old.progress[unwrapId] = "green";
+  await page.addInitScript(({ key, old }) => {
+    if (!localStorage.getItem(key)) localStorage.setItem(key, JSON.stringify({
+      sets: [old], activeSetId: old.id,
+      installedStudySets: ["android-midterm-fall-2026", old.id],
+    }));
+  }, { key, old });
+  await ready(page);
+  await page.getByRole("button", { name: deck.name, exact: true }).click();
+  await page.getByRole("button", { name: "All questions & answers", exact: true }).click();
+  await page.getByLabel("Search questions and answers").fill("How is your own model unwrapped?");
+  await expect(page.locator(".answer-sheet-card")).toHaveCount(1);
+  await expect(page.locator(".answer-sheet-back")).toContainText("We applied a 2D texture to the 3D cabin using UV coordinates.");
+  await expect(page.locator(".answer-sheet-back")).toContainText("with V going from 0 at the bottom to 1 at the top.");
+  const saved = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)).sets[0], key);
+  const updated = saved.cards.find((card) => card.id === unwrapId);
+  expect(saved.studyContentVersion).toBe(deck.studyContentVersion);
+  expect(saved.progress[unwrapId]).toBe("green");
+  expect(updated.frontText).toBe(original.frontText);
+  expect(updated.backText.split("<h3>How our project does it</h3>")[1]).toBe(original.backText.split("<h3>How our project does it</h3>")[1]);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.screenshot({ path: `test-results/portfolio-uv-answer-${testInfo.project.name}.png`, fullPage: true });
+  const personal = await page.evaluate(async ({ old, unwrapId }) => {
+    const { normalizeState } = await import("/src/lib/model.js");
+    const edited = structuredClone(old);
+    edited.cards.find((card) => card.id === unwrapId).backText = "My personal UV explanation";
+    const kept = normalizeState({ sets: [edited] }).sets[0].cards.find((card) => card.id === unwrapId).backText;
+    edited.cards = edited.cards.filter((card) => card.id !== unwrapId);
+    const deleted = !normalizeState({ sets: [edited] }).sets[0].cards.some((card) => card.id === unwrapId);
+    return { kept, deleted };
+  }, { old, unwrapId });
+  expect(personal).toEqual({ kept: "My personal UV explanation", deleted: true });
+});
+
+test("cloud UV answer upgrades once without resetting study progress", async ({ page }) => {
+  await ready(page);
+  const result = await page.evaluate(async ({ deck, oldBack, unwrapId }) => {
+    const { withStudySets } = await import("/src/lib/study-sets.js");
+    const { CloudSync } = await import("/src/lib/cloud-sync.js");
+    let local = withStudySets({ sets: [], activeSetId: null });
+    const old = structuredClone(local);
+    const set = old.sets.find((set) => set.id === deck.id);
+    set.studyContentVersion = 3;
+    set.cards.find((card) => card.id === unwrapId).backText = oldBack;
+    set.progress[unwrapId] = "yellow";
+    let row = { version: 40, state: old }, writes = 0;
+    const client = {
+      from: () => ({ select: () => ({ eq: () => ({ maybeSingle: async () => ({ data: structuredClone(row) }) }) }) }),
+      rpc: async (_name, args) => {
+        writes++;
+        row = { state: args.next_state, version: row.version + 1 };
+        return { data: structuredClone(row) };
+      },
+    };
+    const sync = new CloudSync({ client, userId: "user", getState: () => local,
+      onState: (value) => { local = value; }, onStatus: () => {},
+      cache: { getItem: () => null, setItem: () => {} } });
+    await sync.sync(); await sync.sync(); sync.stop();
+    const saved = row.state.sets.find((set) => set.id === deck.id);
+    return { writes, version: saved.studyContentVersion, rating: saved.progress[unwrapId],
+      back: saved.cards.find((card) => card.id === unwrapId).backText };
+  }, { deck, oldBack: corrections[unwrapId].backText, unwrapId });
+  expect(result.writes).toBe(1);
+  expect(result.version).toBe(deck.studyContentVersion);
+  expect(result.rating).toBe("yellow");
+  expect(result.back).toBe(deck.cards.find((card) => card.id === unwrapId).backText);
+});
 
 test("lighting question is self-contained and migrates without changing its answer or rating", async ({ page }, testInfo) => {
   const old = structuredClone(deck);
