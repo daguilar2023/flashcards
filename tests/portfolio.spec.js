@@ -17,6 +17,7 @@ async function ready(page) {
 }
 
 for (const [answerId, priorVersion, preferred] of [
+  ["vr-portfolio-1-demo-2-q06", 6, "Our code measures how quickly the controller moves and rotates to calculate the paddle’s speed where it hits the ball. It compares that with the ball’s incoming movement to calculate the bounce. A faster swing generally sends the ball back faster, while swing direction and paddle angle affect where it goes."],
   [feedId, 4, "Before launching a practice ball, our code predicts its trajectory and calculates the upward launch speed needed to cross the net and land on the player’s half. After launch, the ball follows the normal physics simulation."],
   [magnusId, 5, "Drag is air resistance that slows the ball, becoming stronger at higher speeds. The Magnus effect makes a spinning ball curve: topspin pushes it downward, while backspin produces an upward force. Our project accounts for wind and limits the spin-effect coefficient to avoid excessive forces."],
 ]) {

@@ -103,6 +103,10 @@ Content version 6 uses the student's plain-English drag and Magnus definition,
 including topspin, backspin, wind and the limited spin-effect coefficient.
 The detailed implementation notes and study progress are preserved.
 
+Content version 7 uses the student's preferred swing-speed answer, explaining
+controller movement and rotation, contact-point speed and the resulting bounce.
+The detailed implementation notes and study progress are preserved.
+
 The source is `src/data/vr-portfolio-1.json`; `src/lib/study-sets.js` handles
 one-time installation. Local saves and cloud downloads install missing bundled
 sets without overwriting existing cards, section assignments, progress or active
