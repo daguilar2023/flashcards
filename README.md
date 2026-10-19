@@ -95,6 +95,10 @@ student's preferred plain-English explanation: a 2D texture on the 3D cabin,
 one-quarter of the horizontal U range per wall, and the full V range from 0 at
 the bottom to 1 at the top. The detailed implementation notes are unchanged.
 
+Content version 5 replaces the machine-feed short answer with the student's
+preferred wording about predicting the launch trajectory, clearing the net and
+using normal physics after launch. Detailed notes and study progress remain intact.
+
 The source is `src/data/vr-portfolio-1.json`; `src/lib/study-sets.js` handles
 one-time installation. Local saves and cloud downloads install missing bundled
 sets without overwriting existing cards, section assignments, progress or active

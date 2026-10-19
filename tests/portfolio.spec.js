@@ -8,11 +8,41 @@ const corrections = JSON.parse(readFileSync(new URL("../src/data/portfolio-conte
 const normalMapId = "vr-portfolio-1-demo-1-q05";
 const lightingId = "vr-portfolio-1-demo-1-q06";
 const unwrapId = "vr-portfolio-1-demo-1-q04";
+const feedId = "vr-portfolio-1-demo-2-q02";
 
 async function ready(page) {
   await page.goto("/");
   await expect(page.locator(".local-status")).toContainText("Saved on this device");
 }
+
+test("machine-feed answer uses preferred wording and upgrades without losing progress or personal edits", async ({ page }) => {
+  await ready(page);
+  const result = await page.evaluate(async ({ deck, oldBack, feedId }) => {
+    const { normalizeState } = await import("/src/lib/model.js");
+    const old = structuredClone(deck);
+    old.studyContentVersion = 4;
+    old.cards.find((card) => card.id === feedId).backText = oldBack;
+    old.progress[feedId] = "green";
+    const upgraded = normalizeState({ sets: [old] }).sets[0];
+    const custom = structuredClone(old);
+    custom.cards.find((card) => card.id === feedId).backText = "My own explanation";
+    const kept = normalizeState({ sets: [custom] }).sets[0];
+    custom.cards = custom.cards.filter((card) => card.id !== feedId);
+    const deleted = normalizeState({ sets: [custom] }).sets[0];
+    return { version: upgraded.studyContentVersion, rating: upgraded.progress[feedId],
+      back: upgraded.cards.find((card) => card.id === feedId).backText,
+      personal: kept.cards.find((card) => card.id === feedId).backText,
+      deleted: !deleted.cards.some((card) => card.id === feedId) };
+  }, { deck, oldBack: corrections[feedId].backText, feedId });
+  const preferred = "Before launching a practice ball, our code predicts its trajectory and calculates the upward launch speed needed to cross the net and land on the player’s half. After launch, the ball follows the normal physics simulation.";
+  expect(result.version).toBe(deck.studyContentVersion);
+  expect(result.rating).toBe("green");
+  expect(result.back).toBe(deck.cards.find((card) => card.id === feedId).backText);
+  expect(result.back).toContain(`<h3>Short quiz answer</h3><p>${preferred}</p>`);
+  expect(result.back.split("<h3>How our project does it</h3>")[1]).toBe(corrections[feedId].backText.split("<h3>How our project does it</h3>")[1]);
+  expect(result.personal).toBe("My own explanation");
+  expect(result.deleted).toBe(true);
+});
 
 test("UV card uses preferred answer, preserves details and ratings, and respects personal edits", async ({ page }, testInfo) => {
   const old = structuredClone(deck);
