@@ -17,6 +17,7 @@ async function ready(page) {
 }
 
 for (const [answerId, priorVersion, preferred] of [
+  ["vr-portfolio-1-demo-4-q07", 9, "When you enter VR, switch between seated and standing modes, or press Calibrate Height, our code reads your current headset height. It adjusts the player rig so your virtual eye height starts at 1.6 metres. This adjustment happens once, so leaning or crouching afterward still works naturally instead of keeping your view locked at that height."],
   ["vr-portfolio-1-demo-4-q06", 8, "Originally, Reset View didn’t turn you back to face forward and could accidentally change your height. We fixed it by calculating how far you’re turned and rotating the player rig to face the correct direction. The rotation happens around your head, so your position and height stay the same, and your hunt progress is preserved."],
   ["vr-portfolio-1-demo-2-q09", 7, "Our code checks the ball’s entire path between physics updates, not just where it ends up. It also accounts for the paddle moving during that time. Each update is split into four smaller steps to better handle the paddle’s rotation. These checks help prevent the ball from passing through the paddle, table or net."],
   ["vr-portfolio-1-demo-2-q06", 6, "Our code measures how quickly the controller moves and rotates to calculate the paddle’s speed where it hits the ball. It compares that with the ball’s incoming movement to calculate the bounce. A faster swing generally sends the ball back faster, while swing direction and paddle angle affect where it goes."],

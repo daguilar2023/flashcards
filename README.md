@@ -115,6 +115,11 @@ Content version 9 simplifies the Reset View short answer: correct the facing
 direction by rotating the rig around the head while preserving position, height
 and hunt progress. Detailed notes and existing study progress remain intact.
 
+Content version 10 uses the student's preferred seated/standing calibration
+answer: measure headset height once per calibration, set a 1.6 m starting eye
+height and preserve natural head movement afterward. Detailed notes and progress
+are preserved.
+
 The source is `src/data/vr-portfolio-1.json`; `src/lib/study-sets.js` handles
 one-time installation. Local saves and cloud downloads install missing bundled
 sets without overwriting existing cards, section assignments, progress or active
