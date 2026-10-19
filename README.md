@@ -111,6 +111,10 @@ Content version 8 uses the student's preferred tunneling-prevention answer,
 explaining path checks, moving-paddle detection and four smaller physics steps.
 The detailed implementation notes and study progress are preserved.
 
+Content version 9 simplifies the Reset View short answer: correct the facing
+direction by rotating the rig around the head while preserving position, height
+and hunt progress. Detailed notes and existing study progress remain intact.
+
 The source is `src/data/vr-portfolio-1.json`; `src/lib/study-sets.js` handles
 one-time installation. Local saves and cloud downloads install missing bundled
 sets without overwriting existing cards, section assignments, progress or active
