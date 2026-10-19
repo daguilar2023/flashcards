@@ -99,6 +99,10 @@ Content version 5 replaces the machine-feed short answer with the student's
 preferred wording about predicting the launch trajectory, clearing the net and
 using normal physics after launch. Detailed notes and study progress remain intact.
 
+Content version 6 uses the student's plain-English drag and Magnus definition,
+including topspin, backspin, wind and the limited spin-effect coefficient.
+The detailed implementation notes and study progress are preserved.
+
 The source is `src/data/vr-portfolio-1.json`; `src/lib/study-sets.js` handles
 one-time installation. Local saves and cloud downloads install missing bundled
 sets without overwriting existing cards, section assignments, progress or active

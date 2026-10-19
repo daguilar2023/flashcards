@@ -9,18 +9,23 @@ const normalMapId = "vr-portfolio-1-demo-1-q05";
 const lightingId = "vr-portfolio-1-demo-1-q06";
 const unwrapId = "vr-portfolio-1-demo-1-q04";
 const feedId = "vr-portfolio-1-demo-2-q02";
+const magnusId = "vr-portfolio-1-demo-2-q05";
 
 async function ready(page) {
   await page.goto("/");
   await expect(page.locator(".local-status")).toContainText("Saved on this device");
 }
 
-test("machine-feed answer uses preferred wording and upgrades without losing progress or personal edits", async ({ page }) => {
+for (const [answerId, priorVersion, preferred] of [
+  [feedId, 4, "Before launching a practice ball, our code predicts its trajectory and calculates the upward launch speed needed to cross the net and land on the player’s half. After launch, the ball follows the normal physics simulation."],
+  [magnusId, 5, "Drag is air resistance that slows the ball, becoming stronger at higher speeds. The Magnus effect makes a spinning ball curve: topspin pushes it downward, while backspin produces an upward force. Our project accounts for wind and limits the spin-effect coefficient to avoid excessive forces."],
+]) {
+test(`preferred answer ${answerId} upgrades without losing progress or personal edits`, async ({ page }) => {
   await ready(page);
-  const result = await page.evaluate(async ({ deck, oldBack, feedId }) => {
+  const result = await page.evaluate(async ({ deck, oldBack, feedId, priorVersion }) => {
     const { normalizeState } = await import("/src/lib/model.js");
     const old = structuredClone(deck);
-    old.studyContentVersion = 4;
+    old.studyContentVersion = priorVersion;
     old.cards.find((card) => card.id === feedId).backText = oldBack;
     old.progress[feedId] = "green";
     const upgraded = normalizeState({ sets: [old] }).sets[0];
@@ -33,16 +38,16 @@ test("machine-feed answer uses preferred wording and upgrades without losing pro
       back: upgraded.cards.find((card) => card.id === feedId).backText,
       personal: kept.cards.find((card) => card.id === feedId).backText,
       deleted: !deleted.cards.some((card) => card.id === feedId) };
-  }, { deck, oldBack: corrections[feedId].backText, feedId });
-  const preferred = "Before launching a practice ball, our code predicts its trajectory and calculates the upward launch speed needed to cross the net and land on the player’s half. After launch, the ball follows the normal physics simulation.";
+  }, { deck, oldBack: corrections[answerId].backText, feedId: answerId, priorVersion });
   expect(result.version).toBe(deck.studyContentVersion);
   expect(result.rating).toBe("green");
-  expect(result.back).toBe(deck.cards.find((card) => card.id === feedId).backText);
+  expect(result.back).toBe(deck.cards.find((card) => card.id === answerId).backText);
   expect(result.back).toContain(`<h3>Short quiz answer</h3><p>${preferred}</p>`);
-  expect(result.back.split("<h3>How our project does it</h3>")[1]).toBe(corrections[feedId].backText.split("<h3>How our project does it</h3>")[1]);
+  expect(result.back.split("<h3>How our project does it</h3>")[1]).toBe(corrections[answerId].backText.split("<h3>How our project does it</h3>")[1]);
   expect(result.personal).toBe("My own explanation");
   expect(result.deleted).toBe(true);
 });
+}
 
 test("UV card uses preferred answer, preserves details and ratings, and respects personal edits", async ({ page }, testInfo) => {
   const old = structuredClone(deck);
